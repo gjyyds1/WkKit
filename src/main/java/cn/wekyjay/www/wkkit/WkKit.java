@@ -164,7 +164,7 @@ public class WkKit extends JavaPlugin {
         	getLogger().info("   \\:\\\\:\\\\:\\ \\\\: \\ )  \\ \\ \\: \\ )  \\ \\/__\\::\\__/\\  \\::\\ \\ ");
         	getLogger().info("    \\_______\\/ \\__\\/\\__\\/  \\__\\/\\__\\/\\________\\/   \\__\\/ ");
         	getLogger().info("");
-        	getLogger().info("Version: 1.0.0 RELEASE | Author: WekyJay | QQ Group: 945144520");
+        	getLogger().info("Version: 1.0.3 | Author: WekyJay | QQ Group: 945144520");
         } else {
             getLogger().warning(LangConfigLoader.getString("PLUGIN_NONBTAPI"));
             Bukkit.getPluginManager().disablePlugin(this);
