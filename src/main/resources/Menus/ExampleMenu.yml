@@ -1,0 +1,33 @@
+Menu1:
+   Title: "§c礼包菜单1"
+   Permission: 'wkkit.Menu1'
+   Type: CHEST
+   Size: 6
+   Slots:
+      Default: 
+         id: 'SLIME_BALL'
+         name: 'Spilt Line'
+         lore: 
+         - '§8| 请不要点我'
+         slot: 0-8,45-53
+      DailyKit:
+         slot: 21
+      MonthlyKit:
+         slot: 23
+Menu2:
+   Title: "§a礼包菜单2"
+   Permission: 'wkkit.Menu1'
+   Type: CHEST
+   Size: 6
+   Slots:
+      Default: 
+         id: 'GRASS'
+         name: 'Spilt Line'
+         lore: ''
+         slot: 0-8,45-53
+      DailyKit:
+         slot: 21
+      MonthlyKit:
+         slot: 23
+
+         

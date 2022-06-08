@@ -1,0 +1,15 @@
+name: WkKit
+main:  cn.wekyjay.www.wkkit.WkKit
+version: 1.0.2
+api-version: 1.13
+author: WekyJay
+depend:
+   - NBTAPI
+softdepend: 
+   - PlaceholderAPI
+commands:
+  wkkit:
+    description: Get plugin helper.
+    usage: /<command>
+    aliases: 
+       - wk

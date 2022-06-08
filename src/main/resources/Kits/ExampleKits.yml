@@ -1,0 +1,132 @@
+# Cron表达式生成器：http://cron.ciding.cc/
+NCKit:
+  # 礼包的展示名
+  Name: '§e新人礼包'
+  # 礼包的展示图标
+  Icon: 'CHEST'
+  # 指令可选择CMD、OP,不填则为该玩家自己发送
+  # 变量{player}代表触发指令的玩家
+  Commands: 
+     - 'CMD:give {player} apple'
+     - 'OP:give {player} apple'
+     - 'give {player} apple'
+  Lore:
+     - '§b| 礼包介绍： §8送给小萌新的礼物'
+     - '§b| 礼包内含：'
+     - '§8| 苹果 * 64'
+     - '§8| 铁质套装 * 1'
+     - '§8| 面包 * 10'
+     - '§8| 牛奶 * 8'
+  Item:
+     - '{id:"minecraft:apple",Count:64b,Damage:0s}'
+     - '{id:"minecraft:iron_helmet",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_chestplate",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_leggings",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_boots",Count:1b,Damage:0s}'
+     - '{id:"minecraft:bread",Count:64b,Damage:0s}'
+     - '{id:"minecraft:milk_bucket",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
+DropKit:
+   Name: '§a掉落礼包'
+   Icon: '[SKULL]{display:{Name:"Present (red)"},SkullOwner:{Id:"dca29a3a-76d3-4979-88a2-2da034b99212",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNlZjlhYTE0ZTg4NDc3M2VhYzEzNGE0ZWU4OTcyMDYzZjQ2NmRlNjc4MzYzY2Y3YjFhMjFhODViNyJ9fX0="}]}}}'
+   Commands: 
+   - 'CMD:give {player} apple'
+   - 'OP:give {player} apple'
+   - 'give {player} apple'
+   Drop:
+   - '§a普通僵尸->0.5'
+   - 'Sheep->0.5'
+   Lore:
+      - '§b| 礼包介绍： §7僵尸掉落礼包'
+      - '§b| 礼包内含：'
+      - '§8| 苹果 * 64'
+      - '§8| 铁质套装 * 1'
+   Item:
+      - '{id:"minecraft:apple",Count:64b,Damage:0s}'
+      - '{id:"minecraft:iron_helmet",Count:1b,Damage:0s}'
+      - '{id:"minecraft:iron_chestplate",Count:1b,Damage:0s}'
+      - '{id:"minecraft:iron_leggings",Count:1b,Damage:0s}'
+      - '{id:"minecraft:iron_boots",Count:1b,Damage:0s}'
+      - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
+      - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
+      - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
+DelayKit:
+  Name: '§e冷却礼包'
+  Permission: 'wkkit.DailyKit'
+  Icon: 'BOOK'
+  Delay: 60
+  Lore:
+     - '§b| 礼包介绍： §8一分钟可以领取一次'
+  Item:
+     - '{id:"minecraft:apple",Count:64b,Damage:0s}'
+     - '{id:"minecraft:iron_helmet",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_chestplate",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_leggings",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_boots",Count:1b,Damage:0s}'
+     - '{id:"minecraft:bread",Count:64b,Damage:0s}'
+     - '{id:"minecraft:milk_bucket",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
+HelpKit:
+  Name: '§e补助礼包'
+  Permission: 'wkkit.HelpKit'
+  Icon: 'BOOK'
+  Times: 3
+  DoCron: '0 0 0 * * ? *' # Cron表达式
+  Lore:
+     - '§b| 礼包介绍： §8每天可领取一次 - 总共3次'
+  Item:
+     - '{id:"minecraft:apple",Count:64b,Damage:0s}'
+     - '{id:"minecraft:iron_helmet",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_chestplate",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_leggings",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_boots",Count:1b,Damage:0s}'
+     - '{id:"minecraft:bread",Count:64b,Damage:0s}'
+     - '{id:"minecraft:milk_bucket",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
+
+DailyKit:
+  Name: '§e每日礼包'
+  Permission: 'wkkit.DailyKit'
+  Icon: 'BOOK'
+  DoCron: '0 0 0 * * ? *' # Cron表达式
+  Lore:
+     - '§b| 礼包介绍： §8每天可领取一次'
+  Item:
+     - '{id:"minecraft:apple",Count:64b,Damage:0s}'
+     - '{id:"minecraft:iron_helmet",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_chestplate",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_leggings",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_boots",Count:1b,Damage:0s}'
+     - '{id:"minecraft:bread",Count:64b,Damage:0s}'
+     - '{id:"minecraft:milk_bucket",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
+MonthlyKit:
+  Name: '§e每月礼包' # 次月自动刷新
+  Permission: 'wkkit.ServerKit'
+  Icon: 'BOOK'
+  DoCron: '0 0 0 1 * ? *' # Cron表达式
+  Commands: 
+     - 'CMD:give {player} apple'
+     - 'OP:give {player} apple'
+     - 'give {player} apple'
+  Lore:
+     - '§b| 礼包介绍： §8每月可领取一次'
+  Item:
+     - '{id:"minecraft:apple",Count:64b,Damage:0s}'
+     - '{id:"minecraft:iron_helmet",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_chestplate",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_leggings",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_boots",Count:1b,Damage:0s}'
+     - '{id:"minecraft:bread",Count:64b,Damage:0s}'
+     - '{id:"minecraft:milk_bucket",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
+     - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
