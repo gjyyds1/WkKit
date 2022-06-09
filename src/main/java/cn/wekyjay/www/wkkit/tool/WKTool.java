@@ -186,8 +186,14 @@ public class WKTool{
 	 */
 	public static int getVersion() {
 		String[] versions = Bukkit.getBukkitVersion().split("\\.");//获得版本号并且分割给version字符串组
-		int versionsnum = Integer.parseInt(versions[1]);//16
-		return versionsnum;
+		
+		Pattern pattern = Pattern.compile("^-?\\d+(\\.\\d+)?$");
+        if(pattern.matcher(versions[1]).matches()) {
+    		int versionsnum = Integer.parseInt(versions[1]);//16
+    		return versionsnum;
+        }
+        // 否则默认
+        return 99;
 	}
 	
 	/**
