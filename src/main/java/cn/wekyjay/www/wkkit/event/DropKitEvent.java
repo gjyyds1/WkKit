@@ -111,7 +111,7 @@ public class DropKitEvent implements Listener{
 	@EventHandler
 	public void blockPlace(BlockPlaceEvent e) {
 		NBTItem nbti = new NBTItem(e.getItemInHand());
-		if(nbti.hasKey("wkkit")) {
+		if(nbti != null && nbti.hasKey("wkkit")) {
 			e.setCancelled(true);
 		}
 	}

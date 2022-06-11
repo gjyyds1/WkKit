@@ -34,17 +34,17 @@ public class KitGive {
 		}
 		String kitname = args[1];
 		Kit kit = Kit.getKit(kitname);
-		this.ExcutionMode(p, kit, args.length>=4?args[3]:"1");
+		this.ExcutionMode((Player)sender,p, kit, args.length>=4?args[3]:"1");
 		return true;
 		
 	}
-	public void ExcutionMode(Player player, Kit kit, String mode) {
+	public void ExcutionMode(Player sender,Player player, Kit kit, String mode) {
 		PlayerInventory pinv = player.getInventory();//使用封装类的getplayer方法获取玩家背包
 		ItemStack[] getItemList = kit.getItemStack();//获取Kits.Item的list集合
 		switch(mode) {
 			case "2":
 				if(!WKTool.hasSpace(player, kit)) {//判断是否有足够的背包空间
-					player.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
+					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
 					return;
 				}
 				for(ItemStack item : getItemList) {
@@ -56,22 +56,22 @@ public class KitGive {
 				break;
 			case "3":
 				if(!WKTool.hasSpace(player, 1)) {//判断是否有足够的背包空间
-					player.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
+					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
 					return;
 				}
 				pinv.addItem(kit.getKitItem());
 				break;
 			default:
 				if(!WKTool.hasSpace(player, kit)) {//判断是否有足够的背包空间
-					player.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
+					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
 					return;
 				}
 				for(ItemStack item : getItemList) {
-					ItemStack i = item;//通过NBT创建一个Item
+					ItemStack i = item;
 					pinv.addItem(i);//添加物品至背包
 				}
 		}
 		
-		player.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_SUCCESS",ChatColor.GREEN));//输出发送成功
+		sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_SUCCESS",ChatColor.GREEN));//输出发送成功
 	}
 }
