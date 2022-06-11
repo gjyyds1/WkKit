@@ -70,6 +70,7 @@ public class KitGive {
 					ItemStack i = item;
 					pinv.addItem(i);//添加物品至背包
 				}
+				// 添加模式4
 		}
 		
 		sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_SUCCESS",ChatColor.GREEN));//输出发送成功

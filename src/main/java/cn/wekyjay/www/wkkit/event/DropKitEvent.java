@@ -110,6 +110,7 @@ public class DropKitEvent implements Listener{
 	//检测是否是礼包，否则不可以放置
 	@EventHandler
 	public void blockPlace(BlockPlaceEvent e) {
+		// 不可为null
 		NBTItem nbti = new NBTItem(e.getItemInHand());
 		if(nbti != null && nbti.hasKey("wkkit")) {
 			e.setCancelled(true);
