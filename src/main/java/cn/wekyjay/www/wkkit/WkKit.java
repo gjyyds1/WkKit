@@ -34,6 +34,7 @@ import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.mysql.MySQLManager;
 import cn.wekyjay.www.wkkit.other.Metrics;
 import cn.wekyjay.www.wkkit.other.WkKitPAPI;
+import cn.wekyjay.www.wkkit.tool.ChackFiles;
 import cn.wekyjay.www.wkkit.tool.ChackPluginVersion;
 import cn.wekyjay.www.wkkit.tool.KitRefresh;
 
@@ -108,7 +109,7 @@ public class WkKit extends JavaPlugin {
 		if(!playerMailConfigFile.exists()) {saveResource("maildata.yml", false);}
 		if(!CDKConfigFile.exists()) {saveResource("CDK.yml", false);}
 		
-		//读取文件
+		//加载文件
 		playerConfig = YamlConfiguration.loadConfiguration(WkKit.playerConfigFile);
 		playerMailConfig = YamlConfiguration.loadConfiguration(WkKit.playerMailConfigFile);
 		CDKConfig = YamlConfiguration.loadConfiguration(WkKit.CDKConfigFile);
@@ -136,7 +137,12 @@ public class WkKit extends JavaPlugin {
 			kitFile.mkdir();
 			saveResource("Kits" + File.separatorChar + "ExampleKits.yml", false);
 		}
-				
+		
+        // 检查文件节点
+        ChackFiles cf = new ChackFiles();
+        cf.chack(this.getDataFolder());
+		
+        // 读取文件
 		ConfigManager.loadConfig();
 		LangConfigLoader.loadConfig();
 		
@@ -192,8 +198,13 @@ public class WkKit extends JavaPlugin {
         this.getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
         this.getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
         
+        // 防崩服记录线程启用
+        this.enableAntiShutDown();
+        
         // 检查礼包密码
         CodeManager.checkPassWord();
+        
+        
     }
     
     /*插件关闭标识*/
@@ -214,5 +225,24 @@ public class WkKit extends JavaPlugin {
 		}
 		this.getLogger().info(LangConfigLoader.getString("PLUGIN_UNINSTALL"));
     }
+    
+    /**
+     * 启用防崩服记录线程启用
+     */
+    public void enableAntiShutDown() {
+    	if(this.getConfig().getInt("Default.AntiShutDown") == 0) return;
+        long ticks = 20 * this.getConfig().getInt("Default.AntiShutDown") * 60;
+        // 放入线程
+        ConfigManager.tasklist.put("AntiShutDown",
+	        new BukkitRunnable() {
+				@Override
+				public void run() {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					getConfig().getConfigurationSection("Default").set("ShutDate", sdf.format(new Date()));
+					saveConfig();
+				}
+			}.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, ticks)
+		);
+	}
 
 }

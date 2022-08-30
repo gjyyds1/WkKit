@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,7 +30,7 @@ public class KitMailEvent implements Listener {
 	String guiname;
 	
 	
-	/*玩家打开礼包仓库事件*/
+	/*玩家打开礼包邮箱事件*/
 	@EventHandler
 	public void onInventory(InventoryOpenEvent e) {
 		String pagetitle = WKTool.replacePlaceholder("page", 1+"", LangConfigLoader.getString("GUI_PAGETITLE"));
@@ -39,7 +40,7 @@ public class KitMailEvent implements Listener {
 		}
 	}
 	
-	/*玩家礼包仓库领取礼包事件*/
+	/*玩家礼包邮箱领取礼包事件*/
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void onInventory(InventoryClickEvent e) {
 		if(e.getInventory().getHolder() != null && e.getInventory().getHolder() instanceof MailHolder && e.getWhoClicked() == e.getView().getPlayer()) {
@@ -62,7 +63,11 @@ public class KitMailEvent implements Listener {
 					return;
 				}
 				List<String> set = WkKit.getPlayerData().getMailKits(name);
-				if(!set.isEmpty() && e.getRawSlot() == 52 && WKTool.hasSpace(p, set.size())) {
+				if(!set.isEmpty() && e.getRawSlot() == 52) {
+					if(!WKTool.hasSpace(p, set.size())){
+						p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_FAILED", ChatColor.YELLOW));
+						return;
+					}
 					for(ItemStack is : e.getInventory().getContents()) {
 						if(!(is == null) && WKTool.getItemNBT(is).hasKey("wkkit")) {
 							p.getInventory().addItem(is);

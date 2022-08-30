@@ -47,6 +47,7 @@ public class ConfigManager {
 		ConfigManager.reloadKit();
 		ConfigManager.reloadMenu();
     	WkKit.getWkKit().saveConfig();
+    	WkKit.getWkKit().enableAntiShutDown(); //防崩服记录线程启用
 	}
 	
 	/**
@@ -68,7 +69,7 @@ public class ConfigManager {
     	WkKit.getWkKit().getConfig().set("Default.ShutDate", sdf.format(new Date()));
     	kitconfig = new KitConfigLoader(); // 重置配置
     	getKitconfig().loadConfig(); // 加载配置
-		// 关闭礼包自刷新线程
+		// 关闭所有自刷新线程
 		for(String kitname : tasklist.keySet()) {
 			tasklist.get(kitname).cancel();
 		}

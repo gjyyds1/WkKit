@@ -5,13 +5,15 @@ Default:
    # 默认礼包展示名
    Name: '§6Server Kit'
    # 默认领取次数(-1为不限次数)
-   Time: '1'
+   Time: 1
    # 默认冷却时间
-   Delay: '60'
+   Delay: 60
    # 默认礼包的展示
    Icon: 'CHEST'
    # 上次重置插件或关闭插件的时间
    ShutDate: 'None'
+   # 防崩服刷新礼包检查时间,单位：分钟/次(0为不开启)
+   AntiShutDown: 5
 GUI:
    GetAllMaterial: 'Default'
    TurnPageMaterial: 'BOOK'

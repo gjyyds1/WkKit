@@ -69,9 +69,9 @@ class KitFlagPrompt_SetFlag extends ValidatingPrompt{
 		case "Times": kit.setTimes(Integer.parseInt(input));break;
 		case "Delay": kit.setDelay(Integer.parseInt(input));break;
 		case "DoCron": kit.setDocron(input);break;
-		case "Lore" : kit.setLore(Arrays.asList(input.replaceAll("&", "§").split(" ")));break;
-		case "Drop": kit.setDrop(Arrays.asList(input.split(" ")));break;
-		case "Commands": kit.setCommands(Arrays.asList(input.replaceAll("&", "§").split(" ")));break;
+		case "Lore" : kit.setLore(Arrays.asList(input.replaceAll("&", "§").split(",")));break;
+		case "Drop": kit.setDrop(Arrays.asList(input.split(",")));break;
+		case "Commands": kit.setCommands(Arrays.asList(input.replaceAll("&", "§").split(",")));break;
 		}
 		kit.saveConfig(); // 保存礼包配置
 		context.getForWhom().sendRawMessage("§a修改成功！");

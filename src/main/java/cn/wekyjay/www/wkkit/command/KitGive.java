@@ -34,11 +34,11 @@ public class KitGive {
 		}
 		String kitname = args[1];
 		Kit kit = Kit.getKit(kitname);
-		this.ExcutionMode((Player)sender,p, kit, args.length>=4?args[3]:"1");
+		this.ExcutionMode(sender,p, kit, args.length>=4?args[3]:"1");
 		return true;
 		
 	}
-	public void ExcutionMode(Player sender,Player player, Kit kit, String mode) {
+	public void ExcutionMode(CommandSender sender,Player player, Kit kit, String mode) {
 		PlayerInventory pinv = player.getInventory();//使用封装类的getplayer方法获取玩家背包
 		ItemStack[] getItemList = kit.getItemStack();//获取Kits.Item的list集合
 		switch(mode) {
