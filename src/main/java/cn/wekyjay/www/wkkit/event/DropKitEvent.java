@@ -110,10 +110,12 @@ public class DropKitEvent implements Listener{
 	//检测是否是礼包，否则不可以放置
 	@EventHandler
 	public void blockPlace(BlockPlaceEvent e) {
-		// 不可为null
-		NBTItem nbti = new NBTItem(e.getItemInHand());
-		if(nbti != null && nbti.hasKey("wkkit")) {
-			e.setCancelled(true);
+		// 检测手中的物品是否为空
+		if(e.getItemInHand().getAmount() > 0) {
+			NBTItem nbti = new NBTItem(e.getItemInHand());
+			if(nbti != null && nbti.hasKey("wkkit")) {
+				e.setCancelled(true);
+			}
 		}
 	}
 	
@@ -129,11 +131,13 @@ public class DropKitEvent implements Listener{
 				List<String> droplist = kit.getDrop();
 				for(int i = 0; i < droplist.size(); i++) {
 					String[] s = droplist.get(i).split("->");
-					String ename = s[0];
-					float f = Float.parseFloat(s[1]);
-					double d = Math.random();
-					if(e.getEntity().getName().equals(ename) && d <= f) {
-						e.getEntity().getWorld().dropItem(e.getEntity().getLocation(),kit.getKitItem());
+					if(s.length == 2) { // 防止因为配置错误而报错
+						String ename = s[0];
+						float f = Float.parseFloat(s[1]);
+						double d = Math.random();
+						if(e.getEntity().getName().equals(ename) && d <= f) {
+							e.getEntity().getWorld().dropItem(e.getEntity().getLocation(),kit.getKitItem());
+						}
 					}
 				}
 			}

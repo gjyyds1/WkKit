@@ -76,7 +76,7 @@ public class KitGetter{
 	 */
 	public Boolean runItem(Kit kit,Player p) {
 		if(!WKTool.hasSpace(p, kit)) {//判断有没有足够的背包空间
-			p.sendMessage(LangConfigLoader.getString("KIT_GET_FAILED"));
+			p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_FAILED", ChatColor.YELLOW));
 			return false;
 		}
 		return true;

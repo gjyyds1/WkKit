@@ -52,6 +52,7 @@ public  class KitSend {
 					}else {
 						WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
 					}
+					if(player.getPlayer().isOnline()) player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
 				}
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ALL", ChatColor.GREEN));
 				return;
@@ -68,6 +69,7 @@ public  class KitSend {
 						}else {
 							WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
 						}
+						player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
 					}
 				}
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ONLINE", ChatColor.GREEN));
@@ -82,7 +84,8 @@ public  class KitSend {
 				}else {
 					WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
 				}
-				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ONLINE", ChatColor.GREEN));
+				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PLAYER", ChatColor.GREEN));
+				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
 				return;
 			}
 			//发放礼包给：player
@@ -96,6 +99,7 @@ public  class KitSend {
 						}else {
 							WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
 						}
+						if(offlineplayer.getPlayer().isOnline()) offlineplayer.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
 						sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PLAYER", ChatColor.GREEN));
 						return;
 					}
