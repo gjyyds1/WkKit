@@ -4,7 +4,6 @@ import static org.bukkit.event.inventory.InventoryAction.NOTHING;
 import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,7 +15,6 @@ import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.tool.items.Barrier;
 import cn.wekyjay.www.wkkit.tool.items.GlassPane;
 import cn.wekyjay.www.wkkit.tool.items.PlayerHead;
-import de.tr7zw.nbtapi.NBTItem;
 
 public class EditGUI implements Listener{
 	private String titile;

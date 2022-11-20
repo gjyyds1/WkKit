@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.event;
+package cn.wekyjay.www.wkkit.listeners;
 
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +20,7 @@ import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CountDelayTime;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import de.tr7zw.nbtapi.NBTItem;
-public class DropKitEvent implements Listener{
+public class DropKitListener implements Listener{
 
 	@EventHandler
 	public void onPlayerClickKit(PlayerInteractEvent e) {

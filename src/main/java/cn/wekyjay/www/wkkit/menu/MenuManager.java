@@ -13,9 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import cn.wekyjay.www.wkkit.config.MenuConfigLoader;
-import cn.wekyjay.www.wkkit.event.KitMenuEvent;
 import cn.wekyjay.www.wkkit.invholder.MenuHolder;
 import cn.wekyjay.www.wkkit.kit.Kit;
+import cn.wekyjay.www.wkkit.listeners.KitMenuListener;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 
 public class MenuManager {
@@ -75,7 +75,7 @@ public class MenuManager {
 		
 		
 		invs.put(menuname, inv);
-		if(!KitMenuEvent.menutitles.contains(menutitle)) {KitMenuEvent.menutitles.add(menutitle);}
+		if(!KitMenuListener.menutitles.contains(menutitle)) {KitMenuListener.menutitles.add(menutitle);}
 	}
 	/**
 	 * 返回Menu中属于礼包的Slot列表

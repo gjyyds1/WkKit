@@ -23,20 +23,20 @@ public class ChackPluginVersion implements Listener,Runnable{
 			br.close();
 			is.close();
 		} catch (Exception e) {
-			wk.getLogger().info("¡ì4¼ì²é¸üĞÂÊ§°Ü£¬Çë¼ì²éÄúµÄÍøÂç£¡");
+			wk.getLogger().info("Â§4æ£€æŸ¥æ›´æ–°å¤±è´¥ï¼Œè¯·æ£€æŸ¥æ‚¨çš„ç½‘ç»œï¼");
 		}
 		return ver;
 	}
 	@Override
 	public void run() {
-        wk.getLogger().info("¡ìaÕıÔÚ½øĞĞ¼ì²é¸üĞÂ...");
+        wk.getLogger().info("Â§aæ­£åœ¨è¿›è¡Œæ£€æŸ¥æ›´æ–°...");
 		String lver = getLastestVersion();
         if(lver == null) {return;}
         if(!lver.equals(wk.getDescription().getVersion())) {
-        	wk.getLogger().info("¡ìeWkKitÓĞĞÂ°æ±¾·¢²¼À²£¡¿ìÀ´¿´¿´£º¡ì7https://www.mcbbs.net/thread-1282643-1-1.html");
-        	wk.getLogger().info("×îĞÂ°æ±¾£º"+lver + " ÄúµÄ°æ±¾£º" + wk.getDescription().getVersion());
+        	wk.getLogger().info("Â§eWkKitæœ‰æ–°ç‰ˆæœ¬å‘å¸ƒå•¦ï¼å¿«æ¥çœ‹çœ‹ï¼šÂ§7https://www.mcbbs.net/thread-1282643-1-1.html");
+        	wk.getLogger().info("æœ€æ–°ç‰ˆæœ¬ï¼š"+lver + " æ‚¨çš„ç‰ˆæœ¬ï¼š" + wk.getDescription().getVersion());
         }else {
-        	wk.getLogger().info("¡ìaÄúµÄWkKitÊÇ×îĞÂ°æ±¾£¡");
+        	wk.getLogger().info("Â§aæ‚¨çš„WkKitæ˜¯æœ€æ–°ç‰ˆæœ¬ï¼");
         }
 	}
 
@@ -47,7 +47,7 @@ public class ChackPluginVersion implements Listener,Runnable{
 			if(e.getPlayer().isOp()) {
 		        if(lver == null) {return;}
 		        if(!lver.equals(wk.getDescription().getVersion())) {
-		        	e.getPlayer().sendMessage("¡ìeWkKitÓĞĞÂ°æ±¾·¢²¼À²£¡¿ìÀ´¿´¿´£º¡ì7https://www.mcbbs.net/thread-1282643-1-1.html");
+		        	e.getPlayer().sendMessage("Â§eWkKitæœ‰æ–°ç‰ˆæœ¬å‘å¸ƒå•¦ï¼å¿«æ¥çœ‹çœ‹ï¼šÂ§7https://www.mcbbs.net/thread-1282643-1-1.html");
 		        }
 			}
 		}

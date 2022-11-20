@@ -38,20 +38,20 @@ public class EditKit implements Listener {
 	private Inventory[] invs;
 	private List<ItemStack> itemlist = new ArrayList<>();
 	/**
-	 * Àñ°ü¹ÜÀíÖ÷Ò³
+	 * ç¤¼åŒ…ç®¡ç†ä¸»é¡µ
 	 */
 	public EditKit() {
 		int kitnum = KitGroupManager.getGroups().size();
 		itemlist = new ArrayList<>();
 		editTitle = LangConfigLoader.getString("EDIT_KIT_TITLE");
-		//ÅĞ¶Ï¿É´´½¨µÄgui¸öÊı
+		//åˆ¤æ–­å¯åˆ›å»ºçš„guiä¸ªæ•°
 		int guinum = 0;
 		if(kitnum % 45 == 0 && !(kitnum == 0)) guinum = kitnum / 45;
 		else guinum = (kitnum / 45) + 1;
 		
 		invs = new Inventory[guinum];
 		
-		//Ìí¼ÓÎïÆ·µ½itemlist
+		//æ·»åŠ ç‰©å“åˆ°itemlist
 
 		for(String kitGroupName : KitGroupManager.getGroups()) {
 			NBTItem nbti = new NBTItem(WKTool.setItemName(new ItemStack(Material.BOOK), kitGroupName));
@@ -59,18 +59,18 @@ public class EditKit implements Listener {
 			itemlist.add(nbti.getItem());
 		}
 		
-		//´´½¨guiµ½linv
+		//åˆ›å»ºguiåˆ°linv
 		for(int i = 1; i <= guinum; i++) {
 			Inventory inv;
-			if(guinum == 1) {//Èç¹ûÖ»ÓĞÒ»Ò³¾Í²»¼ÓÒ³Êı
-				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle); //´´½¨Ò»¸öGUI,²Ù×÷ÈËÊÇÇ¿×ª³ÉInventoryHolderµÄsender
+			if(guinum == 1) {//å¦‚æœåªæœ‰ä¸€é¡µå°±ä¸åŠ é¡µæ•°
+				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle); //åˆ›å»ºä¸€ä¸ªGUI,æ“ä½œäººæ˜¯å¼ºè½¬æˆInventoryHolderçš„sender
 			}else {
 				String pagetitle = WKTool.replacePlaceholder("page", i+"", LangConfigLoader.getString("GUI_PAGETITLE"));
-				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle + " - " + pagetitle); //´´½¨Ò»¸öGUI,²Ù×÷ÈËÊÇÇ¿×ª³ÉInventoryHolderµÄsender
+				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle + " - " + pagetitle); //åˆ›å»ºä¸€ä¸ªGUI,æ“ä½œäººæ˜¯å¼ºè½¬æˆInventoryHolderçš„sender
 			}
 
 			
-			//Ìí¼ÓÎïÆ·£º¹¦ÄÜÇø
+			//æ·»åŠ ç‰©å“ï¼šåŠŸèƒ½åŒº
 			ItemStack item_mn;
 			if(WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial").equalsIgnoreCase("Default")){
 				item_mn = GlassPane.DEFAULT.getItemStack();
@@ -80,24 +80,24 @@ public class EditKit implements Listener {
 			ItemMeta im = item_mn.getItemMeta();
 			im.setDisplayName(LangConfigLoader.getString("DO_NOT_TOUCH"));
 			item_mn.setItemMeta(im);
-			//Ìí¼Ó¹¦ÄÜĞÔÎïÆ·£ºÉÏÒ»Ò³
+			//æ·»åŠ åŠŸèƒ½æ€§ç‰©å“ï¼šä¸Šä¸€é¡µ
 			ItemStack item_pre = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
 			ItemMeta ip = item_pre.getItemMeta();
 			ip.setDisplayName(LangConfigLoader.getString("PREVIOUS_PAGE"));
 			item_pre.setItemMeta(ip);
-			//Ìí¼Ó¹¦ÄÜĞÔÎïÆ·£ºÏÂÒ»Ò³
+			//æ·»åŠ åŠŸèƒ½æ€§ç‰©å“ï¼šä¸‹ä¸€é¡µ
 			ItemStack item_next = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
 			ItemMeta in = item_next.getItemMeta();
 			in.setDisplayName(LangConfigLoader.getString("NEXT_PAGE"));
 			item_next.setItemMeta(in);
 			
-			for(int i1 = 54 - 9; i1 < 54; i1++) {//×îÏÂÒ»ÅÅ
+			for(int i1 = 54 - 9; i1 < 54; i1++) {//æœ€ä¸‹ä¸€æ’
 				inv.setItem(i1, item_mn);
 			}
 
 			invs[i-1] = inv;
 		}
-		//Ìí¼ÓÎïÆ·µ½Ö¸¶¨µÄinv
+		//æ·»åŠ ç‰©å“åˆ°æŒ‡å®šçš„inv
 		int num = 0;
 		for(int invnum = 0; invnum < guinum; invnum++) {
 			for(int i2 = 0; i2 < 45; i2++) {
@@ -110,7 +110,7 @@ public class EditKit implements Listener {
 		}
 	}
 	/**
-	 * ±à¼­Àñ°ü×é
+	 * ç¼–è¾‘ç¤¼åŒ…ç»„
 	 * @param groupname
 	 * @return
 	 */
@@ -120,13 +120,13 @@ public class EditKit implements Listener {
 		List<ItemStack> itemlist = new ArrayList<>();
 		String title = LangConfigLoader.getString("EDIT_KIT_GROUP_TITLE") + " - " + groupname;
 		List<Integer> slot = Arrays.asList(10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43);
-		//ÅĞ¶Ï¿É´´½¨µÄgui¸öÊı
+		//åˆ¤æ–­å¯åˆ›å»ºçš„guiä¸ªæ•°
 		int guinum = 0;
 		if(kitnum % 28 == 0 && !(kitnum == 0)) guinum = kitnum / 28;
 		else guinum = (kitnum / 28) + 1;
 		Inventory[] invlist = new Inventory[guinum];
 		
-		//Ìí¼ÓÎïÆ·µ½itemlist
+		//æ·»åŠ ç‰©å“åˆ°itemlist
 		for(String kitname : kitsname) {
 			Kit kit = Kit.getKit(kitname);
 			ItemStack is = kit.getKitItem();
@@ -138,36 +138,36 @@ public class EditKit implements Listener {
 			itemlist.add(is);
 		}
 		
-		//´´½¨guiµ½linv
+		//åˆ›å»ºguiåˆ°linv
 		for(int i = 1; i <= guinum; i++) {
 			Inventory inv;
-			if(guinum == 1) {//Èç¹ûÖ»ÓĞÒ»Ò³¾Í²»¼ÓÒ³Êı
-				inv = Bukkit.createInventory(new EditKitGroupHolder(), 6*9, title); //´´½¨Ò»¸öGUI,²Ù×÷ÈËÊÇÇ¿×ª³ÉInventoryHolderµÄsender
+			if(guinum == 1) {//å¦‚æœåªæœ‰ä¸€é¡µå°±ä¸åŠ é¡µæ•°
+				inv = Bukkit.createInventory(new EditKitGroupHolder(), 6*9, title); //åˆ›å»ºä¸€ä¸ªGUI,æ“ä½œäººæ˜¯å¼ºè½¬æˆInventoryHolderçš„sender
 			}else {
 				String pagetitle = WKTool.replacePlaceholder("page", i+"", LangConfigLoader.getString("GUI_PAGETITLE"));
-				inv = Bukkit.createInventory(new EditKitGroupHolder(), 6*9, title + " - " + pagetitle); //´´½¨Ò»¸öGUI,²Ù×÷ÈËÊÇÇ¿×ª³ÉInventoryHolderµÄsender
+				inv = Bukkit.createInventory(new EditKitGroupHolder(), 6*9, title + " - " + pagetitle); //åˆ›å»ºä¸€ä¸ªGUI,æ“ä½œäººæ˜¯å¼ºè½¬æˆInventoryHolderçš„sender
 			}
 
 			
-			//Ìí¼ÓÎïÆ·£º¹¦ÄÜÇø
+			//æ·»åŠ ç‰©å“ï¼šåŠŸèƒ½åŒº
 			ItemStack item_mn;
 			if(WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial").equalsIgnoreCase("Default")){
 				item_mn = GlassPane.DEFAULT.getItemStack();
 			}else {
 				item_mn = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial")));
 			}
-			// ĞŞ¸ÄÃû³Æ
+			// ä¿®æ”¹åç§°
 			item_mn = WKTool.setItemName(item_mn, LangConfigLoader.getString("DO_NOT_TOUCH"));
 			
-			//Ìí¼Ó¹¦ÄÜĞÔÎïÆ·£ºÉÏÒ»Ò³
+			//æ·»åŠ åŠŸèƒ½æ€§ç‰©å“ï¼šä¸Šä¸€é¡µ
 			ItemStack item_pre = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
 			item_pre = WKTool.setItemName(item_pre, LangConfigLoader.getString("PREVIOUS_PAGE"));
 			
-			//Ìí¼Ó¹¦ÄÜĞÔÎïÆ·£ºÏÂÒ»Ò³
+			//æ·»åŠ åŠŸèƒ½æ€§ç‰©å“ï¼šä¸‹ä¸€é¡µ
 			ItemStack item_next = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
 			item_next = WKTool.setItemName(item_next, LangConfigLoader.getString("NEXT_PAGE"));
 			
-			for(int j = 0; j < 54; j++) {//×îÉÏÒ»ÅÅ
+			for(int j = 0; j < 54; j++) {//æœ€ä¸Šä¸€æ’
 				if(!slot.contains(j)) {
 					inv.setItem(j, item_mn);
 				}
@@ -175,7 +175,7 @@ public class EditKit implements Listener {
 
 			invlist[i-1] = inv;
 		}
-		//Ìí¼ÓÎïÆ·µ½Ö¸¶¨µÄinv
+		//æ·»åŠ ç‰©å“åˆ°æŒ‡å®šçš„inv
 		for(int invnum = 0; invnum < guinum; invnum++) {
 			for(int si = 0; si < itemlist.size(); si++) {
 				if(si == slot.size() -1 || itemlist.size() == 0 ) break;
@@ -186,7 +186,7 @@ public class EditKit implements Listener {
 	}
 	
 	/**
-	 * µ¥¸öÀñ°ü¹ÜÀíÒ³Ãæ
+	 * å•ä¸ªç¤¼åŒ…ç®¡ç†é¡µé¢
 	 * @param kitname
 	 * @return
 	 */
@@ -196,7 +196,7 @@ public class EditKit implements Listener {
 		List<Integer> slot = Arrays.asList(0,2,3,5,6,8,13,22,31);
 		List<Integer> hasflags = Arrays.asList(9,10,11,12,18,19,20,21,27,28,29,30);
 		List<Integer> nonflags = Arrays.asList(14,15,16,17,23,24,25,26,32,33,34,35);
-		// Ìî³äÎïÆ·
+		// å¡«å……ç‰©å“
 		for(int i = 0; i < 36; i++) {
 			if(slot.contains(i)) {
 				ItemStack is = GlassPane.DEFAULT.getItemStack();
@@ -231,15 +231,15 @@ public class EditKit implements Listener {
 				continue;
 			}
 		}
-		// Ìí¼Óflag
+		// æ·»åŠ flag
 		int hascount = 0;
 		int noncount = 0;
 		for(String key : kit.getFlags().keySet()) {
 			if(kit.getFlags().get(key) != null) {
-				ItemStack is = new ItemStack(Material.NAME_TAG); // ¿ÉÄÜ»á±¨´í
+				ItemStack is = new ItemStack(Material.NAME_TAG); // å¯èƒ½ä¼šæŠ¥é”™
 				ItemMeta im = is.getItemMeta();
 				Object obj = kit.getFlags().get(key);
-				im.setDisplayName("¡ìe¡ìl[¡Ì]¡ìf¡ìl " + key);
+				im.setDisplayName("Â§eÂ§l[âˆš]Â§fÂ§l " + key);
 				if(obj instanceof String)im.setLore(Arrays.asList((String)obj));
 				if(obj instanceof Integer) im.setLore(Arrays.asList(String.valueOf((int)obj)));
 				if(obj instanceof List) im.setLore((List<String>)obj);
@@ -250,9 +250,9 @@ public class EditKit implements Listener {
 				kitinv.setItem(hasflags.get(hascount),nbti.getItem());
 				hascount++;
 			}else {
-				ItemStack is = new ItemStack(Material.NAME_TAG); // ¿ÉÄÜ»á±¨´í
+				ItemStack is = new ItemStack(Material.NAME_TAG); // å¯èƒ½ä¼šæŠ¥é”™
 				ItemMeta im = is.getItemMeta();
-				im.setDisplayName("¡ìe¡ìl[¡ìa¡ìl+¡ìe¡ìl]¡ìf¡ìl " + key);
+				im.setDisplayName("Â§eÂ§l[Â§aÂ§l+Â§eÂ§l]Â§fÂ§l " + key);
 				is.setItemMeta(im);
 				NBTItem nbti = WKTool.getItemNBT(is);
 				nbti.setString("wkkit", key);
@@ -264,14 +264,14 @@ public class EditKit implements Listener {
 		return kitinv;
 	}
 	/**
-	 * ¹ÜÀíÀñ°üµÄItemÄÚÈİ
+	 * ç®¡ç†ç¤¼åŒ…çš„Itemå†…å®¹
 	 * @param kitname
 	 * @return
 	 */
 	public Inventory editKitItem(String kitname) {
 		Kit kit = Kit.getKit(kitname);
 		Inventory kitinv = Bukkit.createInventory(new EditKitItemHolder(), 5*9, LangConfigLoader.getString("EDIT_KIT_ITEM_TITLE") + " - " + kitname);
-		// Ìî³äÎïÆ·
+		// å¡«å……ç‰©å“
 		kitinv.addItem(kit.getItemStack());
 		for(int i = 36; i < 45; i++) {
 			if(i == 40) {
@@ -303,7 +303,7 @@ public class EditKit implements Listener {
 	
 	@EventHandler
 	public void onInvClick(InventoryClickEvent e) {
-		// Àñ°ü¹ÜÀí½çÃæ
+		// ç¤¼åŒ…ç®¡ç†ç•Œé¢
 		if(e.getInventory().getHolder() instanceof EditKitMainHolder) {
 			e.setCancelled(true);
 			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) return;
@@ -313,7 +313,7 @@ public class EditKit implements Listener {
 			}
 			return;
 		}
-		// Àñ°ü×é½çÃæ
+		// ç¤¼åŒ…ç»„ç•Œé¢
 		if(e.getInventory().getHolder() instanceof EditKitGroupHolder) {
 			e.setCancelled(true);
 			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) return;
@@ -327,7 +327,7 @@ public class EditKit implements Listener {
 			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) return;
 			if( WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit") && e.getClick().equals(ClickType.LEFT)) {
 				String kitname = WKTool.getItemNBT(e.getInventory().getItem(1)).getString("wkkit");
-				String key = WKTool.getItemNBT(e.getCurrentItem()).getString("wkkit"); // flagÖµ
+				String key = WKTool.getItemNBT(e.getCurrentItem()).getString("wkkit"); // flagå€¼
 				if(e.getRawSlot() == 1) {e.getWhoClicked().openInventory(this.editGroup(KitGroupManager.getContainName(Kit.getKit(kitname))));return;}
 				if(e.getRawSlot() == 7) {
 					e.getWhoClicked().closeInventory();
@@ -349,7 +349,7 @@ public class EditKit implements Listener {
 				List<Integer> hasflags = Arrays.asList(9,10,11,12,18,19,20,21,27,28,29,30);
 				if(hasflags.contains(e.getRawSlot())) {
 					String kitname = WKTool.getItemNBT(e.getInventory().getItem(1)).getString("wkkit");
-					String key = WKTool.getItemNBT(e.getCurrentItem()).getString("wkkit"); // flagÖµ
+					String key = WKTool.getItemNBT(e.getCurrentItem()).getString("wkkit"); // flagå€¼
 					if(key.equals("DisplayName")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "DisplayName");return;}
 					if(key.equals("Icon")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Icon");return;}
 					if(key.equals("Times")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Times");return;}

@@ -26,20 +26,19 @@ import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.menu.MenuOpenner;
 import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.plugin.NBTAPI;
 
 
 public class KitCommand implements CommandExecutor{
-	WkKit wk = WkKit.getWkKit();//´´½¨Ò»¸öÖ÷ÀàµÄÊµÀı
+	WkKit wk = WkKit.getWkKit();//åˆ›å»ºä¸€ä¸ªä¸»ç±»çš„å®ä¾‹
 	
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		/*Ö¸Áî°ïÖúÖĞĞÄ*/
+		/*æŒ‡ä»¤å¸®åŠ©ä¸­å¿ƒ*/
 		try {
 			if(args.length <= 0 && sender.isOp() || args[0].equalsIgnoreCase("help") && sender.isOp()){
-				sender.sendMessage("¡ìa©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥ WkKit Command ©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥");
+				sender.sendMessage("Â§aâ”â”â”â”â”â”â”â”â”â”â”â” WkKit Command â”â”â”â”â”â”â”â”â”â”â”â”");
 				sender.sendMessage(LangConfigLoader.getString("Commands.PS"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.help"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.admin"));
@@ -60,21 +59,21 @@ public class KitCommand implements CommandExecutor{
 				sender.sendMessage(LangConfigLoader.getString("Commands.group_move"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.transfer"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.reload"));
-				sender.sendMessage("¡ìa©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥");
+				sender.sendMessage("Â§aâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”");
 				return true;
 			}
 			else if(!sender.isOp() && args[0].equalsIgnoreCase("help")){
-				sender.sendMessage("¡ìa©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥ WkKit Command ©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥");
+				sender.sendMessage("Â§aâ”â”â”â”â”â”â”â”â”â”â”â” WkKit Command â”â”â”â”â”â”â”â”â”â”â”â”");
 				sender.sendMessage(LangConfigLoader.getString("Commands.mail"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.open"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.cdk_verify"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.cdk_exchange"));
-				sender.sendMessage("¡ìa©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥");
+				sender.sendMessage("Â§aâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”");
 				return true;
 			}
 		}catch(ArrayIndexOutOfBoundsException e) {return true;}
 		
-		/*ÖØÔØ²å¼ş*/
+		/*é‡è½½æ’ä»¶*/
 		if (args[0].equalsIgnoreCase("reload") && sender.isOp()){
 			WkKit.refreshCount = 0;
 			ConfigManager.reloadPlugin();
@@ -85,13 +84,13 @@ public class KitCommand implements CommandExecutor{
 		    return true;
 		}
 		
-		/*´ò¿ªÓÊÏä*/
+		/*æ‰“å¼€é‚®ç®±*/
 		if(args[0].equalsIgnoreCase("mail") && sender.hasPermission("wkkit.mail") && sender instanceof Player) {
 			new KitMail().onCommand(sender, command, label, args);
 			return true;
 		}
 		
-		/*·¢·ÅÀñ°ü*/
+		/*å‘æ”¾ç¤¼åŒ…*/
 		if(args[0].equalsIgnoreCase("send") && sender.isOp()) {
 			KitSend ksd = new KitSend();
 			ksd.onCommand(sender, command, label, args);
@@ -100,49 +99,49 @@ public class KitCommand implements CommandExecutor{
 		
 		
 		
-		/*createÖ¸Áî*/
+		/*createæŒ‡ä»¤*/
 		
-		if(args[0].equalsIgnoreCase("create") && sender.isOp() && sender instanceof Player){//ÅĞ¶ÏÖ¸Áî²ÎÊıÊÇ·ñÎª/wkkit create <name>
+		if(args[0].equalsIgnoreCase("create") && sender.isOp() && sender instanceof Player){//åˆ¤æ–­æŒ‡ä»¤å‚æ•°æ˜¯å¦ä¸º/wkkit create <name>
 			KitCreate kc = new KitCreate();
 			kc.onCommand(sender, args);
 		}
 	
 		
-		/*deleteÖ¸ÁîÂß¼­*/
+		/*deleteæŒ‡ä»¤é€»è¾‘*/
 		if(args[0].equalsIgnoreCase("delete") && sender.isOp()) {
 				KitDelete kr = new KitDelete();
 				kr.onCommand(sender, command, label, args);
 				return true;
 			}
 		
-		/*²é¿´ÅäÖÃÀïµÄÀñ°ü*/
+		/*æŸ¥çœ‹é…ç½®é‡Œçš„ç¤¼åŒ…*/
 		if(args[0].equalsIgnoreCase("kits") && sender.isOp()) {
 			StringBuilder allkit = new StringBuilder();
 			int num = 0;
 			List<Kit> kits = Kit.getKits();
-			Iterator<Kit> it = kits.iterator(); //±éÀúlist
+			Iterator<Kit> it = kits.iterator(); //éå†list
 			while(it.hasNext()){
 				allkit.append(it.next().getKitname() + " ");
 				num += 1;
 			}
 			if(num == 0) sender.sendMessage(LangConfigLoader.getStringWithPrefix("NO_KIT_CONFIG", ChatColor.YELLOW));
-			sender.sendMessage(ChatColor.GREEN + "Kits(" + num + ")£º" + allkit.toString());
+			sender.sendMessage(ChatColor.GREEN + "Kits(" + num + ")ï¼š" + allkit.toString());
 			return true;
 		}
 		
-		/*get»ñÈ¡Àñ°üµÄÄÚÈİ*/
+		/*getè·å–ç¤¼åŒ…çš„å†…å®¹*/
 		if(args[0].equalsIgnoreCase("info") && sender.isOp() && sender instanceof Player) {
 			new KitInfo().onCommand(sender, command, label, args);
 		}
 		
 		
-		/*Ö±½Ó·¢ËÍÀñ°ü*/
+		/*ç›´æ¥å‘é€ç¤¼åŒ…*/
 		if(args[0].equalsIgnoreCase("give") && sender.isOp()) {
 			KitGive ks = new KitGive();
 			ks.onCommand(sender, command, label, args);
 		}
 		
-		/*Êı¾İÇ¨ÒÆ*/
+		/*æ•°æ®è¿ç§»*/
 		if(args[0].equalsIgnoreCase("transfer") && sender.isOp()) {
 			KitTransfer kt = new KitTransfer();
 			kt.onCommand(sender, command, label, args);
@@ -170,13 +169,8 @@ public class KitCommand implements CommandExecutor{
 		if(args[0].equalsIgnoreCase("cdk")) {
 			new KitCDK().onCommand(sender, args);
 		}
-		if(args[0].equalsIgnoreCase("test")) {
-			Player player = (Player)sender;
-			ItemStack item =  player.getInventory().getItemInHand();
-			System.out.println(NBTItem.convertItemtoNBT(item).toString());
-		}
 		
-		/*µ½µ×ÁË*/
+		/*åˆ°åº•äº†*/
 		return true;
 	}
 

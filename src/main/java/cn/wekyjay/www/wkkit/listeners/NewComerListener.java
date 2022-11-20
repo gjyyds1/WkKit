@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.event;
+package cn.wekyjay.www.wkkit.listeners;
 
 import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
 
-public class NewComerEvent implements Listener {
+public class NewComerListener implements Listener {
 	WkKit wk = WkKit.getWkKit();
 	
 	/*玩家第一次进入事件*/

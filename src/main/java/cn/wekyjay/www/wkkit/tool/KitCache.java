@@ -11,17 +11,22 @@ public class KitCache implements Listener{
 	private static KitCache cache = null;
 	private boolean isEnable = false;
 	
-	// 动态获取静态的Cache对象
+	// 鍔ㄦ�佽幏鍙栭潤鎬佺殑Cache瀵硅薄
 	public static KitCache getCache() {
 		return cache == null? cache = new KitCache() : cache;
 	}
 	
 	public KitCache() {
-		isEnable = WkKit.getWkKit().getConfig().getBoolean(null);
-		Bukkit.getPluginManager().registerEvents(this, WkKit.getWkKit());
+		isEnable = WkKit.getWkKit().getConfig().getBoolean("Setting.Cache");
+		if(isEnable) {
+			WkKit.getWkKit().getLogger().info("鍚敤鏃ュ織绠＄悊.");
+			Bukkit.getPluginManager().registerEvents(this, WkKit.getWkKit());
+		}
+
 	}
+	
 	@EventHandler
 	public void onPlayerRececiveKit(PlayersReceiveKitEvent e) {
-		
+		WkKit.getWkKit().getLogger().info("鐜╁" + e.getPlayer().getName() + " 瑙﹀彂浜嬩欢 " + e.getType().toString());
 	}
 }

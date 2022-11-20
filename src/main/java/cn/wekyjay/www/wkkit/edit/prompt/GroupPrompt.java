@@ -13,8 +13,8 @@ import cn.wekyjay.www.wkkit.WkKit;
 public class GroupPrompt{
 	
 	public static void newConversation(Player player,String groupname) {
-		Conversation conversation = new ConversationFactory(WkKit.getWkKit()) // ¹¹½¨Ò»¸ö»á»°
-	            .withFirstPrompt(new GroupPrompt_1()) // ÉèÖÃÔÚËùÓĞÉú³ÉµÄ¶Ô»°ÖĞÊ¹ÓÃµÄµÚÒ»¸öÌáÊ¾¡£
+		Conversation conversation = new ConversationFactory(WkKit.getWkKit()) // æ„å»ºä¸€ä¸ªä¼šè¯
+	            .withFirstPrompt(new GroupPrompt_1()) // è®¾ç½®åœ¨æ‰€æœ‰ç”Ÿæˆçš„å¯¹è¯ä¸­ä½¿ç”¨çš„ç¬¬ä¸€ä¸ªæç¤ºã€‚
 	            .withTimeout(60)
 	            .buildConversation(player);
 		conversation.getContext().setSessionData("groupname", groupname);
@@ -24,24 +24,24 @@ public class GroupPrompt{
 }
 
 class GroupPrompt_1 extends ValidatingPrompt{
-	// Ñ¯ÎÊÒª×öÊ²Ã´
+	// è¯¢é—®è¦åšä»€ä¹ˆ
 	@Override
 	public String getPromptText(ConversationContext context) {
-		return "ÄãÊÇ·ñÒªÉ¾³ı" + context.getSessionData("groupname") + "?(Y/N)";
+		return "ä½ æ˜¯å¦è¦åˆ é™¤" + context.getSessionData("groupname") + "?(Y/N)";
 	}
 
-	// Íæ¼ÒÊäÈëµÄ°²È«¼ì²â
+	// ç©å®¶è¾“å…¥çš„å®‰å…¨æ£€æµ‹
 	@Override
 	protected boolean isInputValid(ConversationContext context, String input) {
 		if(input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("N")) return true; 
 		return false; 
 	}
 
-	// InputValid·µ»ØÓĞĞ§Ê±Ö´ĞĞ
+	// InputValidè¿”å›æœ‰æ•ˆæ—¶æ‰§è¡Œ
 	@Override
 	protected Prompt acceptValidatedInput(ConversationContext context, String input) {
 		if(input.equalsIgnoreCase("N")) return Prompt.END_OF_CONVERSATION;
-		return new GroupPrompt_2(); // ÏÂÒ»¸ö¶Ô»°
+		return new GroupPrompt_2(); // ä¸‹ä¸€ä¸ªå¯¹è¯
 	}
 }
 class GroupPrompt_2 extends ValidatingPrompt {
@@ -49,7 +49,7 @@ class GroupPrompt_2 extends ValidatingPrompt {
 	
 	@Override
 	public String getPromptText(ConversationContext context) {
-		return "ÊÇ·ñÒ²É¾³ıÀñ°ü×éÄÚµÄÀñ°ü?(Y/N)";
+		return "æ˜¯å¦ä¹Ÿåˆ é™¤ç¤¼åŒ…ç»„å†…çš„ç¤¼åŒ…?(Y/N)";
 
 	}
 

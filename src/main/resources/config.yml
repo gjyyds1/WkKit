@@ -1,4 +1,8 @@
 Setting:
+   # 是否开启礼包领取日志
+   Cache: true
+   # 是否开启礼包上线提示
+   OnlineReminder: true
    ChackUpdate: true
    Language: 'zh_CN'
 Default:

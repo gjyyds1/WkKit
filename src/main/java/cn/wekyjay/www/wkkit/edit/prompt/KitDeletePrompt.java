@@ -12,8 +12,8 @@ import cn.wekyjay.www.wkkit.WkKit;
 
 public class KitDeletePrompt {
 	public static void newConversation(Player player, String kitname) {
-		Conversation conversation = new ConversationFactory(WkKit.getWkKit()) // ¹¹½¨Ò»¸ö»á»°
-	            .withFirstPrompt(new KitDeletePrompt_1()) // ÉèÖÃÔÚËùÓĞÉú³ÉµÄ¶Ô»°ÖĞÊ¹ÓÃµÄµÚÒ»¸öÌáÊ¾¡£
+		Conversation conversation = new ConversationFactory(WkKit.getWkKit()) // æ„å»ºä¸€ä¸ªä¼šè¯
+	            .withFirstPrompt(new KitDeletePrompt_1()) // è®¾ç½®åœ¨æ‰€æœ‰ç”Ÿæˆçš„å¯¹è¯ä¸­ä½¿ç”¨çš„ç¬¬ä¸€ä¸ªæç¤ºã€‚
 	            .withTimeout(60)
 	            .buildConversation(player);
 		conversation.getContext().setSessionData("kitname", kitname);
@@ -24,7 +24,7 @@ class KitDeletePrompt_1 extends ValidatingPrompt{
 
 	@Override
 	public String getPromptText(ConversationContext context) {
-		return "ÄãÊÇ·ñÒªÉ¾³ı¡ìe" + context.getSessionData("kitname") + "¡ìf?(Y/N)";
+		return "ä½ æ˜¯å¦è¦åˆ é™¤Â§e" + context.getSessionData("kitname") + "Â§f?(Y/N)";
 	}
 
 	@Override
@@ -37,9 +37,9 @@ class KitDeletePrompt_1 extends ValidatingPrompt{
 	protected Prompt acceptValidatedInput(ConversationContext context, String input) {
 		if(input.equalsIgnoreCase("Y")) {
 			Bukkit.dispatchCommand((Player)context.getForWhom(), "wk delete " + context.getSessionData("kitname"));
-			context.getForWhom().sendRawMessage("¡ìaÒÑ³É¹¦É¾³ıÀñ°ü - " + context.getSessionData("kitname"));
+			context.getForWhom().sendRawMessage("Â§aå·²æˆåŠŸåˆ é™¤ç¤¼åŒ… - " + context.getSessionData("kitname"));
 		}else {
-			context.getForWhom().sendRawMessage("¡ìcÄãÈ¡ÏûÁËÀñ°üÉ¾³ı");
+			context.getForWhom().sendRawMessage("Â§cä½ å–æ¶ˆäº†ç¤¼åŒ…åˆ é™¤");
 		}
 		return Prompt.END_OF_CONVERSATION;
 	}

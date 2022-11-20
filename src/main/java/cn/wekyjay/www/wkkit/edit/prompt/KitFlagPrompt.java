@@ -13,7 +13,7 @@ import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
 
 public class KitFlagPrompt {
-	// Ìí¼ÓFlag
+	// æ·»åŠ Flag
 	public static void setFlag(Player player, String kitname, String flag) {
 		Conversation conversation = new ConversationFactory(WkKit.getWkKit())
 				.withFirstPrompt(new KitFlagPrompt_SetFlag())
@@ -23,7 +23,7 @@ public class KitFlagPrompt {
 		conversation.getContext().setSessionData("flag", flag);
 		conversation.begin();
 	}
-	// É¾³ıFlag
+	// åˆ é™¤Flag
 	public static void deFlag(Player player, String kitname, String flag) {
 		Conversation conversation = new ConversationFactory(WkKit.getWkKit())
 				.withFirstPrompt(new KitFlagPrompt_DeFlag())
@@ -41,40 +41,42 @@ class KitFlagPrompt_SetFlag extends ValidatingPrompt{
 	public String getPromptText(ConversationContext context) {
 		String flag = (String) context.getSessionData("flag");
 		String kitname = (String) context.getSessionData("kitname");
-		return "¡ìaÕıÔÚĞŞ¸Ä¡ìe" + kitname + "¡ìaµÄ¡ìe" + flag + "¡ìa ,ÇëÊäÈëÄãÒªĞŞ¸ÄµÄÖµ(CancelÈ¡Ïû):";
+		return "Â§aæ­£åœ¨ä¿®æ”¹Â§e" + kitname + "Â§açš„Â§e" + flag + "Â§a ,è¯·è¾“å…¥ä½ è¦ä¿®æ”¹çš„å€¼(Cancelå–æ¶ˆ):";
 	}
 
 	@Override
 	protected boolean isInputValid(ConversationContext context, String input) {
-		String flag = (String) context.getSessionData("flag");
-		if(flag.equals("Delay") && !input.matches("[0-9]+"))  return false;
-		if(flag.equals("Times") && !input.matches("[0-9]+"))  return false;
-		return !(input.length() <= 0)?true:false;
+	    String flag = (String)context.getSessionData("flag");
+	    if (flag.equals("Delay") && (input.equalsIgnoreCase("Cancel") || !input.matches("[0-9]+")))
+	      return false; 
+	    if (flag.equals("Times") && (input.equalsIgnoreCase("Cancel") || !input.matches("[0-9]+")))
+	      return false; 
+	    return (input.length() > 0);
 	}
 
 	@Override
 	protected Prompt acceptValidatedInput(ConversationContext context, String input) {
 		if(input.equalsIgnoreCase("Cancel")) {
-			context.getForWhom().sendRawMessage("¡ìeÄãÈ¡ÏûÁË£¡");
+			context.getForWhom().sendRawMessage("Â§eä½ å–æ¶ˆäº†ï¼");
 			return Prompt.END_OF_CONVERSATION;
 		}
-		input = input.replace("&", "¡ì");
+		input = input.replace("&", "Â§");
 		String flag = (String) context.getSessionData("flag");
 		String kitname = (String) context.getSessionData("kitname");
 		Kit kit = Kit.getKit(kitname);
 		switch(flag) {
-		case "DisplayName": kit.setDisplayName(input.replaceAll("&", "¡ì"));break;
+		case "DisplayName": kit.setDisplayName(input.replaceAll("&", "Â§"));break;
 		case "Icon": kit.setIcon(input);break;
 		case "Permission": kit.setPermission(input);break;
 		case "Times": kit.setTimes(Integer.parseInt(input));break;
 		case "Delay": kit.setDelay(Integer.parseInt(input));break;
 		case "DoCron": kit.setDocron(input);break;
-		case "Lore" : kit.setLore(Arrays.asList(input.replaceAll("&", "¡ì").split(",")));break;
+		case "Lore" : kit.setLore(Arrays.asList(input.replaceAll("&", "Â§").split(",")));break;
 		case "Drop": kit.setDrop(Arrays.asList(input.split(",")));break;
-		case "Commands": kit.setCommands(Arrays.asList(input.replaceAll("&", "¡ì").split(",")));break;
+		case "Commands": kit.setCommands(Arrays.asList(input.replaceAll("&", "Â§").split(",")));break;
 		}
-		kit.saveConfig(); // ±£´æÀñ°üÅäÖÃ
-		context.getForWhom().sendRawMessage("¡ìaĞŞ¸Ä³É¹¦£¡");
+		kit.saveConfig(); // ä¿å­˜ç¤¼åŒ…é…ç½®
+		context.getForWhom().sendRawMessage("Â§aä¿®æ”¹æˆåŠŸï¼");
 		return Prompt.END_OF_CONVERSATION;
 	}
 	
@@ -85,7 +87,7 @@ class KitFlagPrompt_DeFlag extends ValidatingPrompt{
 	public String getPromptText(ConversationContext context) {
 		String flag = (String) context.getSessionData("flag");
 		String kitname = (String) context.getSessionData("kitname");
-		return "¡ìcÄãÈ·¶¨ÒªÉ¾³ı¡ìe" + kitname + "¡ìcµÄ¡ìe" + flag + "¡ìcÂğ£¿(Y/N)";
+		return "Â§cä½ ç¡®å®šè¦åˆ é™¤Â§e" + kitname + "Â§cçš„Â§e" + flag + "Â§cå—ï¼Ÿ(Y/N)";
 	}
 
 	@Override
@@ -97,7 +99,7 @@ class KitFlagPrompt_DeFlag extends ValidatingPrompt{
 	@Override
 	protected Prompt acceptValidatedInput(ConversationContext context, String input) {
 		if(input.equalsIgnoreCase("N")) {
-			context.getForWhom().sendRawMessage("¡ìeÄãÈ¡ÏûÁË£¡");
+			context.getForWhom().sendRawMessage("Â§eä½ å–æ¶ˆäº†ï¼");
 			return Prompt.END_OF_CONVERSATION;
 		}
 		String flag = (String) context.getSessionData("flag");
@@ -114,8 +116,8 @@ class KitFlagPrompt_DeFlag extends ValidatingPrompt{
 		case "Drop": kit.setDrop(null);break;
 		case "Commands": kit.setCommands(null);break;
 		}
-		kit.saveConfig(); // ±£´æÀñ°üÅäÖÃ
-		context.getForWhom().sendRawMessage("¡ìaÉ¾³ı³É¹¦£¡");
+		kit.saveConfig(); // ä¿å­˜ç¤¼åŒ…é…ç½®
+		context.getForWhom().sendRawMessage("Â§aåˆ é™¤æˆåŠŸï¼");
 		return Prompt.END_OF_CONVERSATION;
 	}
 	

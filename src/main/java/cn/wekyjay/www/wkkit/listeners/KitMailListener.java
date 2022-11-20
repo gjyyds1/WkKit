@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.event;
+package cn.wekyjay.www.wkkit.listeners;
 
 
 import static org.bukkit.event.inventory.InventoryAction.NOTHING;
@@ -23,7 +23,7 @@ import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.invholder.MailHolder;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 
-public class KitMailEvent implements Listener {
+public class KitMailListener implements Listener {
 	static WkKit wk = WkKit.getWkKit();// 调用主类实例	
 	
 	Map<String,Integer> m = new HashMap<>();

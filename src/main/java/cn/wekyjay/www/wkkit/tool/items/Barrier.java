@@ -13,7 +13,7 @@ public enum Barrier {
 		Barrier() {
 			if(WKTool.getVersion() <= 7) {
 				NBTContainer c = new NBTContainer("{id:30s,Count:1b,Damage:0s,}");
-				item = NBTItem.convertNBTtoItem(c);//新建一个物品
+				item = NBTItem.convertNBTtoItem(c);
 			}else {
 				item = new ItemStack(Material.BARRIER);
 			}

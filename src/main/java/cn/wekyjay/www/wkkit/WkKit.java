@@ -24,18 +24,20 @@ import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_MySQL;
 import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_Yaml;
 import cn.wekyjay.www.wkkit.edit.EditGUI;
 import cn.wekyjay.www.wkkit.edit.EditKit;
-import cn.wekyjay.www.wkkit.event.DropKitEvent;
-import cn.wekyjay.www.wkkit.event.KitMailEvent;
-import cn.wekyjay.www.wkkit.event.KitMenuEvent;
-import cn.wekyjay.www.wkkit.event.NewComerEvent;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kitcode.CodeManager;
+import cn.wekyjay.www.wkkit.listeners.DropKitListener;
+import cn.wekyjay.www.wkkit.listeners.KitMailListener;
+import cn.wekyjay.www.wkkit.listeners.KitMenuListener;
+import cn.wekyjay.www.wkkit.listeners.KitReminderListener;
+import cn.wekyjay.www.wkkit.listeners.NewComerListener;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.mysql.MySQLManager;
 import cn.wekyjay.www.wkkit.other.Metrics;
 import cn.wekyjay.www.wkkit.other.WkKitPAPI;
 import cn.wekyjay.www.wkkit.tool.ChackFiles;
 import cn.wekyjay.www.wkkit.tool.ChackPluginVersion;
+import cn.wekyjay.www.wkkit.tool.KitCache;
 import cn.wekyjay.www.wkkit.tool.KitRefresh;
 
 public class WkKit extends JavaPlugin {
@@ -150,11 +152,12 @@ public class WkKit extends JavaPlugin {
 		//指令&监听注册
 		Bukkit.getPluginCommand("wkkit").setExecutor(new KitCommand());//注册指令
 		Bukkit.getPluginCommand("wkkit").setTabCompleter(new TabCompleter());//补全指令
-		Bukkit.getPluginManager().registerEvents(new KitMailEvent(),this);
-		Bukkit.getPluginManager().registerEvents(new DropKitEvent(),this);
-		Bukkit.getPluginManager().registerEvents(new NewComerEvent(),this);
+		Bukkit.getPluginManager().registerEvents(new KitMailListener(),this);
+		Bukkit.getPluginManager().registerEvents(new DropKitListener(),this);
+		Bukkit.getPluginManager().registerEvents(new NewComerListener(),this);
+		Bukkit.getPluginManager().registerEvents(new KitReminderListener(),this);
 		Bukkit.getPluginManager().registerEvents(new KitInfo(),this);
-		Bukkit.getPluginManager().registerEvents(new KitMenuEvent(),this);
+		Bukkit.getPluginManager().registerEvents(new KitMenuListener(),this);
 		Bukkit.getPluginManager().registerEvents(new  ChackPluginVersion(),this);
 		Bukkit.getPluginManager().registerEvents(EditGUI.getEditGUI(),this);
 		Bukkit.getPluginManager().registerEvents(new EditKit(),this);
@@ -204,6 +207,8 @@ public class WkKit extends JavaPlugin {
         // 检查礼包密码
         CodeManager.checkPassWord();
         
+        // 日志管理
+        KitCache.getCache();
         
     }
     

@@ -13,10 +13,10 @@ public enum TabDelete {
     FIRST(Arrays.asList("delete"),0,null,new int[]{1}),
 	KIT_NAME(new ArrayList<>(),1,"delete",new int[]{2});
 	
-    private List<String> list;//·µ»ØµÄList
-    private int befPos;//Ó¦¸ÃÊ¶±ğµÄÉÏÒ»¸ö²ÎÊıµÄÎ»ÖÃ
-    private String bef;//Ó¦¸ÃÊ¶±ğµÄÉÏ¸ö²ÎÊıµÄÄÚÈİ
-    private int[] num;//Õâ¸ö²ÎÊı¿ÉÒÔ³öÏÖµÄÎ»ÖÃ
+    private List<String> list;//è¿”å›çš„List
+    private int befPos;//åº”è¯¥è¯†åˆ«çš„ä¸Šä¸€ä¸ªå‚æ•°çš„ä½ç½®
+    private String bef;//åº”è¯¥è¯†åˆ«çš„ä¸Šä¸ªå‚æ•°çš„å†…å®¹
+    private int[] num;//è¿™ä¸ªå‚æ•°å¯ä»¥å‡ºç°çš„ä½ç½®
     
     private TabDelete(List<String> list,int befPos, String bef, int[] num){
         this.list = list;

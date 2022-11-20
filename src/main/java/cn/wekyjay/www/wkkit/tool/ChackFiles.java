@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.io.OutputStream;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import cn.wekyjay.www.wkkit.WkKit;
 
 
 public class ChackFiles {

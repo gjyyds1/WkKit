@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.event;
+package cn.wekyjay.www.wkkit.listeners;
 
 import static org.bukkit.event.inventory.InventoryAction.NOTHING;
 import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
@@ -22,7 +22,7 @@ import cn.wekyjay.www.wkkit.menu.MenuOpenner;
 import de.tr7zw.nbtapi.NBTItem;
 
 
-public class KitMenuEvent implements Listener{
+public class KitMenuListener implements Listener{
 
 	public static List<String> menutitles = new ArrayList<>();
 	@EventHandler(priority = EventPriority.HIGHEST)
