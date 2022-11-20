@@ -29,21 +29,21 @@ public class KitCDK {
 			sender.sendMessage(LangConfigLoader.getStringWithPrefix("Commands.cdk_export", ChatColor.GREEN));
 			return;
 		}
-		// CDKÉú³É
+		// CDKç”Ÿæˆ
 		if(args[1].equalsIgnoreCase("create") && sender.isOp()) {
 			if(args.length < 5) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("Commands.cdk_create", ChatColor.GREEN));
 				return;
 			}
-			int num = Integer.parseInt(args[2]); // Éú³ÉµÄ¶Ò»»Âë¸öÊı
-			List<String> kitlist = Arrays.asList(args[3].split(",")); // ¶Ò»»Âë°üº¬µÄÀñ°ü
-			List<String> cdklist = CodeManager.create((byte)1, num, 12, CodeManager.getPassword()); // ±¾´ÎÉú³ÉµÄ¶Ò»»Âë
+			int num = Integer.parseInt(args[2]); // ç”Ÿæˆçš„å…‘æ¢ç ä¸ªæ•°
+			List<String> kitlist = Arrays.asList(args[3].split(",")); // å…‘æ¢ç åŒ…å«çš„ç¤¼åŒ…
+			List<String> cdklist = CodeManager.create((byte)1, num, 12, CodeManager.getPassword()); // æœ¬æ¬¡ç”Ÿæˆçš„å…‘æ¢ç 
 			String mark = args[4];
-			// ±éÀúÀñ°üÊÇ·ñ´æÔÚ
+			// éå†ç¤¼åŒ…æ˜¯å¦å­˜åœ¨
 			for(String kit : kitlist) {
 				if(Kit.getKit(kit) == null) kitlist.remove(kit);
 			}
-			// ±éÀú²¢±£´æCDK
+			// éå†å¹¶ä¿å­˜CDK
 			for(String cdk : cdklist) {
 				// Kit
 				StringBuilder sb = new StringBuilder();
@@ -53,10 +53,10 @@ public class KitCDK {
 				}
 				WkKit.getCdkData().addCDKToFile(cdk, sb.toString(),  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), mark);
 			}
-			sender.sendMessage("¡ìaCDKÒÑÉú³É£¡±¾´ÎÉú³ÉCDK£º" + num + " ¸ö");
+			sender.sendMessage("Â§aCDKå·²ç”Ÿæˆï¼æœ¬æ¬¡ç”ŸæˆCDKï¼š" + num + " ä¸ª");
 
 		}
-		// CDKÑéÖ¤
+		// CDKéªŒè¯
 		if(args[1].equalsIgnoreCase("verify") && sender.hasPermission("wkkit.cdk.verify")) {
 			if(args.length < 3) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("Commands.cdk_verify", ChatColor.GREEN));
@@ -64,20 +64,20 @@ public class KitCDK {
 			}
 			String CDK = args[2];
 			if(CodeManager.VerifyCode(CDK) && WkKit.getCdkData().Contain_CDK(CDK)) {
-				String status = "¡ìaCDK¿ÉÓÃ";
-				if(!WkKit.getCdkData().getCDKStatus(CDK).equals("Available")) status = "¡ìcÒÑ±»Íæ¼Ò ¡ìe" +WkKit.getCdkData().getCDKStatus(CDK) + " ¡ìcÊ¹ÓÃ";
-				sender.sendMessage("¡ìa========== ¡ì6¡ìlCDK¶Ò»» ¡ìa=========");
-				sender.sendMessage("¡ì8CDK: ¡ì9" + CDK);
-				sender.sendMessage("¡ì8CDK±¸×¢: ¡ì7" +  WkKit.getCdkData().getCDKMark(CDK));
-				sender.sendMessage("¡ì8Éú³ÉÈÕÆÚ: ¡ìa" + WkKit.getCdkData().getCDKDate(CDK));
-				sender.sendMessage("¡ì8Ê¹ÓÃÇé¿ö: " + status);
-				sender.sendMessage("¡ìa==============================");
+				String status = "Â§aCDKå¯ç”¨";
+				if(!WkKit.getCdkData().getCDKStatus(CDK).equals("Available")) status = "Â§cå·²è¢«ç©å®¶ Â§e" +WkKit.getCdkData().getCDKStatus(CDK) + " Â§cä½¿ç”¨";
+				sender.sendMessage("Â§a========== Â§6Â§lCDKå…‘æ¢ Â§a=========");
+				sender.sendMessage("Â§8CDK: Â§9" + CDK);
+				sender.sendMessage("Â§8CDKå¤‡æ³¨: Â§7" +  WkKit.getCdkData().getCDKMark(CDK));
+				sender.sendMessage("Â§8ç”Ÿæˆæ—¥æœŸ: Â§a" + WkKit.getCdkData().getCDKDate(CDK));
+				sender.sendMessage("Â§8ä½¿ç”¨æƒ…å†µ: " + status);
+				sender.sendMessage("Â§a==============================");
 			}else {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("CDK_INVALID", ChatColor.RED));
 			}
 			return;
 		}
-		// CDK¶Ò»»
+		// CDKå…‘æ¢
 		if(args[1].equalsIgnoreCase("exchange")&& sender instanceof Player && sender.hasPermission("wkkit.cdk.exchange")) {
 			if(args.length < 3) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("Commands.cdk_exchange", ChatColor.GREEN));
@@ -86,19 +86,19 @@ public class KitCDK {
 			String CDK = args[2];
 			Player player = (Player)sender;
 			if(CodeManager.VerifyCode(CDK) && WkKit.getCdkData().Contain_CDK(CDK) && WkKit.getCdkData().getCDKStatus(CDK).equals("Available")) {
-				// »ñµÃ¶Ò»»ÂëÄÚº¬µÄÀñ°ü
+				// è·å¾—å…‘æ¢ç å†…å«çš„ç¤¼åŒ…
 				List<String> kitlist = Arrays.asList(WkKit.getCdkData().getCDKKits(CDK).split(","));
-				// ±éÀúÀñ°üÊÇ·ñ´æÔÚ
+				// éå†ç¤¼åŒ…æ˜¯å¦å­˜åœ¨
 				for(String kit : kitlist) {
 					if(Kit.getKit(kit) == null) kitlist.remove(kit);
 				}
-				// ÅĞ¶ÏÍæ¼Ò±³°üÊÇ·ñÓĞÊ£ÓàµÄ¿Õ¼ä
+				// åˆ¤æ–­ç©å®¶èƒŒåŒ…æ˜¯å¦æœ‰å‰©ä½™çš„ç©ºé—´
 				if(WKTool.hasSpace(player, kitlist.size())) {
 					for(String kit : kitlist) {
 						player.getInventory().addItem(Kit.getKit(kit).getKitItem());
 					}
-					player.sendMessage("¡ìaCDK¶Ò»»³É¹¦£¡");
-				}else {//·ñÔò·¢ËÍµ½Àñ°üÓÊÏä
+					player.sendMessage("Â§aCDKå…‘æ¢æˆåŠŸï¼");
+				}else {//å¦åˆ™å‘é€åˆ°ç¤¼åŒ…é‚®ç®±
 					for(String kitname : kitlist) {
 						if(WkKit.getPlayerData().contain_Mail(player.getName(),kitname)) {
 							int num = WkKit.getPlayerData().getMailKitNum(player.getName(), kitname);
@@ -108,7 +108,7 @@ public class KitCDK {
 						}
 
 					}
-					player.sendMessage("¡ìaCDK¶Ò»»³É¹¦£¡ÒÑ·¢ËÍÖÁÀñ°üÓÊÏä...");
+					player.sendMessage("Â§aCDKå…‘æ¢æˆåŠŸï¼å·²å‘é€è‡³ç¤¼åŒ…é‚®ç®±...");
 				}
 				WkKit.getCdkData().setCDKStatus(CDK, player.getName());
 				return;
@@ -116,7 +116,7 @@ public class KitCDK {
 			sender.sendMessage(LangConfigLoader.getStringWithPrefix("CDK_CANTUSE", ChatColor.YELLOW));
 			return;
 		}
-		// µ¼³öÖ¸¶¨MarkµÄCDK
+		// å¯¼å‡ºæŒ‡å®šMarkçš„CDK
 		if(args[1].equalsIgnoreCase("export")&& sender.isOp()) {
 			if(args.length < 3) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("Commands.cdk_export", ChatColor.GREEN));
@@ -125,7 +125,7 @@ public class KitCDK {
 			String mark = args[2]; //mark
 			File file = new File(WkKit.getWkKit().getDataFolder(),"Export");
 			List<String> cdklist = new ArrayList<>(); //CDKlist
-			// Èç¹ûmark £¡= null,ÅĞ¶ÏmarkÊÇ·ñ´æÔÚ
+			// å¦‚æœmark ï¼= null,åˆ¤æ–­markæ˜¯å¦å­˜åœ¨
 			if(mark != null && WkKit.getCdkData().Contain_CDKMark(mark)) {
 				cdklist = WkKit.getCdkData().findCDK(mark);
 			}else {
@@ -137,13 +137,13 @@ public class KitCDK {
 				RandomAccessFile ra;
 				String foldername = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) + "-" + mark;
 				ra = new RandomAccessFile(file.getAbsolutePath() + File.separatorChar + foldername + ".txt ","rw");
-				ra.seek(ra.length());//´ú±í´ÓÎÄ¼şµÄ½áÎ²Ğ´²»»á¸²¸Ç£¬Ò²¾ÍÊÇÎÄ¼şµÄ×·¼Ó
+				ra.seek(ra.length());//ä»£è¡¨ä»æ–‡ä»¶çš„ç»“å°¾å†™ä¸ä¼šè¦†ç›–ï¼Œä¹Ÿå°±æ˜¯æ–‡ä»¶çš„è¿½åŠ 
 				for(String cdk : cdklist) {
 					ra.write(cdk.getBytes());
 					ra.write("\n".getBytes());
 				}
 				ra.close();
-				sender.sendMessage("¡ìaÒÑµ¼³öÖÁ Export\\"+foldername+".txt");
+				sender.sendMessage("Â§aå·²å¯¼å‡ºè‡³ Export\\"+foldername+".txt");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

@@ -60,12 +60,12 @@ public class EditGUI implements Listener{
 		return titile;
 	}
 	
-	public static EditGUI getEditGUI() {//¾²Ì¬Ê¹ÓÃÊµÀı·½·¨
+	public static EditGUI getEditGUI() {//é™æ€ä½¿ç”¨å®ä¾‹æ–¹æ³•
 		return instance == null ? instance = new EditGUI():instance;
 	}
 	
 	/**
-	 * »ñµÃÒ»¸ö²å¼ş¹ÜÀíÆ÷
+	 * è·å¾—ä¸€ä¸ªæ’ä»¶ç®¡ç†å™¨
 	 * @return
 	 */
 	public Inventory getEditInv() {

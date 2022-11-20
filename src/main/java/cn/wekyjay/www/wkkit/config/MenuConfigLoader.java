@@ -22,7 +22,7 @@ public class MenuConfigLoader{
 	public static Map<String, FileConfiguration> map = new HashMap<>();
 	
 	/**
-	 * ¼ÓÔØÎÄ¼ş¼ĞÖĞµÄÅäÖÃÎÄ¼ş
+	 * åŠ è½½æ–‡ä»¶å¤¹ä¸­çš„é…ç½®æ–‡ä»¶
 	 * @param file
 	 */
 	public static void loadConfig() {
@@ -34,10 +34,10 @@ public class MenuConfigLoader{
 				 map.put(fs.getName(),YamlConfiguration.loadConfiguration(fs));
 			 }
 		 }
-		MenuConfigLoader.readMenuConfig();//¶ÁÈ¡ÅäÖÃÖĞµÄ²Ëµ¥
+		MenuConfigLoader.readMenuConfig();//è¯»å–é…ç½®ä¸­çš„èœå•
 	}
 	/**
-	 * ·µ»Ø´æÔÚ¸ÃÂ·¾¶µÄÎÄ¼şÃû
+	 * è¿”å›å­˜åœ¨è¯¥è·¯å¾„çš„æ–‡ä»¶å
 	 * @param path
 	 * @return
 	 */
@@ -52,7 +52,7 @@ public class MenuConfigLoader{
 	
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÂ·¾¶
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥è·¯å¾„
 	 * @param path
 	 * @return
 	 */
@@ -67,7 +67,7 @@ public class MenuConfigLoader{
 	
 	
 	/**
-	 * ÎÄ¼şÃû·µ»Ø¶ÔÏó
+	 * æ–‡ä»¶åè¿”å›å¯¹è±¡
 	 * @param filename
 	 * @return
 	 */
@@ -75,7 +75,7 @@ public class MenuConfigLoader{
 		return map.get(filename);
 	}
 	/**
-	 * Â·¾¶·µ»Ø¶ÔÏó
+	 * è·¯å¾„è¿”å›å¯¹è±¡
 	 * @param filename
 	 * @return
 	 */
@@ -85,7 +85,7 @@ public class MenuConfigLoader{
 	}
 	
 	/**
-	 * »ñµÃÎÄ¼şÖĞµÄ´æÔÚµÄÀñ°üÃû
+	 * è·å¾—æ–‡ä»¶ä¸­çš„å­˜åœ¨çš„ç¤¼åŒ…å
 	 * @return List<String>
 	 */
 	public static List<String> getMenus() {
@@ -102,8 +102,8 @@ public class MenuConfigLoader{
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚÖØ¸´µÄ²Ëµ¥£¬²¢ÇÒ·µ»ØÖµ¡£
-	 * @return Êı×ÖÀàĞÍ
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨é‡å¤çš„èœå•ï¼Œå¹¶ä¸”è¿”å›å€¼ã€‚
+	 * @return æ•°å­—ç±»å‹
 	 */
 	public static int checkRepeatMenus() {
 		List<String> list = new ArrayList<>();
@@ -114,7 +114,7 @@ public class MenuConfigLoader{
 				if(!list.contains(key)) {
 					list.add(key);
 				}else {
-					Bukkit.getLogger().warning("[WkKit]´æÔÚÖØ¸´µÄ²Ëµ¥ - " + key);
+					Bukkit.getLogger().warning("[WkKit]å­˜åœ¨é‡å¤çš„èœå• - " + key);
 					num++;
 				}
 			}
@@ -123,16 +123,16 @@ public class MenuConfigLoader{
 	}
 	
 	
-	// ¶ÁÈ¡ÅäÖÃÖĞµÄ²Ëµ¥¶ÔÏó
+	// è¯»å–é…ç½®ä¸­çš„èœå•å¯¹è±¡
 	public static void readMenuConfig() {
 		List<String> menulist = MenuConfigLoader.getMenus();
 		int repeatnum = MenuConfigLoader.checkRepeatMenus();
-		//²éÕÒÖØ¸´µÄÀñ°ü
+		//æŸ¥æ‰¾é‡å¤çš„ç¤¼åŒ…
 		if(repeatnum != 0) {
 			WKTool.replacePlaceholder("num", repeatnum + "", LangConfigLoader.getString("LOADMENU_FAILED"));
-			Bukkit.getLogger().warning("[WkKit]" + repeatnum + "¸ö²Ëµ¥¼ÓÔØÊ§°Ü£¡");
+			Bukkit.getLogger().warning("[WkKit]" + repeatnum + "ä¸ªèœå•åŠ è½½å¤±è´¥ï¼");
 		}
-		// Ìí¼Ó²Ëµ¥ĞÅÏ¢
+		// æ·»åŠ èœå•ä¿¡æ¯
 		for(String menuname : menulist) {
 			String title = MenuConfigLoader.getString(menuname + ".Title");
 			String type = MenuConfigLoader.getString(menuname + ".Type");
@@ -142,7 +142,7 @@ public class MenuConfigLoader{
 			new Menu(menuname, title, type, permission, size, new ArrayList<>(slots));
 		}
 	}
-	// ·â×°BukkitAPIµÄ·½·¨
+	// å°è£…BukkitAPIçš„æ–¹æ³•
 	public static ConfigurationSection getConfigurationSection(String path) {
 		return getConfigWithPath(path).getConfigurationSection(path);
 	}

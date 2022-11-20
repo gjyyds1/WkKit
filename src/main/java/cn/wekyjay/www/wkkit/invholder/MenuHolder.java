@@ -4,7 +4,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 public class MenuHolder implements InventoryHolder {
-	public String menuname;
+	private String menuname;
 	public MenuHolder(String menuname){
 		this.menuname = menuname;
 	}

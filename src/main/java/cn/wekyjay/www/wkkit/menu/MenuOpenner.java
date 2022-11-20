@@ -27,7 +27,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 public class MenuOpenner {
 	public void openMenu(String menuname,Player p) {
-		if(!(MenuManager.getPermission(menuname) == null) && !p.hasPermission(MenuManager.getPermission(menuname))) {// È±ÉÙÈ¨ÏŞ
+		if(!(MenuManager.getPermission(menuname) == null) && !p.hasPermission(MenuManager.getPermission(menuname))) {// ç¼ºå°‘æƒé™
 			System.out.println(LangConfigLoader.getStringWithPrefix("MENU_NEED_PERMISSION", ChatColor.RED) + MenuManager.getPermission(menuname));
 			return;
 		} 
@@ -41,35 +41,38 @@ public class MenuOpenner {
 		inv.setContents(MenuManager.getMenu(menuname).getStorageContents());
 		List<String> kitlist = MenuManager.getSlotOfKit(menuname);
 		
-		// Õ¹¿ªÀàĞÍ²Ëµ¥
+		// å±•å¼€ç±»å‹èœå•
 		if(MenuConfigLoader.contains(menuname + ".Spread") && MenuConfigLoader.getBoolean(menuname + ".Spread") && kitlist.size() == 1) {
-			// ÁìÈ¡°´Å¥
+			// é¢†å–æŒ‰é’®
 			if(MenuConfigLoader.contains(menuname + ".Slots.Get")){
 				String id = MenuConfigLoader.getString(menuname + ".Slots.Get.id");
 
 				String kitname = kitlist.get(0);
 				Kit kit = Kit.getKit(kitname);
-				// ÅĞ¶ÏÊÇ·ñÁì¹ı
+				// åˆ¤æ–­æ˜¯å¦é¢†è¿‡
 				if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
-					// ÅĞ¶ÏÊÇ·ñ¿ÉÒÔÁìÈ¡
+					// åˆ¤æ–­æ˜¯å¦å¯ä»¥é¢†å–
 					if(WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false") || WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
 						for(int num : WKTool.getSlotNum(menuname + ".Slots.Get.slot")) {
 							ItemStack item = new ItemStack(Material.BARRIER);
-							// ÉèÖÃ×Ô¶¨ÒåÍ¼±ê
+							// è®¾ç½®è‡ªå®šä¹‰å›¾æ ‡
 							if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".offid")) {
 								item = new ItemStack(Material.getMaterial(MenuConfigLoader.getString(menuname + ".Slots." + kitname + ".offid")));
 							}
 							ItemMeta meta = item.getItemMeta();
 							
 							List<String> list = new ArrayList<String>();
-							// ÉèÖÃ×Ô¶¨Òålore
+							// è®¾ç½®è‡ªå®šä¹‰lore
 							if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".offlore")) {
-								list = PlaceholderAPI.setPlaceholders(p, MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".offlore"));
-							}else {// Ã»ÓĞÉèÖÃ¾ÍÄ¬ÈÏ
+								list = MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".offlore");
+								if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+									list = PlaceholderAPI.setPlaceholders(p, list);
+								}
+							}else {// æ²¡æœ‰è®¾ç½®å°±é»˜è®¤
 								list.add(LangConfigLoader.getString("CLICK_GET_NEXT_STATUS"));
-								if(kit.getDocron() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_DATE") + "¡ìe" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(CronManager.getNextExecution(kit.getDocron())));
+								if(kit.getDocron() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_DATE") + "Â§e" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(CronManager.getNextExecution(kit.getDocron())));
 								else list.add(LangConfigLoader.getString("CLICK_GET_NEXT_NODATE"));
-								if(kit.getTimes() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_TIMES") + "¡ìe" + WkKit.getPlayerData().getKitTime(playername, kitname));
+								if(kit.getTimes() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_TIMES") + "Â§e" + WkKit.getPlayerData().getKitTime(playername, kitname));
 								else list.add(LangConfigLoader.getString("CLICK_GET_NEXT_NOTIMES"));
 							}
 							meta.setLore(list);
@@ -81,16 +84,18 @@ public class MenuOpenner {
 						ItemStack is = new ItemStack(Material.getMaterial(id));
 						List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots.Get.slot");
 						for(int num : slotnum) {
-							// ÉèÖÃ×Ô¶¨Òålore
+							// è®¾ç½®è‡ªå®šä¹‰lore
 							if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".lore")) {
 								ItemMeta meta = is.getItemMeta();
-								List<String> list = new ArrayList<String>();
-								list = PlaceholderAPI.setPlaceholders(p, MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore"));
+								List<String> list = MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore");
+								if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+									list = PlaceholderAPI.setPlaceholders(p, list);
+								}
 								meta.setLore(list);
 								meta.setDisplayName(kit.getDisplayName());
 								is.setItemMeta(meta);
 							}
-							// ÉèÖÃNBT
+							// è®¾ç½®NBT
 							NBTItem nbti = new NBTItem(is);
 							nbti.setString("wkkit", kitname);
 							inv.setItem(num, nbti.getItem());
@@ -100,16 +105,18 @@ public class MenuOpenner {
 					ItemStack is = new ItemStack(Material.getMaterial(id));
 					List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots.Get.slot");
 					for(int num : slotnum) {
-						// ÉèÖÃ×Ô¶¨Òålore
+						// è®¾ç½®è‡ªå®šä¹‰lore
 						if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".lore")) {
 							ItemMeta meta = is.getItemMeta();
-							List<String> list = new ArrayList<String>();
-							list = PlaceholderAPI.setPlaceholders(p, MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore"));
+							List<String> list = MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore");
+							if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+								list = PlaceholderAPI.setPlaceholders(p, list);
+							}
 							meta.setLore(list);
 							meta.setDisplayName(kit.getDisplayName());
 							is.setItemMeta(meta);
 						}
-						// ÉèÖÃNBT
+						// è®¾ç½®NBT
 						NBTItem nbti = new NBTItem(is);
 						nbti.setString("wkkit", kitname);
 						inv.setItem(num, nbti.getItem());
@@ -117,53 +124,64 @@ public class MenuOpenner {
 				}
 				
 			}
-			// ±éÀú¼ì²é
+			// éå†æ£€æŸ¥
 			for(String kitname : kitlist) {
 				Kit kit = Kit.getKit(kitname);
 				int itemnum = (int) Stream.of(kit.getItemStack()).filter(item -> item != null).count();
 				int nounnum = (int) Stream.of(inv.getContents()).filter(item -> item == null).count();
-				// ±È½Ï´óĞ¡£¬Èç¹ûÓĞ×ã¹»¿Õ¼ä
+				// æ¯”è¾ƒå¤§å°ï¼Œå¦‚æœæœ‰è¶³å¤Ÿç©ºé—´
 				if(itemnum <= nounnum) {
 					List<Integer> slotsIndex = new ArrayList<>();
-					// ±éÀúÎïÆ·
+					// éå†ç‰©å“
 					for(int i = 0; i < inv.getContents().length; i++) {
 						if(inv.getItem(i) == null) slotsIndex.add(i);
 					}
-					// Ìí¼ÓÎïÆ·
+					// æ·»åŠ ç‰©å“
 					for(int i = 0; i < kit.getItemStack().length; i++) {
 						inv.setItem(slotsIndex.get(i), kit.getItemStack()[i]);
 					}
 				}
+				
+			}
+			// åˆ é™¤ç©ºæ°”æ–¹å—
+			for(int i = 0; i < inv.getSize(); i++) {
+				ItemStack is = inv.getItem(i);
+				if(is != null && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equalsIgnoreCase("AIR")) {
+					inv.clear(i);
+				}
 			}
 
-			// ´ò¿ª²Ëµ¥
+			// æ‰“å¼€èœå•
 			p.openInventory(inv);
 			return;
 		}
 		
-		// ÆÕÍ¨ÀàĞÍ²Ëµ¥
-		// ±éÀú¼ì²é
+		// æ™®é€šç±»å‹èœå•
+		// éå†æ£€æŸ¥
 		for(String kitname : kitlist) {
 			if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
-				// Èç¹û²»ÄÜÁìÈ¡
+				// å¦‚æœä¸èƒ½é¢†å–
 				if(WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false") || WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
 						for(int num : WKTool.getSlotNum(menuname + ".Slots." + kitname + ".slot")) {
 							ItemStack item = new ItemStack(Material.BARRIER);
-							// ÉèÖÃ×Ô¶¨ÒåÍ¼±ê
+							// è®¾ç½®è‡ªå®šä¹‰å›¾æ ‡
 							if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".offid")) {
 								item = new ItemStack(Material.getMaterial(MenuConfigLoader.getString(menuname + ".Slots." + kitname + ".offid")));
 							}
 							ItemMeta meta = item.getItemMeta();
 							Kit kit = Kit.getKit(kitname);
 							List<String> list = new ArrayList<String>();
-							// ÉèÖÃ×Ô¶¨Òålore
+							// è®¾ç½®è‡ªå®šä¹‰lore
 							if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".offlore")) {
-								list = PlaceholderAPI.setPlaceholders(p, MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".offlore"));
-							}else {// Ã»ÓĞÉèÖÃ¾ÍÄ¬ÈÏ
+								list = MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".offlore");
+								if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+									list = PlaceholderAPI.setPlaceholders(p, list);
+								}
+							}else {// æ²¡æœ‰è®¾ç½®å°±é»˜è®¤
 								list.add(LangConfigLoader.getString("CLICK_GET_NEXT_STATUS"));
-								if(kit.getDocron() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_DATE") + "¡ìe" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(CronManager.getNextExecution(kit.getDocron())));
+								if(kit.getDocron() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_DATE") + "Â§e" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(CronManager.getNextExecution(kit.getDocron())));
 								else list.add(LangConfigLoader.getString("CLICK_GET_NEXT_NODATE"));
-								if(kit.getTimes() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_TIMES") + "¡ìe" + WkKit.getPlayerData().getKitTime(playername, kitname));
+								if(kit.getTimes() != null) list.add(LangConfigLoader.getString("CLICK_GET_NEXT_TIMES") + "Â§e" + WkKit.getPlayerData().getKitTime(playername, kitname));
 								else list.add(LangConfigLoader.getString("CLICK_GET_NEXT_NOTIMES"));
 							}
 							
@@ -178,11 +196,13 @@ public class MenuOpenner {
 					ItemStack is = Kit.getKit(kitname).getKitItem();
 					List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots." + kitname + ".slot");
 					for(int num : slotnum) {
-						// ÉèÖÃ×Ô¶¨Òålore
+						// è®¾ç½®è‡ªå®šä¹‰lore
 						if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".lore")) {
 							ItemMeta meta = is.getItemMeta();
-							List<String> list = new ArrayList<String>();
-							list = PlaceholderAPI.setPlaceholders(p, MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore"));
+							List<String> list = MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore");
+							if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+								list = PlaceholderAPI.setPlaceholders(p, list);
+							}
 							meta.setLore(list);
 							is.setItemMeta(meta);
 						}
@@ -193,16 +213,25 @@ public class MenuOpenner {
 				ItemStack is = Kit.getKit(kitname).getKitItem();
 				List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots." + kitname + ".slot");
 				for(int num : slotnum) {
-					// ÉèÖÃ×Ô¶¨Òålore
+					// è®¾ç½®è‡ªå®šä¹‰lore
 					if(MenuConfigLoader.contains(menuname + ".Slots." + kitname + ".lore")) {
 						ItemMeta meta = is.getItemMeta();
-						List<String> list = new ArrayList<String>();
-						list = PlaceholderAPI.setPlaceholders(p, MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore"));
+						List<String> list = MenuConfigLoader.getStringList(menuname + ".Slots." + kitname + ".lore");
+						if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+							list = PlaceholderAPI.setPlaceholders(p, list);
+						}
 						meta.setLore(list);
 						is.setItemMeta(meta);
 					}
 					inv.setItem(num, is);
 				}
+			}
+		}
+		// åˆ é™¤ç©ºæ°”æ–¹å—
+		for(int i = 0; i < inv.getSize(); i++) {
+			ItemStack is = inv.getItem(i);
+			if(is != null && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equalsIgnoreCase("AIR")) {
+				inv.clear(i);
 			}
 		}
 		p.openInventory(inv);

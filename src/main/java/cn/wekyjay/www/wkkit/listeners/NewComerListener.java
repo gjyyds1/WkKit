@@ -11,13 +11,13 @@ import cn.wekyjay.www.wkkit.kit.Kit;
 public class NewComerListener implements Listener {
 	WkKit wk = WkKit.getWkKit();
 	
-	/*Íæ¼ÒµÚÒ»´Î½øÈëÊÂ¼ş*/
+	/*ç©å®¶ç¬¬ä¸€æ¬¡è¿›å…¥äº‹ä»¶*/
 	@EventHandler
 	public void onPlayerJion(PlayerJoinEvent e) {
 	    String pname = e.getPlayer().getName();
-	    boolean isnc = this.wk.getConfig().getBoolean("NewComer.Enable");//ĞÂÈËÀñ°üÊÇ·ñ¿ªÆô
-	    boolean isauto = this.wk.getConfig().getBoolean("NewComer.Auto"); // ÊÇ·ñ×Ô¶¯·¢·Å
-	    String nckitname = this.wk.getConfig().getString("NewComer.Kit");//ĞÂÈËÀñ°üÃû
+	    boolean isnc = this.wk.getConfig().getBoolean("NewComer.Enable");//æ–°äººç¤¼åŒ…æ˜¯å¦å¼€å¯
+	    boolean isauto = this.wk.getConfig().getBoolean("NewComer.Auto"); // æ˜¯å¦è‡ªåŠ¨å‘æ”¾
+	    String nckitname = this.wk.getConfig().getString("NewComer.Kit");//æ–°äººç¤¼åŒ…å
 	    if (isnc && Kit.getKit(nckitname) != null && e.getPlayer().getStatistic(Statistic.LEAVE_GAME) == 0) {
 	    	if(WkKit.getPlayerData().contain_Kit(pname, nckitname))return;
 	    	if(isauto) {

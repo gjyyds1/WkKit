@@ -16,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CountDelayTime;
 import cn.wekyjay.www.wkkit.tool.WKTool;
@@ -24,10 +26,10 @@ public class DropKitListener implements Listener{
 
 	@EventHandler
 	public void onPlayerClickKit(PlayerInteractEvent e) {
-		if(!e.hasItem()) {return;}//ÊÖÉÏÃ»ÓĞ¶«Î÷¾Í½áÊø·½·¨
+		if(!e.hasItem()) {return;}//æ‰‹ä¸Šæ²¡æœ‰ä¸œè¥¿å°±ç»“æŸæ–¹æ³•
 		NBTItem nbti;
-		try {nbti = new NBTItem(e.getItem());}catch(NullPointerException e2) {return;}// ½»»¥µÄÎïÆ·ÎªNULLÔòÈ¡Ïû
-		if(WKTool.getVersion() > 9 && !e.getHand().equals(EquipmentSlot.HAND)) {// Èç¹ûÊÇ¸ß°æ±¾²»ÊÇ¸±ÊÖµÄ»°¾Í·µ»Ø
+		try {nbti = new NBTItem(e.getItem());}catch(NullPointerException e2) {return;}// äº¤äº’çš„ç‰©å“ä¸ºNULLåˆ™å–æ¶ˆ
+		if(WKTool.getVersion() > 9 && !e.getHand().equals(EquipmentSlot.HAND)) {// å¦‚æœæ˜¯é«˜ç‰ˆæœ¬ä¸æ˜¯å‰¯æ‰‹çš„è¯å°±è¿”å›
 			return;
 		}
 		if(nbti.hasKey("wkkit") ) {
@@ -35,12 +37,12 @@ public class DropKitListener implements Listener{
 				if(e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
 					PlayerInventory pinv = e.getPlayer().getInventory();
 					Kit kit = Kit.getKit(kitname);
-					// ÅĞ¶ÏÊÇ·ñÓĞÈ¨ÏŞ
+					// åˆ¤æ–­æ˜¯å¦æœ‰æƒé™
 					if(kit.getPermission() != null && !e.getPlayer().hasPermission(kit.getPermission())) {
 						e.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("NO_PERMISSION", ChatColor.RED));
 						return;
 					}
-					// ÅĞ¶ÏÊÇ·ñÓĞÀäÈ´
+					// åˆ¤æ–­æ˜¯å¦æœ‰å†·å´
 					if(kit.getDelay() != null) {
 						if(CountDelayTime.getDelayInstance(e.getPlayer(), kit) == null) {
 							CountDelayTime ct = new CountDelayTime(e.getPlayer(), kit);
@@ -57,28 +59,28 @@ public class DropKitListener implements Listener{
 					if(WKTool.hasSpace(e.getPlayer(), Kit.getKit(kitname))) {
 						int itemnum;
 						if(WKTool.getVersion() >= 9) {
-							itemnum = e.getPlayer().getInventory().getItemInMainHand().getAmount();//»ñÈ¡Ö÷ÊÖÎïÆ·ÊıÁ¿
-							e.getPlayer().getInventory().getItemInMainHand().setAmount(itemnum - 1);//Ö÷ÊÖÎïÆ·ÊıÁ¿-1
+							itemnum = e.getPlayer().getInventory().getItemInMainHand().getAmount();//è·å–ä¸»æ‰‹ç‰©å“æ•°é‡
+							e.getPlayer().getInventory().getItemInMainHand().setAmount(itemnum - 1);//ä¸»æ‰‹ç‰©å“æ•°é‡-1
 						}else {
-							itemnum = e.getPlayer().getInventory().getItemInHand().getAmount();//»ñÈ¡Ö÷ÊÖÎïÆ·ÊıÁ¿
-							e.getPlayer().getInventory().getItemInHand().setAmount(itemnum - 1);//Ö÷ÊÖÎïÆ·ÊıÁ¿-1
+							itemnum = e.getPlayer().getInventory().getItemInHand().getAmount();//è·å–ä¸»æ‰‹ç‰©å“æ•°é‡
+							e.getPlayer().getInventory().getItemInHand().setAmount(itemnum - 1);//ä¸»æ‰‹ç‰©å“æ•°é‡-1
 							if(itemnum - 1 == 0) {
 								e.getPlayer().getInventory().remove(e.getPlayer().getInventory().getItemInHand());
 							}
 						}
 
-						//ÅĞ¶ÏÊÇ·ñÓĞCommands
+						//åˆ¤æ–­æ˜¯å¦æœ‰Commands
 						if(kit.getCommands() != null){
 							List<String> cmdlist = kit.getCommands();
 							for(String str : cmdlist) {
 								String[] splitstr = str.split(":");
 								String command = null;
-								if(splitstr.length > 1) {//ÅĞ¶ÏÊÇ·ñÓĞÖ¸¶¨µÄÖ¸Áî·¢ËÍ·½Ê½
+								if(splitstr.length > 1) {//åˆ¤æ–­æ˜¯å¦æœ‰æŒ‡å®šçš„æŒ‡ä»¤å‘é€æ–¹å¼
 									command = WKTool.replacePlaceholder("player", e.getPlayer().getName(), splitstr[1]);
 								}else {
 									command = WKTool.replacePlaceholder("player", e.getPlayer().getName(), splitstr[0]);
 								}
-								//¸ù¾İ²»Í¬µÄÖ¸Áî·¢ËÍ·½Ê½·¢ËÍ
+								//æ ¹æ®ä¸åŒçš„æŒ‡ä»¤å‘é€æ–¹å¼å‘é€
 								if(splitstr[0].equalsIgnoreCase("cmd")) {
 									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 								}else if(splitstr[0].equalsIgnoreCase("op") && !e.getPlayer().isOp()) {
@@ -90,10 +92,10 @@ public class DropKitListener implements Listener{
 								}
 							}
 						}
-						//Ìí¼ÓÀñ°ü
+						//æ·»åŠ ç¤¼åŒ…
 						for(ItemStack item : kit.getItemStack()) {
 							if(item != null) {
-								pinv.addItem(item);//Ìí¼ÓÎïÆ·ÖÁ±³°ü
+								pinv.addItem(item);//æ·»åŠ ç‰©å“è‡³èƒŒåŒ…
 							}
 
 						}
@@ -107,10 +109,10 @@ public class DropKitListener implements Listener{
 		}
 		return;
 	}
-	//¼ì²âÊÇ·ñÊÇÀñ°ü£¬·ñÔò²»¿ÉÒÔ·ÅÖÃ
+	//æ£€æµ‹æ˜¯å¦æ˜¯ç¤¼åŒ…ï¼Œå¦åˆ™ä¸å¯ä»¥æ”¾ç½®
 	@EventHandler
 	public void blockPlace(BlockPlaceEvent e) {
-		// ¼ì²âÊÖÖĞµÄÎïÆ·ÊÇ·ñÎª¿Õ
+		// æ£€æµ‹æ‰‹ä¸­çš„ç‰©å“æ˜¯å¦ä¸ºç©º
 		if(e.getItemInHand().getAmount() > 0) {
 			NBTItem nbti = new NBTItem(e.getItemInHand());
 			if(nbti != null && nbti.hasKey("wkkit")) {
@@ -119,7 +121,7 @@ public class DropKitListener implements Listener{
 		}
 	}
 	
-	//¼ì²âËÀÍöµÄÊµÌåÊÇ·ñÊÇ¿ÉµôÂäÖ¸¶¨Àñ°üµÄÊµÌå£¬ÊÇµÄ»°¾ÍµôÂäÖ¸¶¨Àñ°ü
+	//æ£€æµ‹æ­»äº¡çš„å®ä½“æ˜¯å¦æ˜¯å¯æ‰è½æŒ‡å®šç¤¼åŒ…çš„å®ä½“ï¼Œæ˜¯çš„è¯å°±æ‰è½æŒ‡å®šç¤¼åŒ…
 	@EventHandler
 	public void ontest(EntityDeathEvent e) {
 		List<Kit> kits = Kit.getKits();
@@ -131,7 +133,7 @@ public class DropKitListener implements Listener{
 				List<String> droplist = kit.getDrop();
 				for(int i = 0; i < droplist.size(); i++) {
 					String[] s = droplist.get(i).split("->");
-					if(s.length == 2) { // ·ÀÖ¹ÒòÎªÅäÖÃ´íÎó¶ø±¨´í
+					if(s.length == 2) { // é˜²æ­¢å› ä¸ºé…ç½®é”™è¯¯è€ŒæŠ¥é”™
 						String ename = s[0];
 						float f = Float.parseFloat(s[1]);
 						double d = Math.random();

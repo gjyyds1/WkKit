@@ -29,37 +29,38 @@ public class KitMenuListener implements Listener{
 	public void onPlayerClick(InventoryClickEvent e) {
 
 		if(e.getInventory().getHolder() instanceof MenuHolder) {
-			e.setCancelled(true);// È¡ÏûÎïÆ·µÄÄÃÈ¡
+			e.setCancelled(true);// å–æ¶ˆç‰©å“çš„æ‹¿å–
 			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) {
 				e.setCancelled(true);
 		        return;
 			}
 			
 			Player p = Bukkit.getPlayer(e.getWhoClicked().getName());
-			//Èç¹ûµã»÷ÊÇ¿Õ¸ñ×Ó¾ÍÈ¡ÏûÊÂ¼ş
+			//å¦‚æœç‚¹å‡»æ˜¯ç©ºæ ¼å­å°±å–æ¶ˆäº‹ä»¶
 			try {
 				new NBTItem(e.getCurrentItem());
 			}catch(NullPointerException e1) {
 				return;
 			}
 			
-			NBTItem itemnbt = new NBTItem(e.getCurrentItem());//»ñÈ¡±»µã»÷µÄÀñ°üµÄNBT
-			// Èç¹û´æÔÚkey¾ÍÊÇ¿ÉÒÔ½øĞĞÀñ°üÁìÈ¡²Ù×÷
+			NBTItem itemnbt = new NBTItem(e.getCurrentItem());//è·å–è¢«ç‚¹å‡»çš„ç¤¼åŒ…çš„NBT
+			// å¦‚æœå­˜åœ¨keyå°±æ˜¯å¯ä»¥è¿›è¡Œç¤¼åŒ…é¢†å–æ“ä½œ
 			if(itemnbt.hasKey("wkkit")) {
 				String kitname = itemnbt.getString("wkkit");
-				// Èç¹ûÊÇÓÒ¼üÔòÔ¤ÀÀÀñ°ü
+				// å¦‚æœæ˜¯å³é”®åˆ™é¢„è§ˆç¤¼åŒ…
 				if(e.getClick().isRightClick()) {
 					new KitInfo().getKitInfo(kitname, p);
 					return;
 				}else {
-				// Èç¹ûÊÇÆäËüµÄ¼ü¾ÍÁìÈ¡Àñ°ü
-					new KitGetter().getKit(Kit.getKit(kitname), p);
+				// å¦‚æœæ˜¯å…¶å®ƒçš„é”®å°±é¢†å–ç¤¼åŒ…
+					MenuHolder menuholder = (MenuHolder) e.getInventory().getHolder();
+					new KitGetter().getKit(Kit.getKit(kitname), p, menuholder.getMenuname());
 				}
 			}else {
 				return;
 			}
 			
-			//ÁìÈ¡ÎïÆ·ºóÊÇ·ñ¹Ø±ÕGUI
+			//é¢†å–ç‰©å“åæ˜¯å¦å…³é—­GUI
 			if(WkKit.getWkKit().getConfig().getBoolean("GUI.ClickClose")) {
 				p.closeInventory();
 			}else {

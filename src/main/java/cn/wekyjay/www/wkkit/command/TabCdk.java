@@ -9,17 +9,17 @@ import org.bukkit.command.CommandSender;
 public enum TabCdk {
 	 	FIRST(Arrays.asList("cdk"),0,null,new int[]{1}),
 		CDK_COMMAND(Arrays.asList("create","verify","exchange","export"),1,"cdk",new int[]{2}),
-		CDK_NUM(Arrays.asList("<ÊıÁ¿>"),2,"create",new int[]{3}),
+		CDK_NUM(Arrays.asList("<æ•°é‡>"),2,"create",new int[]{3}),
 		CDK_CDK(Arrays.asList("<CDK>"),2,"verify",new int[]{4}),
 		CDK_CDK2(Arrays.asList("<CDK>"),2,"exchange",new int[]{4}),
 		CDK_KIT(Arrays.asList("<KitName1>,<Kitname2>..."),2,"create",new int[]{4}),
-		CDK_EXPORT(Arrays.asList("<±ê¼Ç>"),2,"export",new int[]{4});
+		CDK_EXPORT(Arrays.asList("<æ ‡è®°>"),2,"export",new int[]{4});
 	
 		
-	    private List<String> list;//·µ»ØµÄList
-	    private int befPos;//Ó¦¸ÃÊ¶±ğµÄÉÏÒ»¸ö²ÎÊıµÄÎ»ÖÃ
-	    private String bef;//Ó¦¸ÃÊ¶±ğµÄÉÏ¸ö²ÎÊıµÄÄÚÈİ
-	    private int[] num;//Õâ¸ö²ÎÊı¿ÉÒÔ³öÏÖµÄÎ»ÖÃ
+	    private List<String> list;//è¿”å›çš„List
+	    private int befPos;//åº”è¯¥è¯†åˆ«çš„ä¸Šä¸€ä¸ªå‚æ•°çš„ä½ç½®
+	    private String bef;//åº”è¯¥è¯†åˆ«çš„ä¸Šä¸ªå‚æ•°çš„å†…å®¹
+	    private int[] num;//è¿™ä¸ªå‚æ•°å¯ä»¥å‡ºç°çš„ä½ç½®
 	    
 	    private TabCdk(List<String> list,int befPos, String bef, int[] num){
 	        this.list = list;

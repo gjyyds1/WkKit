@@ -1,7 +1,5 @@
 Setting:
-   # 是否开启礼包领取日志
-   Cache: true
-   # 是否开启礼包上线提示
+   # 是否开启礼包上线提示领取
    OnlineReminder: true
    ChackUpdate: true
    Language: 'zh_CN'
@@ -20,7 +18,7 @@ Default:
    AntiShutDown: 5
 GUI:
    GetAllMaterial: 'Default'
-   TurnPageMaterial: 'BOOK'
+   TurnPageMaterial: 'SLIME_BALL'
    #菜单栏材质
    MenuMaterial: 'Default'
    # 领取礼包后关闭GUI
@@ -48,3 +46,6 @@ MySQL:
    port: '3306'
    # 主机IP
    ip: 'localhost'
+Cache:
+   Enable: true
+   PlayerReciveKit: true

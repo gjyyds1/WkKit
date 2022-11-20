@@ -17,7 +17,9 @@ import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
 import cn.wekyjay.www.wkkit.tool.KitRefresh;
 import cn.wekyjay.www.wkkit.tool.WKTool;
+import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NbtApiException;
 
 public class Kit {
 	private String kitname;
@@ -56,7 +58,7 @@ public class Kit {
 	
 	
 	/**
-	 * Í¨¹ıÀñ°üµÄÃû×Ö·µ»ØKit£¬Èç¹ûÃ»ÕÒµ½¾Í·µ»Ønull
+	 * é€šè¿‡ç¤¼åŒ…çš„åå­—è¿”å›Kitï¼Œå¦‚æœæ²¡æ‰¾åˆ°å°±è¿”å›null
 	 * @param kitname
 	 * @return
 	 */
@@ -71,7 +73,7 @@ public class Kit {
 	
 	
 	/**
-	 * ¼ÓÔØÀñ°ü
+	 * åŠ è½½ç¤¼åŒ…
 	 * @param kit
 	 */
 	public void loadKit(Kit kit) {
@@ -89,7 +91,7 @@ public class Kit {
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñÊÇÒ»¸öÓĞĞ§Àñ°ü
+	 * åˆ¤æ–­æ˜¯å¦æ˜¯ä¸€ä¸ªæœ‰æ•ˆç¤¼åŒ…
 	 * @return Boolean
 	 */
 	public Boolean isKit() {
@@ -100,7 +102,7 @@ public class Kit {
 	}
 	
 	/**
-	 * »ñµÃÀñ°üµÄIDÃû(·ÇÕ¹Ê¾Ãû)
+	 * è·å¾—ç¤¼åŒ…çš„IDå(éå±•ç¤ºå)
 	 * @return
 	 */
 	public String getKitname() {
@@ -111,7 +113,7 @@ public class Kit {
 	
 	// Getter & Setter
 	/**
-	 * »ñµÃ¸ÃÀñ°üµÄÎÄ¼ş¿é
+	 * è·å¾—è¯¥ç¤¼åŒ…çš„æ–‡ä»¶å—
 	 * @return
 	 */
 	public ConfigurationSection getConfigurationSection() {
@@ -121,7 +123,7 @@ public class Kit {
 	}
 	
 	/**
-	 * ÉèÖÃÍêÀñ°üÊôĞÔÖ®ºóÒ»¶¨Òª¼ÇµÃ±£´æ
+	 * è®¾ç½®å®Œç¤¼åŒ…å±æ€§ä¹‹åä¸€å®šè¦è®°å¾—ä¿å­˜
 	 * @throws IOException
 	 */
 	public final void saveConfig() {
@@ -139,8 +141,8 @@ public class Kit {
 	}
 	
 	public void setDisplayName(String displayName) {
-		this.displayName = displayName; // ¸ü¸ÄÕ»ÄÚ´æ
-		this.getConfigurationSection().set("Name", displayName);    // ¸ü¸ÄÎÄ¼şÄÚ´æ
+		this.displayName = displayName; // æ›´æ”¹æ ˆå†…å­˜
+		this.getConfigurationSection().set("Name", displayName);    // æ›´æ”¹æ–‡ä»¶å†…å­˜
 	}
 
 	public String getPermission() {
@@ -187,13 +189,13 @@ public class Kit {
 	public void setDocron(String docron) {
 		this.docron = docron;
 		this.getConfigurationSection().set("DoCron", docron);
-		// ¹Ø±Õ¸ÃÀñ°üÏß³Ì×ÔË¢ĞÂ
+		// å…³é—­è¯¥ç¤¼åŒ…çº¿ç¨‹è‡ªåˆ·æ–°
 		for(String kitname : ConfigManager.tasklist.keySet()) {
 			if(kitname.equals(this.kitname)) {
 				ConfigManager.tasklist.get(kitname).cancel();
 			}
 		}
-		// Èç¹û´«ÈëÖµ²»ÊÇnull¾ÍÖØĞÂ¿ªÊ¼Ë¢ĞÂ¸ÃÀñ°ü
+		// å¦‚æœä¼ å…¥å€¼ä¸æ˜¯nullå°±é‡æ–°å¼€å§‹åˆ·æ–°è¯¥ç¤¼åŒ…
 		if(docron != null) {
 			KitRefresh.refreshDay(this);
 		}
@@ -252,16 +254,23 @@ public class Kit {
 	}
 
 	/**
-	 * »ñµÃÀàĞÍÎªItemµÄÀñ°üÊµÌå
+	 * è·å¾—ç±»å‹ä¸ºItemçš„ç¤¼åŒ…å®ä½“
 	 * @return
 	 */
 	public ItemStack getKitItem() {
-		// ´´½¨ÎïÆ·
+		// åˆ›å»ºç‰©å“
 		ItemStack item = null;
-		if(icon.contains("[SKULL]")) {
-			item = WKTool.nbtCovertoSkull(icon.substring(7));
-		}else { 
-			// Èç¹û²»´æÔÚ¾ÍÓÃÄ¬ÈÏÅäÖÃµÄICONÌæ´ú
+		try {
+			if(icon.contains("[SKULL]")) {
+				item = WKTool.nbtCovertoSkull(icon.substring(7));
+			}else if(icon.contains("[NBT]")) {
+				item = NBTItem.convertNBTtoItem(new NBTContainer(icon.substring(5)));
+			}
+		}catch(NbtApiException e) {
+			e.printStackTrace();
+		}
+		if(item == null || item.getAmount() == 0) {
+			// å¦‚æœå‡ºé”™æˆ–ä¸å­˜åœ¨å°±ç”¨é»˜è®¤é…ç½®çš„ICONæ›¿ä»£
 			if(Material.getMaterial(icon) == null) item = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("Default.Icon")));
 			else item = new ItemStack(Material.getMaterial(icon));
 		}

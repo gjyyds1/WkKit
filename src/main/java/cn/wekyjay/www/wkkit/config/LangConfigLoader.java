@@ -14,7 +14,7 @@ public class LangConfigLoader {
 	static FileConfiguration langConfig = null;
 	
 	/**
-	 * ¼ÓÔØÎÄ¼ş¼ĞÖĞµÄÅäÖÃÎÄ¼ş
+	 * åŠ è½½æ–‡ä»¶å¤¹ä¸­çš„é…ç½®æ–‡ä»¶
 	 * @param file
 	 */
 	public static void loadConfig() {
@@ -28,13 +28,13 @@ public class LangConfigLoader {
 		 }
 	}
 	/**
-	 * ÖØÔØÅäÖÃ
+	 * é‡è½½é…ç½®
 	 */
 	public static void reloadConfig() {
 		LangConfigLoader.loadConfig();
 	}
 	
-	// ·â×°BukkitAPIµÄ·½·¨
+	// å°è£…BukkitAPIçš„æ–¹æ³•
 	
 	public static Boolean contains(String path) {
 		return langConfig.contains(path);

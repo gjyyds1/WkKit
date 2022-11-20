@@ -31,10 +31,10 @@ public class KitGroup {
 			}
 
 		}
-		// É¾³ıÀñ°ü×é
+		// åˆ é™¤ç¤¼åŒ…ç»„
 		if(args.length >= 3 && args[1].equalsIgnoreCase("delete")) {
 			String groupname = args[2];
-			// ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÀñ°ü×é
+			// åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥ç¤¼åŒ…ç»„
 			if(!KitGroupManager.contains(groupname)) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GROUP_NONEXIST", ChatColor.RED));
 				return;
@@ -55,7 +55,7 @@ public class KitGroup {
 								WkKit.getPlayerData().delMailToFile(pname, kitname);;
 							}
 						}
-						//±£´æÅäÖÃ
+						//ä¿å­˜é…ç½®
 						try {
 							ConfigManager.getKitconfig().save(file.getName());
 						} catch (Exception e) {
@@ -65,7 +65,7 @@ public class KitGroup {
 				}
 
 			}else {
-				// Èç¹ûÊÇdefault×é±ØĞëÊÇtrue
+				// å¦‚æœæ˜¯defaultç»„å¿…é¡»æ˜¯true
 				if(groupname.equalsIgnoreCase("Default")) {
 					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GROUP_CANTDEFAULT", ChatColor.RED));
 					return;
@@ -83,7 +83,7 @@ public class KitGroup {
 			sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GROUP_DELETE_SUCCESS", ChatColor.GREEN));
 		}
 		
-		// ÒÆ¶¯×é
+		// ç§»åŠ¨ç»„
 		if(args.length >= 4 && args[1].equalsIgnoreCase("move")) {
 			KitGroupManager.toGroup(Kit.getKit(args[2]), args[3]);
 			return;
@@ -97,9 +97,9 @@ public class KitGroup {
 				allkit.append(a + " ");
 				num++;
 			}
-			sender.sendMessage(ChatColor.GREEN + "Groups(" + num + ")£º" + allkit.toString());
+			sender.sendMessage(ChatColor.GREEN + "Groups(" + num + ")ï¼š" + allkit.toString());
 		}
-		// ·¢ËÍÒ»¸öÀñ°ü×é¸øÖ¸¶¨Ä¿±ê
+		// å‘é€ä¸€ä¸ªç¤¼åŒ…ç»„ç»™æŒ‡å®šç›®æ ‡
 		if(args.length >= 4 && args[1].equalsIgnoreCase("send") && sender.isOp()) {
 			String target = args[3];
 			String groupname = args[2];
@@ -114,8 +114,8 @@ public class KitGroup {
 				}
 			}
 			
-			// ¸ù¾İÄ¿±ê·¢·ÅÀñ°ü
-			//·¢·ÅÊµÌåÀñ°ü¸ø£º@all
+			// æ ¹æ®ç›®æ ‡å‘æ”¾ç¤¼åŒ…
+			//å‘æ”¾å®ä½“ç¤¼åŒ…ç»™ï¼š@all
 			if(target.equalsIgnoreCase("@All")) {
 				OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 				for(OfflinePlayer player : playerlist) {
@@ -134,12 +134,12 @@ public class KitGroup {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ALL", ChatColor.GREEN));
 				return;
 			}
-			//·¢·ÅÀñ°ü¸ø£º@online
+			//å‘æ”¾ç¤¼åŒ…ç»™ï¼š@online
 			if(target.equalsIgnoreCase("@Online")) {
 				OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 				for(OfflinePlayer player : playerlist) {
 					String pname = player.getName();
-					if(player.isOnline()) {//ÅĞ¶ÏÊÇ·ñÔÚÏß
+					if(player.isOnline()) {//åˆ¤æ–­æ˜¯å¦åœ¨çº¿
 						for(Kit kit : kits) {
 							String kitname = kit.getKitname();
 							if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
@@ -155,7 +155,7 @@ public class KitGroup {
 				return;
 			}
 			
-			// ·¢·ÅÀñ°ü¸ø×Ô¼º
+			// å‘æ”¾ç¤¼åŒ…ç»™è‡ªå·±
 			if(target.equalsIgnoreCase("@Me") && sender instanceof Player) {
 				String pname = sender.getName();
 				for(Kit kit : kits) {
@@ -171,7 +171,7 @@ public class KitGroup {
 				return;
 			}
 			
-			//·¢·ÅÀñ°ü¸ø£ºplayer
+			//å‘æ”¾ç¤¼åŒ…ç»™ï¼šplayer
 			if(!target.equalsIgnoreCase("@All") && !target.equalsIgnoreCase("@Online")) {
 				String pname = target;
 				Boolean flag = false;

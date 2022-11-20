@@ -29,7 +29,7 @@ public class KitGroupManager{
 	}
 	
 	/**
-	 * »ñÈ¡Ä¿Ç°´æÔÚµÄÀñ°ü×é
+	 * è·å–ç›®å‰å­˜åœ¨çš„ç¤¼åŒ…ç»„
 	 * @return
 	 */
 	public static List<String> getGroups() {
@@ -42,7 +42,7 @@ public class KitGroupManager{
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÅäÖÃÎÄ¼ş
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥é…ç½®æ–‡ä»¶
 	 * @param GroupName
 	 * @return
 	 */
@@ -52,7 +52,7 @@ public class KitGroupManager{
 	}
 	
 	/**
-	 * »ñµÃÀñ°ü×éµÄÅäÖÃÎÄ¼ş
+	 * è·å¾—ç¤¼åŒ…ç»„çš„é…ç½®æ–‡ä»¶
 	 * @param GroupName
 	 * @return FileConfiguration
 	 */
@@ -61,7 +61,7 @@ public class KitGroupManager{
 	}
 	
 	/**
-	 * »ñÈ¡Ò»¸öÀñ°ü×éÀïµÄËùÓĞÀñ°üÃû
+	 * è·å–ä¸€ä¸ªç¤¼åŒ…ç»„é‡Œçš„æ‰€æœ‰ç¤¼åŒ…å
 	 * @param GroupName
 	 * @return
 	 */
@@ -74,7 +74,7 @@ public class KitGroupManager{
 	}
 	
 	/**
-	 * ×ªÒÆÀñ°üµ½ÁíÍâÒ»¸ö×é
+	 * è½¬ç§»ç¤¼åŒ…åˆ°å¦å¤–ä¸€ä¸ªç»„
 	 * @param kitname
 	 * @param GroupName
 	 */
@@ -96,7 +96,7 @@ public class KitGroupManager{
 	}
 	
 	/**
-	 * ¸ø¶¨µÄÀñ°ü»ñÈ¡ËùÔÚµÄÀñ°ü×é
+	 * ç»™å®šçš„ç¤¼åŒ…è·å–æ‰€åœ¨çš„ç¤¼åŒ…ç»„
 	 * @param kitname
 	 * @return
 	 */

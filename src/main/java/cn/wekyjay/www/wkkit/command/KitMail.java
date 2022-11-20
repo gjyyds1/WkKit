@@ -23,7 +23,7 @@ import cn.wekyjay.www.wkkit.tool.items.GlassPane;
 
 public class KitMail{
 
-	static WkKit wk = WkKit.getWkKit();// µ÷ÓÃÖ÷ÀàÊµÀı	
+	static WkKit wk = WkKit.getWkKit();// è°ƒç”¨ä¸»ç±»å®ä¾‹	
 
 	public void onCommand(CommandSender sender, Command command, String label, String[] args) {
 		Player p = (Player) sender;
@@ -33,7 +33,7 @@ public class KitMail{
 	
 	
 	/**
-	 * ÎªÍæ¼Ò´ò¿ªÀñ°üÓÊÏä
+	 * ä¸ºç©å®¶æ‰“å¼€ç¤¼åŒ…é‚®ç®±
 	 * @param p
 	 */
 	public void openKitMail(Player p, int page) {
@@ -42,16 +42,16 @@ public class KitMail{
 		List<Inventory> linv = new ArrayList<>(); // inv list
 		String pname = p.getName();
 		List<String> kits = WkKit.getPlayerData().getMailKits(pname);
-		// Èç¹ûÃ»ÓĞ¾Í³õÊ¼»¯Öµ
+		// å¦‚æœæ²¡æœ‰å°±åˆå§‹åŒ–å€¼
 		if(kits == null || kits.size() == 0) {
 			kits = new ArrayList<>();
 		}
 		
-		//ÓĞĞ§Àñ°ü¸öÊı
+		//æœ‰æ•ˆç¤¼åŒ…ä¸ªæ•°
 		int i = kits.size();
 		
 		
-		//ÅĞ¶Ï¿É´´½¨µÄgui¸öÊı
+		//åˆ¤æ–­å¯åˆ›å»ºçš„guiä¸ªæ•°
 		int guinum = 0;
 		if(i % 36 == 0 && !(i == 0)) {
 			guinum = i / 36;
@@ -59,8 +59,8 @@ public class KitMail{
 			guinum = (i / 36) + 1;
 		}
 		
-		//Ìí¼ÓÎïÆ·µ½litem
-			//Ìí¼ÓÀñ°ü
+		//æ·»åŠ ç‰©å“åˆ°litem
+			//æ·»åŠ ç¤¼åŒ…
 			for(String kitname : kits) {
 				ItemStack is = Kit.getKit(kitname).getKitItem();
 				if(WkKit.getPlayerData().getMailKitNum(pname, kitname) > 1) {
@@ -69,10 +69,10 @@ public class KitMail{
 				litem.add(is);
 			}
 			
-			//´´½¨guiµ½linv
+			//åˆ›å»ºguiåˆ°linv
 			for(int i1 = 1; i1 <= guinum; i1++) {
 				Inventory inv;
-				if(guinum == 1) {//Èç¹ûÖ»ÓĞÒ»Ò³¾Í²»¼ÓÒ³Êı
+				if(guinum == 1) {//å¦‚æœåªæœ‰ä¸€é¡µå°±ä¸åŠ é¡µæ•°
 					
 					inv = Bukkit.createInventory(new MailHolder(), 6*9, guiname); 
 				}else {
@@ -81,7 +81,7 @@ public class KitMail{
 				}
 
 				
-				//Ìí¼ÓÎïÆ·£º¹¦ÄÜÇø
+				//æ·»åŠ ç‰©å“ï¼šåŠŸèƒ½åŒº
 				ItemStack item_mn;
 				if(wk.getConfig().getString("GUI.MenuMaterial").equalsIgnoreCase("Default")){
 					item_mn = GlassPane.DEFAULT.getItemStack();
@@ -91,21 +91,21 @@ public class KitMail{
 				ItemMeta im = item_mn.getItemMeta();
 				im.setDisplayName(LangConfigLoader.getString("DO_NOT_TOUCH"));
 				item_mn.setItemMeta(im);
-				//Ìí¼Ó¹¦ÄÜĞÔÎïÆ·£ºÉÏÒ»Ò³
+				//æ·»åŠ åŠŸèƒ½æ€§ç‰©å“ï¼šä¸Šä¸€é¡µ
 				ItemStack item_pre = new ItemStack(Material.getMaterial(wk.getConfig().getString("GUI.TurnPageMaterial")));
 				ItemMeta ip = item_pre.getItemMeta();
 				ip.setDisplayName(LangConfigLoader.getString("PREVIOUS_PAGE"));
 				item_pre.setItemMeta(ip);
-				//Ìí¼Ó¹¦ÄÜĞÔÎïÆ·£ºÏÂÒ»Ò³
+				//æ·»åŠ åŠŸèƒ½æ€§ç‰©å“ï¼šä¸‹ä¸€é¡µ
 				ItemStack item_next = new ItemStack(Material.getMaterial(wk.getConfig().getString("GUI.TurnPageMaterial")));
 				ItemMeta in = item_next.getItemMeta();
 				in.setDisplayName(LangConfigLoader.getString("NEXT_PAGE"));
 				item_next.setItemMeta(in);
 				
-				for(int i0 = 0; i0 < 9; i0++) {//×îÉÏÒ»ÅÅ
+				for(int i0 = 0; i0 < 9; i0++) {//æœ€ä¸Šä¸€æ’
 					inv.setItem(i0, item_mn);
 				}
-				for(int i11 = 54 - 9; i11 < 54; i11++) {//×îÏÂÒ»ÅÅ
+				for(int i11 = 54 - 9; i11 < 54; i11++) {//æœ€ä¸‹ä¸€æ’
 					inv.setItem(i11, item_mn);
 				}
 				
@@ -124,7 +124,7 @@ public class KitMail{
 					inv.setItem(52, item_getall);
 				}
 				
-				//ÅĞ¶Ïµ±Ç°Ò³ÊıÌí¼Ó¹¦ÄÜ°´Å¥
+				//åˆ¤æ–­å½“å‰é¡µæ•°æ·»åŠ åŠŸèƒ½æŒ‰é’®
 				if(i1 > 1 && i1 < guinum) {
 					inv.setItem(48, item_pre);
 					inv.setItem(55, item_next);
@@ -142,7 +142,7 @@ public class KitMail{
 			}
 			
 
-			//Ìí¼ÓÎïÆ·µ½Ö¸¶¨µÄinv
+			//æ·»åŠ ç‰©å“åˆ°æŒ‡å®šçš„inv
 			int itemnum = 0;
 			for(int invnum = 0; invnum < guinum; invnum++) {
 				for(int i2 = 9; i2 < 45; i2++) {

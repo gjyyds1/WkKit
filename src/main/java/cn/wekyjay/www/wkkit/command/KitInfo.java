@@ -30,21 +30,21 @@ public class KitInfo implements Listener{
 	}
 	
 	/**
-	 * Àñ°üÔ¤ÀÀ
+	 * ç¤¼åŒ…é¢„è§ˆ
 	 * @param kitname
 	 * @param p
 	 */
 	public void getKitInfo(String kitname,Player p) {
-		int kitnum;//Àñ°üÀñÎï¸öÊı
-		int guisize;//GUI´óĞ¡
+		int kitnum;//ç¤¼åŒ…ç¤¼ç‰©ä¸ªæ•°
+		int guisize;//GUIå¤§å°
 
-		if(Kit.getKit(kitname) == null)return;//Èç¹û²»´æÔÚ¸ÃÀñ°ü¾Í·µ»Ø
+		if(Kit.getKit(kitname) == null)return;//å¦‚æœä¸å­˜åœ¨è¯¥ç¤¼åŒ…å°±è¿”å›
 		Kit kit = Kit.getKit(kitname);
-		ItemStack[] itemlist = kit.getItemStack();//ÎïÆ·¼¯ºÏ
+		ItemStack[] itemlist = kit.getItemStack();//ç‰©å“é›†åˆ
 		
 
 		
-		//´´½¨GUI
+		//åˆ›å»ºGUI
 		kitnum = itemlist.length;
 		guisize = ((kitnum / 10) + 1) * 9;
 		
@@ -57,7 +57,7 @@ public class KitInfo implements Listener{
 	}
 	@EventHandler
 	public void onInventory(InventoryClickEvent e){
-		// È·ÈÏÊÇÄÇ¸öGUI
+		// ç¡®è®¤æ˜¯é‚£ä¸ªGUI
 		if(e.getInventory().getHolder() instanceof KitPreviewHolder) {
 			e.setCancelled(true);
 			if(e.getRawSlot()<0 || e.getRawSlot() >= e.getInventory().getSize() || e.getInventory()==null) {

@@ -17,10 +17,10 @@ public enum TabSend {
 	PLAYER_NAME(WKTool.getPlayerNames(),1,"send",new int[]{3}),
 	KIT_NUM(Arrays.asList("1"),1,"send",new int[]{4});
 	
-    private List<String> list;//返回的List
-    private int befPos;//应该识别的上一个参数的位置
-    private String bef;//应该识别的上个参数的内容
-    private int[] num;//这个参数可以出现的位置
+    private List<String> list;
+    private int befPos;
+    private String bef;
+    private int[] num;
     
     
     

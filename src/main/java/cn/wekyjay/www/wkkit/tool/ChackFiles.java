@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
+import cn.wekyjay.www.wkkit.WkKit;
 
 
 public class ChackFiles {
@@ -14,12 +17,12 @@ public class ChackFiles {
 		ergodicFile(file);
 	}
 	/**
-	 * ±éÀúÎÄ¼şÖ´ĞĞ¼ì²é½Úµã
+	 * éå†æ–‡ä»¶æ‰§è¡Œæ£€æŸ¥èŠ‚ç‚¹
 	 * @param file
 	 */
 	private void ergodicFile(File file) {
         for(File cfile : file.listFiles()) {
-        	// Èç¹û²»ÊÇÎÄ¼şÔòÖØĞÂ±éÀú
+        	// å¦‚æœä¸æ˜¯æ–‡ä»¶åˆ™é‡æ–°éå†
         	if(cfile.isDirectory()){
         		ergodicFile(cfile);
         	}else {
@@ -28,7 +31,7 @@ public class ChackFiles {
         }
 	}
 	/**
-	 * ¼ì²éÎÄ¼ş½ÚµãÊÇ·ñÓëÄÚ²¿°üÒ»ÖÂ£¬Èç¹û²»Ò»ÖÂÔò¸üĞÂ½Úµã¡£
+	 * æ£€æŸ¥æ–‡ä»¶èŠ‚ç‚¹æ˜¯å¦ä¸å†…éƒ¨åŒ…ä¸€è‡´ï¼Œå¦‚æœä¸ä¸€è‡´åˆ™æ›´æ–°èŠ‚ç‚¹ã€‚
 	 * @param file
 	 */
 	private void chackFile(File file) {
@@ -41,24 +44,25 @@ public class ChackFiles {
 			if(file.exists() && jarYaml != null) {
 				if(filepath.contains("config.yml") || filepath.contains("Language")) {
 					fileYaml = YamlConfiguration.loadConfiguration(file);
-					// ÅĞ¶Ï¾ÉÎÄ¼şÊÇ·ñ´æÔÚĞÂ½Úµã
+					// åˆ¤æ–­æ—§æ–‡ä»¶æ˜¯å¦å­˜åœ¨æ–°èŠ‚ç‚¹
 					for(String key : jarYaml.getKeys(true)) {
-						// Èç¹û²»´æÔÚ¾ÍÌí¼Ó
+						// å¦‚æœä¸å­˜åœ¨å°±æ·»åŠ 
 						if(!fileYaml.contains(key)) {
+							System.out.println(key + " - Â§cä¸å­˜åœ¨Â§a(å·²æ·»åŠ )");
 							fileYaml.set(key, jarYaml.get(key));
 						}
 					}
-					// ÅĞ¶ÏĞÂÎÄ¼şÊÇ·ñÈ±ÉÙ¾É½Úµã
+					// åˆ¤æ–­æ–°æ–‡ä»¶æ˜¯å¦ç¼ºå°‘æ—§èŠ‚ç‚¹
 					for(String key : fileYaml.getKeys(true)) {
-						// Èç¹û²»´æÔÚ¾ÍÉ¾³ı
+						// å¦‚æœä¸å­˜åœ¨å°±åˆ é™¤
 						if(!jarYaml.contains(key)) {
+							System.out.println(key + " - Â§eä¸å­˜åœ¨Â§7(å·²åˆ é™¤)");
 							fileYaml.set(key, null);
 						}
 					}
 					try {
 						fileYaml.save(file);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -68,7 +72,7 @@ public class ChackFiles {
 	
 	
 	/**
-	 * »ñÈ¡JarÄÚ²¿×ÊÔ´µÄÅäÖÃ
+	 * è·å–Jarå†…éƒ¨èµ„æºçš„é…ç½®
 	 * @param path
 	 * @return
 	 */
@@ -77,6 +81,7 @@ public class ChackFiles {
         YamlConfiguration yaml = null;
         try {
             inputStream = this.getClass().getResourceAsStream(path);
+            if(inputStream == null) return null;
             File file = null;
 			try {
 				file = asFile(inputStream);
@@ -86,7 +91,7 @@ public class ChackFiles {
             if(null != file) {
                 yaml = YamlConfiguration.loadConfiguration(file);
             }
-            // ¹Ø±ÕÁ÷
+            // å…³é—­æµ
         } finally {
             if(inputStream != null){
                 try{
@@ -99,7 +104,7 @@ public class ChackFiles {
         return yaml;
     }
 	/**
-	 * ÊäÈëÁ÷×ªÎÄ¼ş
+	 * è¾“å…¥æµè½¬æ–‡ä»¶
 	 * @param inputStream
 	 * @return
 	 * @throws IOException

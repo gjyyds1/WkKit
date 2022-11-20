@@ -12,11 +12,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.MenuConfigLoader;
 import cn.wekyjay.www.wkkit.invholder.MenuHolder;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.listeners.KitMenuListener;
 import cn.wekyjay.www.wkkit.tool.WKTool;
+import de.tr7zw.nbtapi.NBTCompound;
+import de.tr7zw.nbtapi.NBTContainer;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NbtApiException;
+import de.tr7zw.nbtapi.plugin.NBTAPI;
 
 public class MenuManager {
 	private static Map<String,Menu> menus = new HashMap<>();
@@ -36,17 +42,17 @@ public class MenuManager {
 			menusize = 1;
 		}
 		menus.put(menuname, menu);
-		// Éú³ÉÒ»¸ö³õÊ¼²Ëµ¥
+		// ç”Ÿæˆä¸€ä¸ªåˆå§‹èœå•
 		Inventory inv;
 		if(MenuConfigLoader.contains(menuname + ".Type") && !getType(menuname).equals(InventoryType.CHEST)) {
 			inv = Bukkit.createInventory(new MenuHolder(menuname), getType(menuname), menutitle);
 		}else {
 			inv = Bukkit.createInventory(new MenuHolder(menuname), menusize * 9, menutitle);
 		}
-		// Íù³õÊ¼²Ëµ¥ÄÚÌí¼Ó³õÊ¼ÎïÆ·
+		// å¾€åˆå§‹èœå•å†…æ·»åŠ åˆå§‹ç‰©å“
 		List<String> slotlist = MenuManager.getSlots(menuname);
 		for(String slotname : slotlist) {
-			if(Kit.getKit(slotname) == null) {//Èç¹û²»ÊÇÀñ°ü
+			if(Kit.getKit(slotname) == null) {//å¦‚æœä¸æ˜¯ç¤¼åŒ…
 				String id = null,name = null;
 				List<String> lore = new ArrayList<>();
 				ItemStack item = null;
@@ -54,10 +60,46 @@ public class MenuManager {
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".name") && MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".name") != null) {name = MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".name");}
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".lore") && MenuConfigLoader.getStringList(menuname + ".Slots." + slotname + ".lore") != null) {lore = MenuConfigLoader.getStringList(menuname + ".Slots." + slotname + ".lore");}
 				if(id != null && name != null) {
+					// å¦‚æœæ˜¯ç©ºæ°”å°±å¦å¤–æ“ä½œ
+					if(id.equalsIgnoreCase("AIR") || id.equalsIgnoreCase("NONE")) {
+						item = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("Default.Icon")));
+						item = WKTool.setItemName(item, "AIR");
+						List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots." + slotname + ".slot");
+						for(int num : slotnum) {
+							inv.setItem(num, item);
+						}
+						continue;
+					}
+					// å¦‚æœæ˜¯NBT
+					if(id.contains("[NBT]")) {
+						try {
+							id = id.substring(5);
+							item = NBTItem.convertNBTtoItem(new NBTContainer(id));
+						}catch(NbtApiException e) {
+							e.printStackTrace();
+						}
+						// å¦‚æœitemä¸ºnullåˆ™é»˜è®¤è®¾ç½®
+						if(item == null || item.getAmount() == 0) {
+							item = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("Default.Icon")));
+						}
+						ItemMeta meta = item.getItemMeta();
+						meta.setDisplayName(name);
+						// è®¾ç½®lore
+						if(lore != null) {
+							meta.setLore(lore);
+						}
+						item.setItemMeta(meta);
+						List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots." + slotname + ".slot");
+						for(int num : slotnum) {
+							inv.setItem(num, item);
+						}
+						continue;
+					}
+					// æ­£å¸¸æ“ä½œ
 					item = new ItemStack(Material.valueOf(id));
 					ItemMeta meta = item.getItemMeta();
 					meta.setDisplayName(name);
-					// ÉèÖÃlore
+					// è®¾ç½®lore
 					if(lore != null) {
 						meta.setLore(lore);
 					}
@@ -78,7 +120,7 @@ public class MenuManager {
 		if(!KitMenuListener.menutitles.contains(menutitle)) {KitMenuListener.menutitles.add(menutitle);}
 	}
 	/**
-	 * ·µ»ØMenuÖĞÊôÓÚÀñ°üµÄSlotÁĞ±í
+	 * è¿”å›Menuä¸­å±äºç¤¼åŒ…çš„Slotåˆ—è¡¨
 	 * @param menuname
 	 * @return
 	 */

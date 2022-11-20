@@ -11,22 +11,22 @@ import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.kit.Kit;
 /**
- * ÓÃÓÚ²Ù×÷ÅäÖÃÄÚµÄÈÕÆÚ
+ * ç”¨äºæ“ä½œé…ç½®å†…çš„æ—¥æœŸ
  * @author Administrator
  *
  */
 public class CountDelayTime {
-	// µ÷ÓÃÖ÷ÀàÊµÀı
+	// è°ƒç”¨ä¸»ç±»å®ä¾‹
 	WkKit wk = WkKit.getWkKit();
 	
-	private long delay;//Àñ°üÀäÈ´Ê±¼ä
+	private long delay;//ç¤¼åŒ…å†·å´æ—¶é—´
 	private Calendar cala;
 	private Player p;
 	private Kit kit;
 	private static List<CountDelayTime> ctlist = new ArrayList<CountDelayTime>();
 	
 	/**
-	 * Ê¹ÓÃÇ°ÒªÈ·±£¸ÃKitÓĞDelay²ÎÊı
+	 * ä½¿ç”¨å‰è¦ç¡®ä¿è¯¥Kitæœ‰Delayå‚æ•°
 	 * @param p
 	 * @param kit
 	 */
@@ -46,7 +46,7 @@ public class CountDelayTime {
 		return p;
 	}
 	/**
-	 * ÅĞ¶ÏÍæ¼ÒÊÇ·ñÄÜÁìÈ¡¸ÃÀñ°ü
+	 * åˆ¤æ–­ç©å®¶æ˜¯å¦èƒ½é¢†å–è¯¥ç¤¼åŒ…
 	 * @return
 	 */
 	public boolean isGet() {
@@ -54,9 +54,9 @@ public class CountDelayTime {
 			cala = Calendar.getInstance();
 			return true;
 		}
-		// ·ñÔò
-		long lc = cala.getTimeInMillis();//»ñÈ¡Íæ¼ÒÉÏ´ÎÊ±¼äºÁÃëÊı
-		long ln = Calendar.getInstance().getTimeInMillis();//»ñÈ¡Íæ¼Òµ±Ç°Ê±¼äºÁÃëÊı
+		// å¦åˆ™
+		long lc = cala.getTimeInMillis();//è·å–ç©å®¶ä¸Šæ¬¡æ—¶é—´æ¯«ç§’æ•°
+		long ln = Calendar.getInstance().getTimeInMillis();//è·å–ç©å®¶å½“å‰æ—¶é—´æ¯«ç§’æ•°
 		
 		if((ln - lc) >= (delay * 1000)) {
 			System.out.println((ln - lc));
@@ -69,17 +69,17 @@ public class CountDelayTime {
 	
 	
 	/**
-	 * ·µ»ØÍæ¼ÒÁìÈ¡¸ÃÀñ°ü»¹Ê£ÓàµÄ´óÖÂÊ±¼ä
+	 * è¿”å›ç©å®¶é¢†å–è¯¥ç¤¼åŒ…è¿˜å‰©ä½™çš„å¤§è‡´æ—¶é—´
 	 */
 	public void whenGet() {
-		long lc = cala.getTimeInMillis();//»ñÈ¡Íæ¼ÒÅäÖÃÊ±¼äºÁÃëÊı
-		long ln = Calendar.getInstance().getTimeInMillis();//»ñÈ¡µ±Ç°Ê±¼ä
-		long newlc = lc + delay * 1000;//ÅäÖÃÊ±¼ä¼ÓÉÏÀäÈ´Ê±¼äÖ®ºóµÄÊ±¼äºÁÃëÊı
+		long lc = cala.getTimeInMillis();//è·å–ç©å®¶é…ç½®æ—¶é—´æ¯«ç§’æ•°
+		long ln = Calendar.getInstance().getTimeInMillis();//è·å–å½“å‰æ—¶é—´
+		long newlc = lc + delay * 1000;//é…ç½®æ—¶é—´åŠ ä¸Šå†·å´æ—¶é—´ä¹‹åçš„æ—¶é—´æ¯«ç§’æ•°
 		
-		Calendar newcalc = Calendar.getInstance();//´´½¨Ò»¸öÊ±¼äÈİÆ÷
-		newcalc.setTimeInMillis(newlc - ln);//½«newlcµÄºÁÃëÊı×ª»¯ÎªÊ±¼ä
+		Calendar newcalc = Calendar.getInstance();//åˆ›å»ºä¸€ä¸ªæ—¶é—´å®¹å™¨
+		newcalc.setTimeInMillis(newlc - ln);//å°†newlcçš„æ¯«ç§’æ•°è½¬åŒ–ä¸ºæ—¶é—´
 		
-		//»ñµÃ¿ÉÒÔÁìÈ¡Àñ°üµÄÊ±¼ä²î
+		//è·å¾—å¯ä»¥é¢†å–ç¤¼åŒ…çš„æ—¶é—´å·®
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(newcalc.get(Calendar.YEAR) - 1970);
 		list.add((newcalc.get(Calendar.MONTH)) - 0);
@@ -88,7 +88,7 @@ public class CountDelayTime {
 		list.add(newcalc.get(Calendar.MINUTE) - 0);
 		list.add(newcalc.get(Calendar.SECOND) - 0);
 		
-		//ÎªÊ±¼ä²î¼ÓÉÏµ¥Î»
+		//ä¸ºæ—¶é—´å·®åŠ ä¸Šå•ä½
 		String lang = WkKit.getWkKit().getConfig().getString("Setting.Language");
 		List<String> slist = new ArrayList<String>();
 		if(!lang.equals("zh_CN")) {
@@ -99,16 +99,16 @@ public class CountDelayTime {
 			slist.add(list.get(4) + "MIN");
 			slist.add(list.get(5) + "S");
 		}else {
-			slist.add(list.get(0) + "Äê");
-			slist.add(list.get(1) + "¸öÔÂ");
-			slist.add(list.get(2) + "Ìì");
-			slist.add(list.get(3) + "Ğ¡Ê±");
-			slist.add(list.get(4) + "·ÖÖÓ");
-			slist.add(list.get(5) + "Ãë");
+			slist.add(list.get(0) + "å¹´");
+			slist.add(list.get(1) + "ä¸ªæœˆ");
+			slist.add(list.get(2) + "å¤©");
+			slist.add(list.get(3) + "å°æ—¶");
+			slist.add(list.get(4) + "åˆ†é’Ÿ");
+			slist.add(list.get(5) + "ç§’");
 		}
 
 		
-		//ÅĞ¶ÏÊÇ·ñÎª¿Õ
+		//åˆ¤æ–­æ˜¯å¦ä¸ºç©º
 		String str = "";
 		for(int i = 0; i <= 5; i++) {
 			if(!(list.get(i) <= 0)) {
@@ -121,16 +121,16 @@ public class CountDelayTime {
 	}
 	
 	/**
-	 * »ñÈ¡¿ÉÒÔÁìÈ¡Àñ°üµÄ¾ßÌåÈÕÆÚ
+	 * è·å–å¯ä»¥é¢†å–ç¤¼åŒ…çš„å…·ä½“æ—¥æœŸ
 	 * @return String
 	 */
 	public String getData(){
-		long lc = cala.getTimeInMillis();//»ñÈ¡Íæ¼ÒÅäÖÃÊ±¼äºÁÃëÊı
-		long newlc = lc + delay * 1000;//ÅäÖÃÊ±¼ä¼ÓÉÏÀäÈ´Ê±¼äÖ®ºóµÄÊ±¼äºÁÃëÊı
-		Calendar newcalc = Calendar.getInstance();//´´½¨Ò»¸öÊ±¼äÈİÆ÷
-		newcalc.setTimeInMillis(newlc);//½«newlcµÄºÁÃëÊı×ª»¯ÎªÊ±¼ä
+		long lc = cala.getTimeInMillis();//è·å–ç©å®¶é…ç½®æ—¶é—´æ¯«ç§’æ•°
+		long newlc = lc + delay * 1000;//é…ç½®æ—¶é—´åŠ ä¸Šå†·å´æ—¶é—´ä¹‹åçš„æ—¶é—´æ¯«ç§’æ•°
+		Calendar newcalc = Calendar.getInstance();//åˆ›å»ºä¸€ä¸ªæ—¶é—´å®¹å™¨
+		newcalc.setTimeInMillis(newlc);//å°†newlcçš„æ¯«ç§’æ•°è½¬åŒ–ä¸ºæ—¶é—´
 		
-		//»ñµÃ¿ÉÒÔÁìÈ¡Àñ°üµÄÊ±¼ä
+		//è·å¾—å¯ä»¥é¢†å–ç¤¼åŒ…çš„æ—¶é—´
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(newcalc.get(Calendar.YEAR));
 		list.add(newcalc.get(Calendar.MONTH) + 1);
@@ -143,12 +143,12 @@ public class CountDelayTime {
 	}
 	
 	/**
-	 * »ñµÃµ±Ç°µÄÊ±¼äÎª¸ñÊ½¡°YY-MM-DD-HH-MM-SS¡±
+	 * è·å¾—å½“å‰çš„æ—¶é—´ä¸ºæ ¼å¼â€œYY-MM-DD-HH-MM-SSâ€
 	 * @return String
 	 */
 	public String getLocalTime(){
-		Calendar caln = Calendar.getInstance();//Íæ¼Òµ±Ç°Ê±¼ä
-		//»ñµÃµ±Ç°µÄÊ±¼äÎª¸ñÊ½¡°YY-MM-DD-HH-MM-SS¡±
+		Calendar caln = Calendar.getInstance();//ç©å®¶å½“å‰æ—¶é—´
+		//è·å¾—å½“å‰çš„æ—¶é—´ä¸ºæ ¼å¼â€œYY-MM-DD-HH-MM-SSâ€
 		int year = caln.get(Calendar.YEAR);
 		int mon = caln.get(Calendar.MONTH) + 1;
 		int day = caln.get(Calendar.DATE);
@@ -160,12 +160,12 @@ public class CountDelayTime {
 	}
 	
 	/**
-	 * »ñµÃµ±Ç°µÄÊ±¼äÎª¸ñÊ½¡°YY-MM-DD-HH-MM-SS¡±
+	 * è·å¾—å½“å‰çš„æ—¶é—´ä¸ºæ ¼å¼â€œYY-MM-DD-HH-MM-SSâ€
 	 * @return String
 	 */
 	public static String toLocalTime(){
-		Calendar caln = Calendar.getInstance();//Íæ¼Òµ±Ç°Ê±¼ä
-		//»ñµÃµ±Ç°µÄÊ±¼äÎª¸ñÊ½¡°YY-MM-DD-HH-MM-SS¡±
+		Calendar caln = Calendar.getInstance();//ç©å®¶å½“å‰æ—¶é—´
+		//è·å¾—å½“å‰çš„æ—¶é—´ä¸ºæ ¼å¼â€œYY-MM-DD-HH-MM-SSâ€
 		int year = caln.get(Calendar.YEAR);
 		int mon = caln.get(Calendar.MONTH) + 1;
 		int day = caln.get(Calendar.DATE);
@@ -177,7 +177,7 @@ public class CountDelayTime {
 	}
 	
 	/**
-	 * »ñÈ¡ÀäÈ´´¢´æµÄ¶ÔÏóÁĞ±í
+	 * è·å–å†·å´å‚¨å­˜çš„å¯¹è±¡åˆ—è¡¨
 	 * @return
 	 */
 	public static List<CountDelayTime> getDelaylist() {

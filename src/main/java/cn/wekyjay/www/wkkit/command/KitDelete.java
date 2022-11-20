@@ -22,8 +22,8 @@ public class KitDelete {
 		String kitname = args[1];
 		String filename = ConfigManager.getKitconfig().getContainsFilename(kitname);
 		
-		if(Kit.getKit(kitname) != null) {//ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÀñ°ü
-			// Èç¹ûÓĞÀñ°ü×ÔË¢ĞÂÏß³Ì¾Í±éÀú¹Ø±Õ
+		if(Kit.getKit(kitname) != null) {//åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥ç¤¼åŒ…
+			// å¦‚æœæœ‰ç¤¼åŒ…è‡ªåˆ·æ–°çº¿ç¨‹å°±éå†å…³é—­
 			if(Kit.getKit(kitname).getDocron() != null) {
 				for(String value : ConfigManager.tasklist.keySet()) {
 					if(value.equalsIgnoreCase(kitname)) {
@@ -31,10 +31,10 @@ public class KitDelete {
 					}
 				}
 			}
-			//É¾³ıÀñ°ü
+			//åˆ é™¤ç¤¼åŒ…
 			ConfigManager.getKitconfig().set(kitname, null);
 			ConfigManager.getKitconfig().getKitsList().remove(Kit.getKit(kitname));
-			//É¾³ıÍæ¼ÒÅäÖÃÖĞµÄÀñ°ü¼ÇÂ¼
+			//åˆ é™¤ç©å®¶é…ç½®ä¸­çš„ç¤¼åŒ…è®°å½•
 			OfflinePlayer[] s = Bukkit.getOfflinePlayers();
 			for(OfflinePlayer offp : s) {
 				String pname = offp.getName();
@@ -46,7 +46,7 @@ public class KitDelete {
 				}
 			}
 
-			//±£´æÅäÖÃ
+			//ä¿å­˜é…ç½®
 			try {
 				ConfigManager.getKitconfig().save(filename);
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_DELETE_SUCCESS", ChatColor.GREEN));
@@ -54,7 +54,7 @@ public class KitDelete {
 				e.printStackTrace();
 			}
 			return;
-		}else {//Àñ°ü²»´æÔÚÖ´ĞĞµÄ´úÂë
+		}else {//ç¤¼åŒ…ä¸å­˜åœ¨æ‰§è¡Œçš„ä»£ç 
 			sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_DELETE_NONEXIST", ChatColor.RED));
 			return;
 		}	

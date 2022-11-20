@@ -22,30 +22,30 @@ import cn.wekyjay.www.wkkit.WkKit;
 public class CronManager {
 
   
-    	//»ñÈ¡Ô¤¶¨ÒåµÄÊµÀı
+    	//è·å–é¢„å®šä¹‰çš„å®ä¾‹
 		static CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ);
-		//¸ù¾İÌá¹©µÄÔ¤¶¨Òå´´½¨Cron½âÎöÆ÷
+		//æ ¹æ®æä¾›çš„é¢„å®šä¹‰åˆ›å»ºCronè§£æå™¨
 		static CronParser parser = new CronParser(cronDefinition);
 	
 		/**
-		 * Í¨¹ı±í´ïÊ½»ñÈ¡ÏÂ´ÎÖ´ĞĞµÄÊ±¼ä
+		 * é€šè¿‡è¡¨è¾¾å¼è·å–ä¸‹æ¬¡æ‰§è¡Œçš„æ—¶é—´
 		 * @param cron
 		 * @return Date
 		 */
 	public static Date getNextExecution(String cron) {
-		//»ñÈ¡µ±Ç°Ê±¼äÀà
+		//è·å–å½“å‰æ—¶é—´ç±»
 		ZonedDateTime now = ZonedDateTime.now();
-		//»ñÈ¡Ö´ĞĞÊ±¼äÀà
+		//è·å–æ‰§è¡Œæ—¶é—´ç±»
 		ExecutionTime executionTime = ExecutionTime.forCron(parser.parse(cron));
-		//»ñÈ¡ÏÂ´ÎÖ´ĞĞµÄÊ±¼ä
+		//è·å–ä¸‹æ¬¡æ‰§è¡Œçš„æ—¶é—´
 		Optional<ZonedDateTime> nextExecution = executionTime.nextExecution(now);
-		//×ª³ÉDateÀà
+		//è½¬æˆDateç±»
 		Date date = Date.from(nextExecution.get().toInstant());
 		return date;
 	}
 	
 	/**
-	 * »ñÈ¡Ö¸¶¨Ê±¼äµÄÏÂÒ»´ÎÖ´ĞĞÊ±¼ä
+	 * è·å–æŒ‡å®šæ—¶é—´çš„ä¸‹ä¸€æ¬¡æ‰§è¡Œæ—¶é—´
 	 * @param time
 	 * @param cron
 	 * @return
@@ -60,32 +60,32 @@ public class CronManager {
 			e.printStackTrace();
 		}
 		ZonedDateTime ztime = ZonedDateTime.ofInstant(lastdate.toInstant(), ZoneId.systemDefault());
-		//»ñÈ¡Ö´ĞĞÊ±¼äÀà
+		//è·å–æ‰§è¡Œæ—¶é—´ç±»
 		ExecutionTime executionTime = ExecutionTime.forCron(parser.parse(cron));
-		//»ñÈ¡ÏÂ´ÎÖ´ĞĞµÄÊ±¼ä
+		//è·å–ä¸‹æ¬¡æ‰§è¡Œçš„æ—¶é—´
 		Optional<ZonedDateTime> nextExecution = executionTime.nextExecution(ztime);
-		//×ª³ÉDateÀà
+		//è½¬æˆDateç±»
 		Date date = Date.from(nextExecution.get().toInstant());
 		return date;
 	}
 	
 	/**
-	 * »ñÈ¡¾àÀëÏÂ´ÎÁìÈ¡µÄÊ±¼äÃèÊö
+	 * è·å–è·ç¦»ä¸‹æ¬¡é¢†å–çš„æ—¶é—´æè¿°
 	 * @param time
 	 * @param cron
 	 * @return
 	 */
 	public static String getDescribeToNext(String cron) {
-		//»ñÈ¡Ö´ĞĞÊ±¼äÀà
+		//è·å–æ‰§è¡Œæ—¶é—´ç±»
 		ZonedDateTime now = ZonedDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
 		ExecutionTime executionTime = ExecutionTime.forCron(parser.parse(cron));
 		Optional<Duration> timeToNextExecution = executionTime.timeToNextExecution(now);
-		// »ñµÃ³ÖĞøÊ±¼ä
+		// è·å¾—æŒç»­æ—¶é—´
 		Optional<Long> duration = timeToNextExecution.map(Duration::toMillis);
-		Calendar newcalc = Calendar.getInstance();//´´½¨Ò»¸öÊ±¼äÈİÆ÷
-		newcalc.setTimeInMillis(duration.get());//½«newlcµÄºÁÃëÊı×ª»¯ÎªÊ±¼ä
+		Calendar newcalc = Calendar.getInstance();//åˆ›å»ºä¸€ä¸ªæ—¶é—´å®¹å™¨
+		newcalc.setTimeInMillis(duration.get());//å°†newlcçš„æ¯«ç§’æ•°è½¬åŒ–ä¸ºæ—¶é—´
 		
-		//»ñµÃ¿ÉÒÔÁìÈ¡Àñ°üµÄÊ±¼ä²î
+		//è·å¾—å¯ä»¥é¢†å–ç¤¼åŒ…çš„æ—¶é—´å·®
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(newcalc.get(Calendar.YEAR) - 1970);
 		list.add((newcalc.get(Calendar.MONTH)) - 0);
@@ -94,7 +94,7 @@ public class CronManager {
 		list.add(newcalc.get(Calendar.MINUTE) - 0);
 		list.add(newcalc.get(Calendar.SECOND) - 0);
 		
-		//ÎªÊ±¼ä²î¼ÓÉÏµ¥Î»
+		//ä¸ºæ—¶é—´å·®åŠ ä¸Šå•ä½
 		String lang = WkKit.getWkKit().getConfig().getString("Setting.Language");
 		List<String> slist = new ArrayList<String>();
 		if(!lang.equals("zh_CN")) {
@@ -105,16 +105,16 @@ public class CronManager {
 			slist.add(list.get(4) + "MIN");
 			slist.add(list.get(5) + "S");
 		}else {
-			slist.add(list.get(0) + "Äê");
-			slist.add(list.get(1) + "¸öÔÂ");
-			slist.add(list.get(2) + "Ìì");
-			slist.add(list.get(3) + "Ğ¡Ê±");
-			slist.add(list.get(4) + "·ÖÖÓ");
-			slist.add(list.get(5) + "Ãë");
+			slist.add(list.get(0) + "å¹´");
+			slist.add(list.get(1) + "ä¸ªæœˆ");
+			slist.add(list.get(2) + "å¤©");
+			slist.add(list.get(3) + "å°æ—¶");
+			slist.add(list.get(4) + "åˆ†é’Ÿ");
+			slist.add(list.get(5) + "ç§’");
 		}
 
 		
-		//ÅĞ¶ÏÊÇ·ñÎª¿Õ
+		//åˆ¤æ–­æ˜¯å¦ä¸ºç©º
 		String str = "";
 		for(int i = 0; i <= 5; i++) {
 			if(!(list.get(i) <= 0)) {
@@ -127,7 +127,7 @@ public class CronManager {
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ³¬¹ıÁËË¢ĞÂÊ±¼ä
+	 * åˆ¤æ–­æ˜¯å¦è¶…è¿‡äº†åˆ·æ–°æ—¶é—´
 	 * @param shuttime
 	 * @param cron
 	 * @return

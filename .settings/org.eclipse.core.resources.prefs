@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/cn/wekyjay/www/wkkit/WkKit.java=UTF-8
+encoding//src/main/java/cn/wekyjay/www/wkkit/command=UTF-8
 encoding//src/main/java/cn/wekyjay/www/wkkit/command/KitCDK.java=UTF-8
 encoding//src/main/java/cn/wekyjay/www/wkkit/command/KitCreate.java=UTF-8
 encoding//src/main/java/cn/wekyjay/www/wkkit/command/KitDelete.java=UTF-8
@@ -64,3 +65,4 @@ encoding//src/main/java/cn/wekyjay/www/wkkit/tool/WKTool.java=UTF-8
 encoding//src/main/java/cn/wekyjay/www/wkkit/tool/items/Barrier.java=UTF-8
 encoding//src/main/java/cn/wekyjay/www/wkkit/tool/items/GlassPane.java=UTF-8
 encoding//src/main/java/cn/wekyjay/www/wkkit/tool/items/PlayerHead.java=UTF-8
+encoding//src/main/resources/config.yml=UTF-8

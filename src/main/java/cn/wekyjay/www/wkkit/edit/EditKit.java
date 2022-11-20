@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -46,8 +47,8 @@ public class EditKit implements Listener {
 		editTitle = LangConfigLoader.getString("EDIT_KIT_TITLE");
 		//判断可创建的gui个数
 		int guinum = 0;
-		if(kitnum % 45 == 0 && !(kitnum == 0)) guinum = kitnum / 45;
-		else guinum = (kitnum / 45) + 1;
+		if (kitnum % 45 == 0 && kitnum != 0) guinum = kitnum / 45;
+	    else guinum = kitnum / 45 + 1;
 		
 		invs = new Inventory[guinum];
 		
@@ -114,7 +115,7 @@ public class EditKit implements Listener {
 	 * @param groupname
 	 * @return
 	 */
-	public Inventory editGroup(String groupname) {
+	public Inventory editGroup(String groupname, int page) {
 		List<String> kitsname = KitGroupManager.getGroupKits(groupname);
 		int kitnum = kitsname.size();
 		List<ItemStack> itemlist = new ArrayList<>();
@@ -141,48 +142,66 @@ public class EditKit implements Listener {
 		//创建gui到linv
 		for(int i = 1; i <= guinum; i++) {
 			Inventory inv;
-			if(guinum == 1) {//如果只有一页就不加页数
-				inv = Bukkit.createInventory(new EditKitGroupHolder(), 6*9, title); //创建一个GUI,操作人是强转成InventoryHolder的sender
-			}else {
-				String pagetitle = WKTool.replacePlaceholder("page", i+"", LangConfigLoader.getString("GUI_PAGETITLE"));
-				inv = Bukkit.createInventory(new EditKitGroupHolder(), 6*9, title + " - " + pagetitle); //创建一个GUI,操作人是强转成InventoryHolder的sender
-			}
-
-			
-			//添加物品：功能区
 			ItemStack item_mn;
-			if(WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial").equalsIgnoreCase("Default")){
-				item_mn = GlassPane.DEFAULT.getItemStack();
-			}else {
-				item_mn = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial")));
-			}
-			// 修改名称
-			item_mn = WKTool.setItemName(item_mn, LangConfigLoader.getString("DO_NOT_TOUCH"));
-			
-			//添加功能性物品：上一页
-			ItemStack item_pre = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
-			item_pre = WKTool.setItemName(item_pre, LangConfigLoader.getString("PREVIOUS_PAGE"));
-			
-			//添加功能性物品：下一页
-			ItemStack item_next = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
-			item_next = WKTool.setItemName(item_next, LangConfigLoader.getString("NEXT_PAGE"));
-			
-			for(int j = 0; j < 54; j++) {//最上一排
-				if(!slot.contains(j)) {
-					inv.setItem(j, item_mn);
-				}
-			}
+		      if (guinum == 1) {
+		    	  	inv = Bukkit.createInventory(new EditKitGroupHolder(), 54, title);
+		        } else {
+		        	String pagetitle = WKTool.replacePlaceholder("page", i + "", LangConfigLoader.getString("GUI_PAGETITLE"));
+		          	inv = Bukkit.createInventory(new EditKitGroupHolder(), 54, title + " - " + pagetitle);
+		        } 
+		        if (WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial").equalsIgnoreCase("Default")) {
+		        	item_mn = GlassPane.DEFAULT.getItemStack();
+		        } else {
+		        	item_mn = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial")));
+		        } 
+		        // 设置按钮名称
+		        item_mn = WKTool.setItemName(item_mn, LangConfigLoader.getString("DO_NOT_TOUCH"));
+		        // 填入物品
+		        for (int j = 0; j < 54; j++) {
+		          if (!slot.contains(Integer.valueOf(j))) {
+		        	  if(j == 1) {
+	    				ItemStack is = GlassPane.BLACK.getItemStack();
+	    				inv.setItem(j, WKTool.setItemName(is, LangConfigLoader.getString("EDIT_BACK")));
+	    				continue;
+		        	  }
+		        	 inv.setItem(j, item_mn);  
+		          }
 
-			invlist[i-1] = inv;
+		        } 
+		        // 如果页数大于1则添加翻页按钮
+		      if (guinum > 1) {
+		          ItemStack item_pre = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
+		          item_pre = WKTool.setItemName(item_pre, LangConfigLoader.getString("PREVIOUS_PAGE"));
+		          NBTItem nbti = WKTool.getItemNBT(item_pre);
+		          nbti.setInteger("page", Integer.valueOf(i));
+		          nbti.setString("groupname", groupname);
+		          item_pre = nbti.getItem();
+		          ItemStack item_next = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
+		          item_next = WKTool.setItemName(item_next, LangConfigLoader.getString("NEXT_PAGE"));
+		          nbti = WKTool.getItemNBT(item_next);
+		          nbti.setInteger("page", Integer.valueOf(i));
+		          nbti.setString("groupname", groupname);
+		          item_next = nbti.getItem();
+		          if (i == 1) {
+		            inv.setItem(50, item_next);
+		          } else if (i == guinum) {
+		            inv.setItem(48, item_pre);
+		          } else {
+		            inv.setItem(48, item_pre);
+		            inv.setItem(50, item_next);
+		          } 
+		        } 
+		        invlist[i - 1] = inv;
 		}
 		//添加物品到指定的inv
-		for(int invnum = 0; invnum < guinum; invnum++) {
-			for(int si = 0; si < itemlist.size(); si++) {
-				if(si == slot.size() -1 || itemlist.size() == 0 ) break;
-				invlist[invnum].setItem(slot.get(si), itemlist.get(si));
-			}
-		}
-		return invlist[0];
+	    int counter = 0;
+	    for (int invnum = 0; invnum < guinum; invnum++) {
+	      for (int si = 0; si < slot.size() && counter != itemlist.size() && itemlist.size() != 0; si++) {
+	        invlist[invnum].setItem(slot.get(si), itemlist.get(counter));
+	        counter++;
+	      } 
+	    } 
+	    return invlist[page - 1];
 	}
 	
 	/**
@@ -307,28 +326,49 @@ public class EditKit implements Listener {
 		if(e.getInventory().getHolder() instanceof EditKitMainHolder) {
 			e.setCancelled(true);
 			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) return;
-			if( WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit")) {
+			if(WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit")) {
 				String groupname = e.getCurrentItem().getItemMeta().getDisplayName();
-				e.getWhoClicked().openInventory(this.editGroup(groupname));
+				e.getWhoClicked().openInventory(this.editGroup(groupname,1));
+				return;
 			}
 			return;
 		}
 		// 礼包组界面
 		if(e.getInventory().getHolder() instanceof EditKitGroupHolder) {
-			e.setCancelled(true);
-			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) return;
-			if( WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit")) {
-				NBTItem nbti = new NBTItem( e.getCurrentItem());
-				e.getWhoClicked().openInventory(this.editKit(nbti.getString("wkkit")));
-			}
+		      e.setCancelled(true);
+		      if (e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN))return; 
+		      // 如果存在数据值wkkit
+		      if (WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit").booleanValue()) {
+		        NBTItem nbti = new NBTItem(e.getCurrentItem());
+		        e.getWhoClicked().openInventory(editKit(nbti.getString("wkkit")));
+		      } 
+		      // 如果是返回按钮
+		      if(e.getRawSlot() == 1) {
+		    	  e.getWhoClicked().openInventory(this.getInventory());
+		    	  return;
+		      }
+		      // 如果是按钮
+		      if (e.getRawSlot() == 48 && WKTool.getItemNBT(e.getCurrentItem()).hasKey("page").booleanValue()) {
+		        NBTItem nbti = WKTool.getItemNBT(e.getCurrentItem());
+		        Inventory inv = editGroup(nbti.getString("groupname"), nbti.getInteger("page").intValue() - 1);
+		        e.getWhoClicked().openInventory(inv);
+		        return;
+		      } 
+		      if (e.getRawSlot() == 50 && WKTool.getItemNBT(e.getCurrentItem()).hasKey("page").booleanValue()) {
+		        NBTItem nbti = WKTool.getItemNBT(e.getCurrentItem());
+		        Inventory inv = editGroup(nbti.getString("groupname"), nbti.getInteger("page").intValue() + 1);
+		        e.getWhoClicked().openInventory(inv);
+		        return;
+		      } 
 		}
+		// 礼包编辑界面
 		if(e.getInventory().getHolder() instanceof EditKitHolder) {
 			e.setCancelled(true);
 			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) return;
 			if( WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit") && e.getClick().equals(ClickType.LEFT)) {
 				String kitname = WKTool.getItemNBT(e.getInventory().getItem(1)).getString("wkkit");
 				String key = WKTool.getItemNBT(e.getCurrentItem()).getString("wkkit"); // flag值
-				if(e.getRawSlot() == 1) {e.getWhoClicked().openInventory(this.editGroup(KitGroupManager.getContainName(Kit.getKit(kitname))));return;}
+				if(e.getRawSlot() == 1) {e.getWhoClicked().openInventory(this.editGroup(KitGroupManager.getContainName(Kit.getKit(kitname)),1));return;}
 				if(e.getRawSlot() == 7) {
 					e.getWhoClicked().closeInventory();
 					KitDeletePrompt.newConversation((Player)e.getWhoClicked(), kitname);

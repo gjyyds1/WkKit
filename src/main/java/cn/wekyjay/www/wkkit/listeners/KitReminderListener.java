@@ -22,9 +22,11 @@ public class KitReminderListener implements Listener{
 		Player player = e.getPlayer();
 		int kitnum = 0;
 		if(player == null) return;
-		// 遍历礼包数据
-		for(String kitname : WkKit.getPlayerData().getMailKits(player.getName())) {
-			kitnum += WkKit.getPlayerData().getMailKitNum(player.getName(), kitname);
+		if(WkKit.getPlayerData().contain_Mail(player.getName())) {
+			// 遍历礼包数据
+			for(String kitname : WkKit.getPlayerData().getMailKits(player.getName())) {
+				kitnum += WkKit.getPlayerData().getMailKitNum(player.getName(), kitname);
+			}
 		}
 		if(kitnum <= 0) return;
 		player.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_MAIL_REMINDER", ChatColor.YELLOW));

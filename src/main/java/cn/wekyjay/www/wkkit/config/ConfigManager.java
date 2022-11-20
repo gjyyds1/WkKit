@@ -20,12 +20,12 @@ public class ConfigManager {
 	private static KitConfigLoader kitconfig = null;
 	private static KitGroupManager kitGroupManager = null;
 	
-	// »ñµÃÀñ°üÅäÖÃ
+	// è·å¾—ç¤¼åŒ…é…ç½®
 	public static KitConfigLoader getKitconfig() {
 		return kitconfig == null ? kitconfig = new KitConfigLoader() : kitconfig;
 	}
 	
-	// »ñµÃ²Ëµ¥ÅäÖÃ
+	// è·å¾—èœå•é…ç½®
 	public static KitGroupManager getKitGroupManager() {
 		return kitGroupManager;
 	}
@@ -39,7 +39,7 @@ public class ConfigManager {
 	
 	public static void reloadPlugin() {
 		if(WkKit.getPlayerData() instanceof PlayerData_MySQL) MySQLManager.get().shutdown();
-		WkKit.getWkKit().reloadConfig(); // ÖØÔØÅäÖÃ
+		WkKit.getWkKit().reloadConfig(); // é‡è½½é…ç½®
 		if(WkKit.getWkKit().getConfig().getBoolean("MySQL.Enable") == true) MySQLManager.get().enableMySQL();
 		WkKit.playerConfig = YamlConfiguration.loadConfiguration(WkKit.playerConfigFile);
 		WkKit.playerMailConfig = YamlConfiguration.loadConfiguration(WkKit.playerMailConfigFile);
@@ -47,11 +47,11 @@ public class ConfigManager {
 		ConfigManager.reloadKit();
 		ConfigManager.reloadMenu();
     	WkKit.getWkKit().saveConfig();
-    	WkKit.getWkKit().enableAntiShutDown(); //·À±À·ş¼ÇÂ¼Ïß³ÌÆôÓÃ
+    	WkKit.getWkKit().enableAntiShutDown(); //é˜²å´©æœè®°å½•çº¿ç¨‹å¯ç”¨
 	}
 	
 	/**
-	 * ÖØÔØ²Ëµ¥ÅäÖÃ
+	 * é‡è½½èœå•é…ç½®
 	 */
 	public static void reloadMenu() {
 		MenuManager.getInvs().clear();
@@ -61,19 +61,20 @@ public class ConfigManager {
 		MenuConfigLoader.loadConfig();
 	}
 	/**
-	 * ÖØÔØÀñ°üÅäÖÃ
+	 * é‡è½½ç¤¼åŒ…é…ç½®
 	 */
 	public static void reloadKit() {
-		// ±£´æÖØÖÃÊ±¼ä
+		// ä¿å­˜é‡ç½®æ—¶é—´
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	WkKit.getWkKit().getConfig().set("Default.ShutDate", sdf.format(new Date()));
-    	kitconfig = new KitConfigLoader(); // ÖØÖÃÅäÖÃ
-    	getKitconfig().loadConfig(); // ¼ÓÔØÅäÖÃ
-		// ¹Ø±ÕËùÓĞ×ÔË¢ĞÂÏß³Ì
+    	WkKit.getWkKit().saveConfig();
+    	kitconfig = new KitConfigLoader(); // é‡ç½®é…ç½®
+    	getKitconfig().loadConfig(); // åŠ è½½é…ç½®
+		// å…³é—­æ‰€æœ‰è‡ªåˆ·æ–°çº¿ç¨‹
 		for(String kitname : tasklist.keySet()) {
 			tasklist.get(kitname).cancel();
 		}
-		// ³ÌĞò¿ªÆôÏß³Ì
+		// ç¨‹åºå¼€å¯çº¿ç¨‹
 		new KitRefresh().enable();
 	}
 

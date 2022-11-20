@@ -94,11 +94,11 @@ public class WkKit extends JavaPlugin {
 			}.runTaskAsynchronously(this);
 		}
 		
-		File file = new File(getDataFolder(),"config.yml");
-		if (!(file.exists())) { //判断file的地址是否存在该文件否则创建一个
-			saveDefaultConfig();
-		}
-		reloadConfig(); //初始化Config
+		saveDefaultConfig();//初始化Config文件
+		
+		
+		reloadConfig();
+		
 		
 		//创建文件
 		playerConfigFile = new File(getDataFolder(),"player.yml");
@@ -215,11 +215,15 @@ public class WkKit extends JavaPlugin {
     /*插件关闭标识*/
     @Override
     public void onDisable() {
-    	// 保存关服时间
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		getConfig().getConfigurationSection("Default").set("ShutDate", sdf.format(new Date()));
 		try {
-			getConfig().save(new File(getDataFolder(),"config.yml"));
+    	// 保存日志
+			KitCache.getCache().saveCache();
+    	// 保存关服时间
+			File file = new File(WkKit.getWkKit().getDataFolder(),"config.yml");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			YamlConfiguration fileYaml = YamlConfiguration.loadConfiguration(file);
+			fileYaml.set("Default.ShutDate", sdf.format(new Date()));
+			fileYaml.save(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -242,12 +246,20 @@ public class WkKit extends JavaPlugin {
 	        new BukkitRunnable() {
 				@Override
 				public void run() {
+					File file = new File(WkKit.getWkKit().getDataFolder(),"config.yml");
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					getConfig().getConfigurationSection("Default").set("ShutDate", sdf.format(new Date()));
-					saveConfig();
+					YamlConfiguration fileYaml = YamlConfiguration.loadConfiguration(file);
+					fileYaml.set("Default.ShutDate", sdf.format(new Date()));
+					try {
+						fileYaml.save(file);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
 				}
 			}.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, ticks)
 		);
+        
 	}
 
 }

@@ -10,12 +10,14 @@ import org.bukkit.inventory.PlayerInventory;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGetter;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 
 public class KitGive {
-	static WkKit wk = WkKit.getWkKit();// µ÷ÓÃÖ÷ÀàÊµÀý		
+	static WkKit wk = WkKit.getWkKit();// è°ƒç”¨ä¸»ç±»å®žä¾‹		
 
 	public Boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length < 3) {
@@ -26,7 +28,7 @@ public class KitGive {
 		if(args[2].equalsIgnoreCase("@Me")) {
 			p = (Player)sender;
 		}else {
-			p = Bukkit.getPlayer(args[2]);//»ñÈ¡Íæ¼ÒÊµÀý	
+			p = Bukkit.getPlayer(args[2]);//èŽ·å–çŽ©å®¶å®žä¾‹	
 			if(p == null) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("NO_PLAYER", ChatColor.RED));
 				return true;
@@ -39,40 +41,45 @@ public class KitGive {
 		
 	}
 	public void ExcutionMode(CommandSender sender,Player player, Kit kit, String mode) {
-		PlayerInventory pinv = player.getInventory();//Ê¹ÓÃ·â×°ÀàµÄgetplayer·½·¨»ñÈ¡Íæ¼Ò±³°ü
-		ItemStack[] getItemList = kit.getItemStack();//»ñÈ¡Kits.ItemµÄlist¼¯ºÏ
+		PlayerInventory pinv = player.getInventory();//ä½¿ç”¨å°è£…ç±»çš„getplayeræ–¹æ³•èŽ·å–çŽ©å®¶èƒŒåŒ…
+		ItemStack[] getItemList = kit.getItemStack();//èŽ·å–Kits.Itemçš„listé›†åˆ
 		switch(mode) {
 			case "2":
-				if(!WKTool.hasSpace(player, kit)) {//ÅÐ¶ÏÊÇ·ñÓÐ×ã¹»µÄ±³°ü¿Õ¼ä
+				if(!WKTool.hasSpace(player, kit)) {//åˆ¤æ–­æ˜¯å¦æœ‰è¶³å¤Ÿçš„èƒŒåŒ…ç©ºé—´
 					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
 					return;
 				}
+				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// å›žè°ƒäº‹ä»¶
 				for(ItemStack item : getItemList) {
-					ItemStack i = item;//Í¨¹ýNBT´´½¨Ò»¸öItem
-					pinv.addItem(i);//Ìí¼ÓÎïÆ·ÖÁ±³°ü
+					ItemStack i = item;//é€šè¿‡NBTåˆ›å»ºä¸€ä¸ªItem
+					pinv.addItem(i);//æ·»åŠ ç‰©å“è‡³èƒŒåŒ…
 				}
-				// Ö´ÐÐÖ¸Áî
+				// æ‰§è¡ŒæŒ‡ä»¤
 				if(kit.getCommands() != null) new KitGetter().runCommands(kit, player);
 				break;
 			case "3":
-				if(!WKTool.hasSpace(player, 1)) {//ÅÐ¶ÏÊÇ·ñÓÐ×ã¹»µÄ±³°ü¿Õ¼ä
+				if(!WKTool.hasSpace(player, 1)) {//åˆ¤æ–­æ˜¯å¦æœ‰è¶³å¤Ÿçš„èƒŒåŒ…ç©ºé—´
 					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
 					return;
 				}
+				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// å›žè°ƒäº‹ä»¶
 				pinv.addItem(kit.getKitItem());
 				break;
 			default:
-				if(!WKTool.hasSpace(player, kit)) {//ÅÐ¶ÏÊÇ·ñÓÐ×ã¹»µÄ±³°ü¿Õ¼ä
+				if(!WKTool.hasSpace(player, kit)) {//åˆ¤æ–­æ˜¯å¦æœ‰è¶³å¤Ÿçš„èƒŒåŒ…ç©ºé—´
 					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
 					return;
 				}
+				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// å›žè°ƒäº‹ä»¶
 				for(ItemStack item : getItemList) {
 					ItemStack i = item;
-					pinv.addItem(i);//Ìí¼ÓÎïÆ·ÖÁ±³°ü
+					pinv.addItem(i);//æ·»åŠ ç‰©å“è‡³èƒŒåŒ…
 				}
-				// Ìí¼ÓÄ£Ê½4
+				// æ·»åŠ æ¨¡å¼4
 		}
-		
-		sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_SUCCESS",ChatColor.GREEN));//Êä³ö·¢ËÍ³É¹¦
+	    // å‘é€æ¶ˆæ¯æç¤º
+		sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_SUCCESS",ChatColor.GREEN));//è¾“å‡ºå‘é€æˆåŠŸ
 	}
+	
+
 }

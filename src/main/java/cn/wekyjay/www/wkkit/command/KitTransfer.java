@@ -14,21 +14,21 @@ import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 public class KitTransfer {
 	public void onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length == 2 && WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
-			// YAML×ªMYSQL
+			// YAMLè½¬MYSQL
 			if(args[0].equalsIgnoreCase("transfer") && args[1].equalsIgnoreCase("mysql")) {
 				Set<String> playerlist = WkKit.playerConfig.getKeys(false);
-				Iterator<String> it = playerlist.iterator();// ±éÀúËùÓĞÍæ¼Ò
+				Iterator<String> it = playerlist.iterator();// éå†æ‰€æœ‰ç©å®¶
 				while(it.hasNext()) {
 					String playername = it.next().toString();
 					ConfigurationSection cs = WkKit.playerConfig.getConfigurationSection(playername);
 					for(String kitname : cs.getKeys(false)) {
 						String data = cs.getString(kitname + ".data");
 						int time = cs.getInt(playername + ".time");
-						// ´æÔÚÀñ°ü¾Í¸üĞÂÊı¾İ
+						// å­˜åœ¨ç¤¼åŒ…å°±æ›´æ–°æ•°æ®
 						if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
 							WkKit.getPlayerData().setKitTime(playername, kitname, time);
 							WkKit.getPlayerData().setKitData(playername, kitname, data);
-						}else {//²»´æÔÚ¾ÍÌí¼ÓÊı¾İ
+						}else {//ä¸å­˜åœ¨å°±æ·»åŠ æ•°æ®
 							WkKit.getPlayerData().setKitToFile(playername, kitname, data, time);
 						}
 					}
@@ -38,10 +38,10 @@ public class KitTransfer {
 					ConfigurationSection cs = WkKit.playerConfig.getConfigurationSection(playername);
 					for(String kitname : cs.getKeys(false)) {
 						int num = cs.getInt(kitname);
-						// ´æÔÚÀñ°ü¾Í¸üĞÂÊı¾İ
+						// å­˜åœ¨ç¤¼åŒ…å°±æ›´æ–°æ•°æ®
 						if(WkKit.getPlayerData().contain_Mail(playername, kitname)) {
 							WkKit.getPlayerData().setMailNum(playername, kitname, num);
-						}else {//²»´æÔÚ¾ÍÌí¼ÓÊı¾İ
+						}else {//ä¸å­˜åœ¨å°±æ·»åŠ æ•°æ®
 							WkKit.getPlayerData().setMailToFile(playername, kitname, num);
 						}
 					}

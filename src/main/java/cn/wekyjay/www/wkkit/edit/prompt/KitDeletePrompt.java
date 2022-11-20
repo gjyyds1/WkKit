@@ -29,7 +29,7 @@ class KitDeletePrompt_1 extends ValidatingPrompt{
 
 	@Override
 	protected boolean isInputValid(ConversationContext context, String input) {
-		if(input.equalsIgnoreCase("Y") || input.equals("N")) return true; 
+		if(input.equalsIgnoreCase("Y") || input.equalsIgnoreCase("N")) return true; 
 		return false; 
 	}
 

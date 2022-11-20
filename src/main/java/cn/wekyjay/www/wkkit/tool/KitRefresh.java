@@ -15,7 +15,7 @@ import cn.wekyjay.www.wkkit.kit.Kit;
 public class KitRefresh {
 		
 	/**
-	 * ½«Ê±¼äÖµ×ªÎªºÁÃë
+	 * å°†æ—¶é—´å€¼è½¬ä¸ºæ¯«ç§’
 	 * @param value
 	 * @return
 	 */
@@ -32,7 +32,7 @@ public class KitRefresh {
 	}
 	
 	/**
-	 * Á¢¿ÌË¢ĞÂÒ»¸öÀñ°ü
+	 * ç«‹åˆ»åˆ·æ–°ä¸€ä¸ªç¤¼åŒ…
 	 * @param kitname
 	 */
 	public static void refreshNow(Kit kit) {
@@ -40,14 +40,14 @@ public class KitRefresh {
 		OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 		for(OfflinePlayer player : playerlist) {
 			String playername = player.getName();
-			// ÓĞÀñ°üÊı¾İµÄ¾ÍË¢ĞÂÁìÈ¡×´Ì¬
+			// æœ‰ç¤¼åŒ…æ•°æ®çš„å°±åˆ·æ–°é¢†å–çŠ¶æ€
 			if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
 				WkKit.getPlayerData().setKitData(playername, kitname, "true");
 			}
 		}
 	}
 	/**
-	 * ¿ªÆô×Ô¶¯Ë¢ĞÂÏß³Ì
+	 * å¼€å¯è‡ªåŠ¨åˆ·æ–°çº¿ç¨‹
 	 * @param kit
 	 */
 	public static void refreshDay(Kit kit) {
@@ -55,26 +55,26 @@ public class KitRefresh {
 			String kitname = kit.getKitname();
 			WkKit.refreshCount++;
 			String cron = kit.getDocron();
-			Calendar cnext = Calendar.getInstance();//³õÊ¼»¯Ê±¼ä
-			cnext.setTime(CronManager.getNextExecution(cron)); // ³õÊ¼»¯ÏÂ´ÎÖ´ĞĞµÄÊ±¼ä
-			// Ìí¼ÓÄäÃûÄÚ²¿Àà
+			Calendar cnext = Calendar.getInstance();//åˆå§‹åŒ–æ—¶é—´
+			cnext.setTime(CronManager.getNextExecution(cron)); // åˆå§‹åŒ–ä¸‹æ¬¡æ‰§è¡Œçš„æ—¶é—´
+			// æ·»åŠ åŒ¿åå†…éƒ¨ç±»
 			ConfigManager.tasklist.put(kitname, 
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						Calendar cnow = Calendar.getInstance();//Íæ¼Òµ±Ç°Ê±¼ä
-						// Ê±¼äµ½Ö´ĞĞ
+						Calendar cnow = Calendar.getInstance();//ç©å®¶å½“å‰æ—¶é—´
+						// æ—¶é—´åˆ°æ‰§è¡Œ
 						if(cnow.getTimeInMillis() >= cnext.getTimeInMillis()) {
 							OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 							for(OfflinePlayer player : playerlist) {
-								if(player.getName() == null) continue; // Èç¹û»ñÈ¡²»µ½Íæ¼ÒĞÕÃûÔòÈ¡Ïû¸ÃÍæ¼ÒµÄË¢ĞÂ
+								if(player.getName() == null) continue; // å¦‚æœè·å–ä¸åˆ°ç©å®¶å§“ååˆ™å–æ¶ˆè¯¥ç©å®¶çš„åˆ·æ–°
 								String playername = player.getName();
-								// ÓĞÀñ°üÊı¾İµÄ¾ÍË¢ĞÂÁìÈ¡×´Ì¬
+								// æœ‰ç¤¼åŒ…æ•°æ®çš„å°±åˆ·æ–°é¢†å–çŠ¶æ€
 								if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
 									WkKit.getPlayerData().setKitData(playername, kitname, "true");
 								}
 							}
-							cnext.setTime(CronManager.getNextExecution(cron)); // ÖØÖÃÏÂ´ÎÖ´ĞĞµÄÊ±¼ä£¨µ±Ç°Ê±¼ä£©
+							cnext.setTime(CronManager.getNextExecution(cron)); // é‡ç½®ä¸‹æ¬¡æ‰§è¡Œçš„æ—¶é—´ï¼ˆå½“å‰æ—¶é—´ï¼‰
 						}
 					}
 					
@@ -84,7 +84,7 @@ public class KitRefresh {
 	}
 	
 	public void enable() {
-		// it.next²»ÄÜÔÚÍ¬Ò»¸öÑ­»·ÄÚ³öÏÖÁ½´Î£¬»áµ¼ÖÂ×îºóÒ»´ÎµÄÓÎ±êÖ¸Ïò¿ÕÖµ
+		// it.nextä¸èƒ½åœ¨åŒä¸€ä¸ªå¾ªç¯å†…å‡ºç°ä¸¤æ¬¡ï¼Œä¼šå¯¼è‡´æœ€åä¸€æ¬¡çš„æ¸¸æ ‡æŒ‡å‘ç©ºå€¼
 		List<Kit> list = Kit.getKits();
 		Iterator<Kit> it = list.iterator();
 		while(it.hasNext()) {
