@@ -12,10 +12,10 @@ import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.kit.Kit;
 
 public  class KitSend {
-	static WkKit wk = WkKit.getWkKit();// µ÷ÓÃÖ÷ÀàÊµÀı		
+	static WkKit wk = WkKit.getWkKit();// è°ƒç”¨ä¸»ç±»å®ä¾‹		
 
 	/**
-	 * ·¢·ÅÀñ°ü¸øÌØ¶¨ÈºÌå»ò¸öÈË
+	 * å‘æ”¾ç¤¼åŒ…ç»™ç‰¹å®šç¾¤ä½“æˆ–ä¸ªäºº
 	 * @param sender
 	 * @param command
 	 * @param label
@@ -39,43 +39,47 @@ public  class KitSend {
 		String kitname = args[1];
 		String target = args[2];
 		
-		//ÅĞ¶ÏÀñ°üÊÇ·ñ´æÔÚ
+		//åˆ¤æ–­ç¤¼åŒ…æ˜¯å¦å­˜åœ¨
 		if(Kit.getKit(kitname) != null) {
-			//·¢·ÅÊµÌåÀñ°ü¸ø£º@all
+			//å‘æ”¾å®ä½“ç¤¼åŒ…ç»™ï¼š@all
 			if(target.equalsIgnoreCase("@All")) {
 				OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 				for(OfflinePlayer player : playerlist) {
-					String pname = player.getName();
-					if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
-						int num = WkKit.getPlayerData().getMailKitNum(pname, kitname);
-						WkKit.getPlayerData().setMailNum(pname, kitname, num + kitnum);
-					}else {
-						WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
-					}
-					if(player.getPlayer().isOnline()) player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
-				}
-				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ALL", ChatColor.GREEN));
-				return;
-			}
-			//·¢·ÅÀñ°ü¸ø£º@online
-			if(target.equalsIgnoreCase("@Online")) {
-				OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
-				for(OfflinePlayer player : playerlist) {
-					String pname = player.getName();
-					if(player.isOnline()) {//ÅĞ¶ÏÊÇ·ñÔÚÏß
+					if (player != null && player instanceof Player) {
+						String pname = player.getName();
 						if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
 							int num = WkKit.getPlayerData().getMailKitNum(pname, kitname);
 							WkKit.getPlayerData().setMailNum(pname, kitname, num + kitnum);
 						}else {
 							WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
 						}
-						player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
+						if(player.getPlayer().isOnline()) player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
+					}
+				}
+				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ALL", ChatColor.GREEN));
+				return;
+			}
+			//å‘æ”¾ç¤¼åŒ…ç»™ï¼š@online
+			if(target.equalsIgnoreCase("@Online")) {
+				OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
+				for(OfflinePlayer player : playerlist) {
+					if (player != null && player instanceof Player) {
+						String pname = player.getName();
+						if(player.isOnline()) {//åˆ¤æ–­æ˜¯å¦åœ¨çº¿
+							if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
+								int num = WkKit.getPlayerData().getMailKitNum(pname, kitname);
+								WkKit.getPlayerData().setMailNum(pname, kitname, num + kitnum);
+							}else {
+								WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
+							}
+							player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
+						}
 					}
 				}
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ONLINE", ChatColor.GREEN));
 				return;
 			}
-			// ·¢·ÅÀñ°ü¸ø×Ô¼º
+			// å‘æ”¾ç¤¼åŒ…ç»™è‡ªå·±
 			if(target.equalsIgnoreCase("@Me") && sender instanceof Player) {
 				String pname = sender.getName();
 				if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
@@ -88,7 +92,7 @@ public  class KitSend {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
 				return;
 			}
-			//·¢·ÅÀñ°ü¸ø£ºplayer
+			//å‘æ”¾ç¤¼åŒ…ç»™ï¼šplayer
 			if(!target.equalsIgnoreCase("@All") && !target.equalsIgnoreCase("@Online") && !target.equalsIgnoreCase("@Me")) {
 				String pname = target;
 				for(OfflinePlayer offlineplayer : Bukkit.getOfflinePlayers()) {
@@ -104,7 +108,7 @@ public  class KitSend {
 						return;
 					}
 				}
-				// Èç¹ûÖ´ĞĞµ½ÕâÀï´ú±íÃ»ÕÒµ½Íæ¼Ò
+				// å¦‚æœæ‰§è¡Œåˆ°è¿™é‡Œä»£è¡¨æ²¡æ‰¾åˆ°ç©å®¶
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("NO_PLAYER", ChatColor.RED));
 				return;
 			}

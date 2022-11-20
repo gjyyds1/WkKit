@@ -1,5 +1,6 @@
 package cn.wekyjay.www.wkkit.handlerlist;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -41,7 +42,7 @@ public class PlayersReceiveKitEvent extends PlayerEvent implements Cancellable {
 		return receivetype;
 	}
 	
-    public static HandlerList getHandlerList() {// ÊÂ¼şÀàµÄ¡¸»ñÈ¡´¦ÀíÆ÷¡¹·½·¨
+    public static HandlerList getHandlerList() {// äº‹ä»¶ç±»çš„ã€Œè·å–å¤„ç†å™¨ã€æ–¹æ³•
         return handlers;
     }
 

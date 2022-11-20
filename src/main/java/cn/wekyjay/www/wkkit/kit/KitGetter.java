@@ -10,15 +10,17 @@ import org.bukkit.inventory.PlayerInventory;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 /**
- * ÓÃÓÚÁìÈ¡Àñ°üºó±£´æÍæ¼ÒÁìÈ¡Êı¾İ(Ä¿Ç°Ö»ÓĞ²Ëµ¥Ê¹ÓÃ)
+ * ç”¨äºé¢†å–ç¤¼åŒ…åä¿å­˜ç©å®¶é¢†å–æ•°æ®(ç›®å‰åªæœ‰èœå•ä½¿ç”¨)
  * @author Administrator
  *
  */
 public class KitGetter{
 	/**
-	 * ÁìÈ¡Àñ°ü
+	 * é¢†å–ç¤¼åŒ…
 	 * @param kitname
 	 * @param p
 	 */
@@ -26,14 +28,18 @@ public class KitGetter{
 		if(kit.getPermission() != null) {if(!this.runPermission(kit, p)) {return;}}
 		if(kit.getItemStack() != null) {if(!this.runItem(kit, p)) {return;}}
 		if(kit.getTimes() != null) {if(!this.runTimes(kit, p)) {return;}}
-		// ¿ÉÒÔÖ´ĞĞ
+		// ä»¥ä¸‹ä»£ç å¯ä»¥å®‰å…¨æ‰§è¡Œ
+		// å›è°ƒäº‹ä»¶
+	    PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, ReceiveType.MENU);
+	    Bukkit.getPluginManager().callEvent(event);
+	    if (event.isCancelled())return; 
 		if(kit.getCommands() != null) {this.runCommands(kit, p);}
 		this.getSuccess(kit, p);
 	}
 	
-	//******************************Ãü Áî ĞĞ*********************************//
+	//******************************å‘½ ä»¤ è¡Œ*********************************//
 	/**
-	 * ÔËĞĞÖ¸Áî
+	 * è¿è¡ŒæŒ‡ä»¤
 	 * @param kitname
 	 * @param playername
 	 */
@@ -42,12 +48,12 @@ public class KitGetter{
 		for(String str : commands) {
 			String[] splitstr = str.split(":");
 			String command = null;
-			if(splitstr.length > 1) {//ÅĞ¶ÏÊÇ·ñÓĞÖ¸¶¨µÄÖ¸Áî·¢ËÍ·½Ê½
+			if(splitstr.length > 1) {//åˆ¤æ–­æ˜¯å¦æœ‰æŒ‡å®šçš„æŒ‡ä»¤å‘é€æ–¹å¼
 				command = WKTool.replacePlaceholder("player", p.getName(), splitstr[1]);
 			}else {
 				command = WKTool.replacePlaceholder("player", p.getName(), splitstr[0]);
 			}
-			//¸ù¾İ²»Í¬µÄÖ¸Áî·¢ËÍ·½Ê½·¢ËÍ
+			//æ ¹æ®ä¸åŒçš„æŒ‡ä»¤å‘é€æ–¹å¼å‘é€
 			if(splitstr[0].equalsIgnoreCase("cmd")) {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 			}else if(splitstr[0].equalsIgnoreCase("op") && !p.isOp()) {
@@ -60,7 +66,7 @@ public class KitGetter{
 		}
 	}
 	/**
-	 * È¨ÏŞ¼ì²é£¬Èç¹ûÍæ¼ÒÃ»ÓĞÈ¨ÏŞÔò·µ»Øfalse
+	 * æƒé™æ£€æŸ¥ï¼Œå¦‚æœç©å®¶æ²¡æœ‰æƒé™åˆ™è¿”å›false
 	 * @param kitname
 	 * @param p
 	 * @return
@@ -69,13 +75,13 @@ public class KitGetter{
 		return p.hasPermission(kit.getPermission())?true:false;
 	}
 	/**
-	 * ÎïÆ·ÁìÈ¡µ½±³°ü
+	 * ç‰©å“é¢†å–åˆ°èƒŒåŒ…
 	 * @param kitname
 	 * @param p
 	 * @return
 	 */
 	public Boolean runItem(Kit kit,Player p) {
-		if(!WKTool.hasSpace(p, kit)) {//ÅĞ¶ÏÓĞÃ»ÓĞ×ã¹»µÄ±³°ü¿Õ¼ä
+		if(!WKTool.hasSpace(p, kit)) {//åˆ¤æ–­æœ‰æ²¡æœ‰è¶³å¤Ÿçš„èƒŒåŒ…ç©ºé—´
 			p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_FAILED", ChatColor.YELLOW));
 			return false;
 		}
@@ -83,13 +89,13 @@ public class KitGetter{
 	}
 	
 	/**
-	 * ¼ÆËãÁìÈ¡´ÎÊı
+	 * è®¡ç®—é¢†å–æ¬¡æ•°
 	 * @param kitname
 	 * @param p
 	 * @return
 	 */
 	public Boolean runTimes(Kit kit,Player p) {
-		//Èç¹ûÍæ¼ÒÃ»ÓĞÁìÈ¡´ÎÊı¾Í´´½¨Ò»¸ö
+		//å¦‚æœç©å®¶æ²¡æœ‰é¢†å–æ¬¡æ•°å°±åˆ›å»ºä¸€ä¸ª
 		String kitname = kit.getKitname();
 		if(WkKit.getPlayerData().getKitTime(p.getName(), kitname) == null) {
 			if(kit.getTimes() < 0 || kit.getTimes() == null) {
@@ -108,7 +114,7 @@ public class KitGetter{
 	}
 	
 	/**
-	 * ÁìÈ¡ºóÖ´ĞĞ
+	 * é¢†å–åæ‰§è¡Œ
 	 * @param kitname
 	 * @param p
 	 */
@@ -118,21 +124,21 @@ public class KitGetter{
 		if(WkKit.getPlayerData().getKitTime(p.getName(),kitname) != null) {
 			times = WkKit.getPlayerData().getKitTime(p.getName(),kitname);
 		}
-		// ¼ÆËãÁìÈ¡×´Ì¬
+		// è®¡ç®—é¢†å–çŠ¶æ€
 		if(kit.getDocron() != null) {
 			WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
 		}
-		// ¼ÆËãÁìÈ¡´ÎÊı
+		// è®¡ç®—é¢†å–æ¬¡æ•°
 		if(times > 0)WkKit.getPlayerData().setKitTime(p.getName(), kitname, times - 1);
-		// Èç¹ûÁìÈ¡´ÎÊı±ä³É0ÁË¾ÍÒ²±ä³Éfalse
+		// å¦‚æœé¢†å–æ¬¡æ•°å˜æˆ0äº†å°±ä¹Ÿå˜æˆfalse
 		if(WkKit.getPlayerData().getKitTime(p.getName(),kitname) != null && WkKit.getPlayerData().getKitTime(p.getName(),kitname) == 0)WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
-		// ·¢ËÍÎïÆ·
-		PlayerInventory pinv = p.getInventory();//Ê¹ÓÃ·â×°ÀàµÄgetplayer·½·¨»ñÈ¡Íæ¼Ò±³°ü
+		// å‘é€ç‰©å“
+		PlayerInventory pinv = p.getInventory();//ä½¿ç”¨å°è£…ç±»çš„getplayeræ–¹æ³•è·å–ç©å®¶èƒŒåŒ…
 		ItemStack[] itemlist = kit.getItemStack();
 		for(ItemStack item : itemlist) {
-			pinv.addItem(item);//Ìí¼ÓÎïÆ·ÖÁ±³°ü
+			pinv.addItem(item);//æ·»åŠ ç‰©å“è‡³èƒŒåŒ…
 		}
-		// ·¢ËÍÏûÏ¢
+		// å‘é€æ¶ˆæ¯
 		p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_SUCCESS",ChatColor.GREEN));
 	}
 }
