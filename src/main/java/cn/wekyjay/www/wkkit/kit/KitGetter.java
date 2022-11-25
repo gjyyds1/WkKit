@@ -30,11 +30,7 @@ public class KitGetter{
 		if(kit.getTimes() != null) {if(!this.runTimes(kit, p)) {return;}}
 		// 以下代码可以安全执行
 		// 回调事件
-<<<<<<< HEAD
 	    PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.MENU);
-=======
-	    PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, ReceiveType.MENU);
->>>>>>> branch 'master' of https://github.com/WekyJay/WkKit.git
 	    Bukkit.getPluginManager().callEvent(event);
 	    if (event.isCancelled())return; 
 		if(kit.getCommands() != null) {this.runCommands(kit, p);}
