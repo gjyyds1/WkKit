@@ -13,8 +13,8 @@ import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
 import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
 import cn.wekyjay.www.wkkit.kit.Kit;
 
-public class KitSend {
-
+public  class KitSend {
+	static WkKit wk = WkKit.getWkKit();// 调用主类实例		
 
 	/**
 	 * 发放礼包给特定群体或个人
@@ -47,13 +47,10 @@ public class KitSend {
 			if(target.equalsIgnoreCase("@All")) {
 				OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 				for(OfflinePlayer player : playerlist) {
-
 					if (player != null && player instanceof OfflinePlayer) {
 						String pname = player.getName();
 						// 回调事件
 						if(PlayersReceiveKitEvent.callEvent(player.getPlayer(), Kit.getKit(kitname), player.getName(), ReceiveType.SEND).isCancelled()) return;
-
-					if (player != null && player instanceof Player) {
 						if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
 							int num = WkKit.getPlayerData().getMailKitNum(pname, kitname);
 							WkKit.getPlayerData().setMailNum(pname, kitname, num + kitnum);
@@ -69,6 +66,7 @@ public class KitSend {
 			}
 			//发放礼包给：@online
 			if(target.equalsIgnoreCase("@Online")) {
+				OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 				for(OfflinePlayer player : playerlist) {
 					if (player != null && player instanceof Player) {
 						String pname = player.getName();
@@ -82,10 +80,11 @@ public class KitSend {
 								WkKit.getPlayerData().setMailNum(pname, kitname, kitnum);
 							}
 						    // 发送提示
-						if(player.getPlayer().isOnline()) player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
+							player.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_PICKUP", ChatColor.GREEN));
+						}
 					}
 				}
-				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ALL", ChatColor.GREEN));
+				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ONLINE", ChatColor.GREEN));
 				return;
 			}
 			// 发放礼包给自己
@@ -130,6 +129,4 @@ public class KitSend {
 			return;
 		}
 	}
-}
-}
 }
