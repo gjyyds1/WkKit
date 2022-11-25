@@ -1,9 +1,13 @@
 package cn.wekyjay.www.wkkit.handlerlist;
 
+<<<<<<< HEAD
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+=======
+import org.bukkit.Bukkit;
+>>>>>>> branch 'master' of https://github.com/WekyJay/WkKit.git
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
