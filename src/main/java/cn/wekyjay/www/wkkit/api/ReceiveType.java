@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.handlerlist;
+package cn.wekyjay.www.wkkit.api;
 
 public enum ReceiveType{
 	MAIL("MAIL"),

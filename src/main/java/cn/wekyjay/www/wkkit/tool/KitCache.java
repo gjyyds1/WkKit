@@ -18,8 +18,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
+import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.api.ReceiveType;
 
 public class KitCache implements Listener{
 	private static KitCache cache = null;

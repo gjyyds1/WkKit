@@ -5,19 +5,23 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.SpawnCategory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityDropItemEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CountDelayTime;
 import cn.wekyjay.www.wkkit.tool.WKTool;
@@ -59,13 +63,19 @@ public class DropKitListener implements Listener{
 					if(WKTool.hasSpace(e.getPlayer(), Kit.getKit(kitname))) {
 						int itemnum;
 						if(WKTool.getVersion() >= 9) {
-							itemnum = e.getPlayer().getInventory().getItemInMainHand().getAmount();//获取主手物品数量
-							e.getPlayer().getInventory().getItemInMainHand().setAmount(itemnum - 1);//主手物品数量-1
+							ItemStack mainItem = e.getPlayer().getInventory().getItemInMainHand();
+							if(mainItem != null && WKTool.getItemNBT(mainItem).hasKey("wkkit")) {
+								itemnum = mainItem.getAmount();//获取主手物品数量
+								e.getPlayer().getInventory().getItemInMainHand().setAmount(itemnum - 1);//主手物品数量-1
+							}
 						}else {
-							itemnum = e.getPlayer().getInventory().getItemInHand().getAmount();//获取主手物品数量
-							e.getPlayer().getInventory().getItemInHand().setAmount(itemnum - 1);//主手物品数量-1
-							if(itemnum - 1 == 0) {
-								e.getPlayer().getInventory().remove(e.getPlayer().getInventory().getItemInHand());
+							ItemStack mainItem = e.getPlayer().getInventory().getItemInHand();
+							itemnum = mainItem.getAmount();//获取主手物品数量
+							if(mainItem != null && WKTool.getItemNBT(mainItem).hasKey("wkkit")) {
+								e.getPlayer().getInventory().getItemInHand().setAmount(itemnum - 1);//主手物品数量-1
+								if(itemnum - 1 == 0) {
+									e.getPlayer().getInventory().remove(e.getPlayer().getInventory().getItemInHand());
+								}
 							}
 						}
 
@@ -123,7 +133,7 @@ public class DropKitListener implements Listener{
 	
 	//检测死亡的实体是否是可掉落指定礼包的实体，是的话就掉落指定礼包
 	@EventHandler
-	public void ontest(EntityDeathEvent e) {
+	public void onEntityDeath(EntityDeathEvent e) {
 		List<Kit> kits = Kit.getKits();
 		
 		Iterator<Kit> it = kits.iterator();
@@ -139,6 +149,7 @@ public class DropKitListener implements Listener{
 						double d = Math.random();
 						if(e.getEntity().getName().equals(ename) && d <= f) {
 							e.getEntity().getWorld().dropItem(e.getEntity().getLocation(),kit.getKitItem());
+							
 						}
 					}
 				}

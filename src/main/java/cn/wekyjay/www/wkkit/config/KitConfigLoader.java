@@ -39,7 +39,7 @@ public class KitConfigLoader{
 	}
 	
 	/**
-	 * ¼ÓÔØÎÄ¼ş¼ĞÖĞµÄÅäÖÃÎÄ¼ş
+	 * åŠ è½½æ–‡ä»¶å¤¹ä¸­çš„é…ç½®æ–‡ä»¶
 	 * @param file
 	 */
 	public void loadConfig() {
@@ -56,7 +56,7 @@ public class KitConfigLoader{
 
 	
 	/**
-	 * ·µ»Ø´æÔÚ¸ÃÂ·¾¶µÄÎÄ¼şÃû
+	 * è¿”å›å­˜åœ¨è¯¥è·¯å¾„çš„æ–‡ä»¶å
 	 * @param path
 	 * @return
 	 */
@@ -70,7 +70,7 @@ public class KitConfigLoader{
 	}
 	
 	/**
-	 * ·µ»Ø´æÔÚ¸ÃÂ·¾¶µÄÎÄ¼ş
+	 * è¿”å›å­˜åœ¨è¯¥è·¯å¾„çš„æ–‡ä»¶
 	 * @param path
 	 * @return
 	 */
@@ -85,7 +85,7 @@ public class KitConfigLoader{
 	
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÂ·¾¶
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥è·¯å¾„
 	 * @param path
 	 * @return
 	 */
@@ -100,7 +100,7 @@ public class KitConfigLoader{
 	
 	
 	/**
-	 * ÎÄ¼şÃû·µ»Ø¶ÔÏó
+	 * æ–‡ä»¶åè¿”å›å¯¹è±¡
 	 * @param filename
 	 * @return
 	 */
@@ -108,7 +108,7 @@ public class KitConfigLoader{
 		return fileConfigMap.get(filename);
 	}
 	/**
-	 * Â·¾¶·µ»Ø¶ÔÏó
+	 * è·¯å¾„è¿”å›å¯¹è±¡
 	 * @param filename
 	 * @return
 	 */
@@ -118,7 +118,7 @@ public class KitConfigLoader{
 	}
 	
 	/**
-	 * »ñµÃÎÄ¼şÖĞµÄ´æÔÚµÄÀñ°üÃû
+	 * è·å¾—æ–‡ä»¶ä¸­çš„å­˜åœ¨çš„ç¤¼åŒ…å
 	 * @return List<String>
 	 */
 	public  List<String> getKits() {
@@ -135,7 +135,7 @@ public class KitConfigLoader{
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚÖØ¸´µÄÀñ°ü£¬²¢ÇÒ·µ»ØÖµ¡£
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨é‡å¤çš„ç¤¼åŒ…ï¼Œå¹¶ä¸”è¿”å›å€¼ã€‚
 	 * @return int
 	 */
 	public  int checkRepeatKits() {
@@ -156,21 +156,21 @@ public class KitConfigLoader{
 	}
 
 	/**
-	 * ¶ÁÈ¡ÅäÖÃÖĞ´æÔÚµÄÀñ°ü,²¢¼ì²âÓĞĞ§ĞÔ
+	 * è¯»å–é…ç½®ä¸­å­˜åœ¨çš„ç¤¼åŒ…,å¹¶æ£€æµ‹æœ‰æ•ˆæ€§
 	 */
 	public void readKitConfig() {
 		List<String> kitlist = this.getKits();
 		int repeatnum = this.checkRepeatKits();
-		//²éÕÒÖØ¸´µÄÀñ°ü
+		//æŸ¥æ‰¾é‡å¤çš„ç¤¼åŒ…
 		if(repeatnum != 0) {
-			Bukkit.getLogger().warning("[WkKit]" + repeatnum + "¸öÀñ°ü¼ÓÔØÊ§°Ü£¡");
+			Bukkit.getLogger().warning("[WkKit]" + repeatnum + "ä¸ªç¤¼åŒ…åŠ è½½å¤±è´¥ï¼");
 		}
 
 		for(String kitname : kitlist) {
 			String displayName = this.getString(kitname + ".Name");
 			String icon = this.getString(kitname + ".Icon");
 			List<String> itemNBT = this.getStringList(kitname + ".Item");
-			ItemStack[] itemStack = new ItemStack[itemNBT.size()];// 0-9 ¸ÕºÃÊ®¸ö
+			ItemStack[] itemStack = new ItemStack[itemNBT.size()];// 0-9 åˆšå¥½åä¸ª
 			int num = 0;
 			for(String nbt : itemNBT) {
 				NBTContainer c = new NBTContainer(nbt);
@@ -181,7 +181,7 @@ public class KitConfigLoader{
 		}
 	}
 	
-	// ·â×°BukkitAPIµÄ·½·¨
+	// å°è£…BukkitAPIçš„æ–¹æ³•
 	public  String getString(String path) {
 		if(this.contains(path)) {
 			return getConfigWithPath(path).getString(path);
@@ -208,7 +208,7 @@ public class KitConfigLoader{
 		getConfigWithPath(path).set(path, value);
 	}
 	/**
-	 * Ìí¼ÓÒ»¶ÎĞÅÏ¢µ½Ö¸¶¨Â·¾¶£¬Èç¹ûÃ»ÓĞ¸ÃÂ·¾¶¾ÍÄ¬ÈÏ´´½¨Ò»¸öÎÄ¼ş´æ·ÅĞÅÏ¢
+	 * æ·»åŠ ä¸€æ®µä¿¡æ¯åˆ°æŒ‡å®šè·¯å¾„ï¼Œå¦‚æœæ²¡æœ‰è¯¥è·¯å¾„å°±é»˜è®¤åˆ›å»ºä¸€ä¸ªæ–‡ä»¶å­˜æ”¾ä¿¡æ¯
 	 * @param path
 	 * @param value
 	 * @param def

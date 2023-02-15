@@ -1,7 +1,7 @@
 package cn.wekyjay.www.wkkit.mysql.playersqldata;
 
 enum SQLCommand {
-	// ´´½¨±í
+	// åˆ›å»ºè¡¨
 	CREATE_TABLE(
 			"CREATE TABLE IF NOT EXISTS `player` (" +
 			"`id` INT UNSIGNED AUTO_INCREMENT," +
@@ -15,24 +15,24 @@ enum SQLCommand {
 	),
 	
 
-	// Ìí¼ÓÊı¾İ
+	// æ·»åŠ æ•°æ®
 	ADD_DATA(
 			"INSERT INTO `player` " +
 			"(`id`,`player`,`kitname`,`data`,`time`)" +
 			"VALUES (?, ?, ?, ?, ?)"
 	),
 	
-	// ¸üĞÂÁìÈ¡´ÎÊıÊı¾İ
+	// æ›´æ–°é¢†å–æ¬¡æ•°æ•°æ®
 	UPDATE_TIME_DATA(
 			"UPDATE `player` SET `time` = ? WHERE `player` = ? AND `kitname` = ? "
 	),
 	
-	// ¸üĞÂÁìÈ¡Ê±¼äÊı¾İ
+	// æ›´æ–°é¢†å–æ—¶é—´æ•°æ®
 	UPDATE_DATA_DATA(
 			"UPDATE `player` SET `data` = ? WHERE `player` = ? AND `kitname` = ? "
 	),
 	
-	// É¾³ıÊı¾İ
+	// åˆ é™¤æ•°æ®
 	DELETE_DATA(
 			"DELETE FROM `player` WHERE `player` = ? AND `kitname` = ?"
 	),

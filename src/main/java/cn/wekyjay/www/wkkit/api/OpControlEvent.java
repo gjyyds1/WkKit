@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.handlerlist;
+package cn.wekyjay.www.wkkit.api;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

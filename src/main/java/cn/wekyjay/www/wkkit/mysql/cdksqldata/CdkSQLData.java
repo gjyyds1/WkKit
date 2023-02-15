@@ -15,11 +15,11 @@ public class CdkSQLData {
 			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(cmd);
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {
-			System.out.println("¡ìcCDKÊı¾İ±í´´½¨Ê§°Ü");
+			System.out.println("Â§cCDKæ•°æ®è¡¨åˆ›å»ºå¤±è´¥");
 			e.printStackTrace();
 		}
 	}
-	// ²åÈëÊı¾İ
+	// æ’å…¥æ•°æ®
 	public void insertData(String CDK, String kits, String date, String mark) {
 		try {
 			PreparedStatement ps;
@@ -36,7 +36,7 @@ public class CdkSQLData {
 			e.printStackTrace();
 		}
 	}
-	// É¾³ıÊı¾İ
+	// åˆ é™¤æ•°æ®
 	public void deleteData(String CDK) {
 		try {
 			PreparedStatement ps;
@@ -115,7 +115,7 @@ public class CdkSQLData {
 		return null;
 	}
 	/**
-	 * ÅĞ¶ÏÖ¸¶¨markÊÇ·ñ´æÔÚ
+	 * åˆ¤æ–­æŒ‡å®šmarkæ˜¯å¦å­˜åœ¨
 	 * @param mark
 	 * @return
 	 */
@@ -141,7 +141,7 @@ public class CdkSQLData {
 	}
 	
 	/**
-	 * ¸üĞÂstatus
+	 * æ›´æ–°status
 	 * @param playername
 	 * @param CDK
 	 * @param mark
@@ -156,7 +156,7 @@ public class CdkSQLData {
 		} catch (SQLException e) {}
 	}
 	/**
-	 * ¸üĞÂmark
+	 * æ›´æ–°mark
 	 * @param newmark
 	 * @param mark
 	 */

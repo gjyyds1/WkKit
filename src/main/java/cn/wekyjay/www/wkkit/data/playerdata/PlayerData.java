@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface PlayerData {
 	/**
-	 * ÉèÖÃ»òÌí¼ÓµÄÍæ¼ÒÊı¾İ
+	 * è®¾ç½®æˆ–æ·»åŠ çš„ç©å®¶æ•°æ®
 	 * @param kitname
 	 * @param playername
 	 * @param data
@@ -13,49 +13,49 @@ public interface PlayerData {
 	void setKitToFile(String playername, String kitname, String data,int time);
 	
 	/**
-	 * É¾³ıÍæ¼ÒµÄÖ¸¶¨Àñ°üÊı¾İ
+	 * åˆ é™¤ç©å®¶çš„æŒ‡å®šç¤¼åŒ…æ•°æ®
 	 * @param playername
 	 * @param kitname
 	 */
 	void delKitToFile(String playername, String kitname);
 	
 	/**
-	 * ÉèÖÃÍæ¼ÒÖ¸¶¨Àñ°üµÄÉÏ´ÎÁìÈ¡ÈÕÆÚ
+	 * è®¾ç½®ç©å®¶æŒ‡å®šç¤¼åŒ…çš„ä¸Šæ¬¡é¢†å–æ—¥æœŸ
 	 * @param playername
 	 * @param kitname
 	 * @param value
 	 */
 	void setKitData(String playername, String kitname, String value);
 	/**
-	 * ÉèÖÃÍæ¼ÒÖ¸¶¨Àñ°üµÄÁìÈ¡´ÎÊı
+	 * è®¾ç½®ç©å®¶æŒ‡å®šç¤¼åŒ…çš„é¢†å–æ¬¡æ•°
 	 * @param playername
 	 * @param kitname
 	 * @param value
 	 */
 	void setKitTime(String playername, String kitname, int value);
 	/**
-	 * »ñµÃÍæ¼ÒÊı¾İÄÚµÄËùÓĞÀñ°üÃû
+	 * è·å¾—ç©å®¶æ•°æ®å†…çš„æ‰€æœ‰ç¤¼åŒ…å
 	 * @param playername
 	 * @return
 	 */
 	List<String> getKits(String playername);
 	
 	/**
-	 * »ñÈ¡Íæ¼ÒÀñ°üµÄÈÕÆÚÊı¾İ
+	 * è·å–ç©å®¶ç¤¼åŒ…çš„æ—¥æœŸæ•°æ®
 	 * @param kitname
 	 * @return
 	 */
 	String getKitData(String playername, String kitname);
 	
 	/**
-	 * »ñÈ¡Íæ¼ÒÀñ°üµÄÁìÈ¡´ÎÊıÊı¾İ
+	 * è·å–ç©å®¶ç¤¼åŒ…çš„é¢†å–æ¬¡æ•°æ•°æ®
 	 * @param kitname
 	 * @return
 	 */
 	Integer getKitTime(String playername, String kitname);
 	
 	/**
-	 * ÅĞ¶ÏÍæ¼ÒÖ¸¶¨Àñ°üÊı¾İÊÇ·ñ´æÔÚ
+	 * åˆ¤æ–­ç©å®¶æŒ‡å®šç¤¼åŒ…æ•°æ®æ˜¯å¦å­˜åœ¨
 	 * @param playername
 	 * @param kitname
 	 * @return
@@ -63,27 +63,27 @@ public interface PlayerData {
 	Boolean contain_Kit(String playername, String kitname);
 	
 	/**
-	 * ÅĞ¶ÏÍæ¼ÒÊÇ·ñÓĞÊı¾İ´æÔÚ
+	 * åˆ¤æ–­ç©å®¶æ˜¯å¦æœ‰æ•°æ®å­˜åœ¨
 	 * @param playername
 	 * @return
 	 */
 	Boolean contain_Kit(String playername);
 	
 	/**
-	 * ÉèÖÃ»òÌí¼ÓÍæ¼ÒµÄÓÊÏäÊı¾İ
+	 * è®¾ç½®æˆ–æ·»åŠ ç©å®¶çš„é‚®ç®±æ•°æ®
 	 * @param playername
 	 * @param kitname
 	 * @param num
 	 */
 	void setMailToFile(String playername, String kitname, int num);
 	/**
-	 * É¾³ıÍæ¼ÒµÄÖ¸¶¨ÓÊÏäÊı¾İ
+	 * åˆ é™¤ç©å®¶çš„æŒ‡å®šé‚®ç®±æ•°æ®
 	 * @param playername
 	 * @param kitname
 	 */
 	void delMailToFile(String playername, String kitname);
 	/**
-	 * ÉèÖÃÍæ¼ÒÓÊÏäÄÚÖ¸¶¨Àñ°üµÄ¸öÊı
+	 * è®¾ç½®ç©å®¶é‚®ç®±å†…æŒ‡å®šç¤¼åŒ…çš„ä¸ªæ•°
 	 * @param playername
 	 * @param kitname
 	 * @param value
@@ -91,21 +91,21 @@ public interface PlayerData {
 	void setMailNum(String playername, String kitname, int num);
 	
 	/**
-	 * »ñµÃÍæ¼ÒÓÊÏäÄÚµÄËùÓĞÀñ°üÃû
+	 * è·å¾—ç©å®¶é‚®ç®±å†…çš„æ‰€æœ‰ç¤¼åŒ…å
 	 * @param playername
 	 * @return
 	 */
 	List<String> getMailKits(String playername);
 	
 	/**
-	 * »ñÈ¡Íæ¼ÒÓÊÏäÄÚÀñ°üµÄÁìÈ¡´ÎÊıÊı¾İ
+	 * è·å–ç©å®¶é‚®ç®±å†…ç¤¼åŒ…çš„é¢†å–æ¬¡æ•°æ•°æ®
 	 * @param kitname
 	 * @return
 	 */
 	Integer getMailKitNum(String playername, String kitname);
 	
 	/**
-	 * ÅĞ¶ÏÍæ¼ÒÓÊÏäÖ¸¶¨Àñ°üÊı¾İÊÇ·ñ´æÔÚ
+	 * åˆ¤æ–­ç©å®¶é‚®ç®±æŒ‡å®šç¤¼åŒ…æ•°æ®æ˜¯å¦å­˜åœ¨
 	 * @param playername
 	 * @param kitname
 	 * @return
@@ -113,7 +113,7 @@ public interface PlayerData {
 	Boolean contain_Mail(String playername, String kitname);
 	
 	/**
-	 * ÅĞ¶ÏÍæ¼ÒÓÊÏäÄÚÊÇ·ñÓĞÊı¾İ´æÔÚ
+	 * åˆ¤æ–­ç©å®¶é‚®ç®±å†…æ˜¯å¦æœ‰æ•°æ®å­˜åœ¨
 	 * @param playername
 	 * @return
 	 */

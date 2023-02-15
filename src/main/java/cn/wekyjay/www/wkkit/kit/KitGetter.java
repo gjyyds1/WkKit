@@ -9,9 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
+import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 /**
  * 用于领取礼包后保存玩家领取数据(目前只有菜单使用)
@@ -72,7 +73,12 @@ public class KitGetter{
 	 * @return
 	 */
 	public Boolean runPermission(Kit kit,Player p) {
-		return p.hasPermission(kit.getPermission())?true:false;
+		if( p.hasPermission(kit.getPermission())) {
+			return true;
+		}else {
+			p.sendMessage(LangConfigLoader.getStringWithPrefix("MENU_NEED_PERMISSION", ChatColor.RED)+ " - " + kit.getPermission());
+			return false;
+		}
 	}
 	/**
 	 * 物品领取到背包

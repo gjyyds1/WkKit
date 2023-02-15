@@ -56,9 +56,11 @@ public class MenuManager {
 				String id = null,name = null;
 				List<String> lore = new ArrayList<>();
 				ItemStack item = null;
+				int customModelData = 0;
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".id") && MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".id") != null) {id = MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".id");}
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".name") && MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".name") != null) {name = MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".name");}
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".lore") && MenuConfigLoader.getStringList(menuname + ".Slots." + slotname + ".lore") != null) {lore = MenuConfigLoader.getStringList(menuname + ".Slots." + slotname + ".lore");}
+				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".custommodeldata") && MenuConfigLoader.getInt(menuname + ".Slots." + slotname + ".lore") != 0) {customModelData = MenuConfigLoader.getInt(menuname + ".Slots." + slotname + ".custommodeldata");}
 				if(id != null && name != null) {
 					// 如果是空气就另外操作
 					if(id.equalsIgnoreCase("AIR") || id.equalsIgnoreCase("NONE")) {
@@ -99,10 +101,11 @@ public class MenuManager {
 					item = new ItemStack(Material.valueOf(id));
 					ItemMeta meta = item.getItemMeta();
 					meta.setDisplayName(name);
-					// 设置lore
-					if(lore != null) {
-						meta.setLore(lore);
-					}
+					// 设置 lore
+					if(lore != null) meta.setLore(lore);
+					// 设置 CustomModelData
+					if(customModelData != 0 && WKTool.getVersion() >= 14) meta.setCustomModelData(customModelData);
+					
 					item.setItemMeta(meta);
 					List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots." + slotname + ".slot");
 					for(int num : slotnum) {

@@ -33,7 +33,7 @@ public class WkKitPAPI extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return "1.0.0";
+        return WkKit.getWkKit().getDescription().getVersion();
     }
     
     @Override
@@ -44,19 +44,15 @@ public class WkKitPAPI extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String params) {
     	String playername = player.getName();
-    	// ·şÎñÆ÷Àñ°üÊı
+    	// æœåŠ¡å™¨ç¤¼åŒ…æ•°
     	if(params.equalsIgnoreCase("serverkits")) {
     		return ConfigManager.getKitconfig().getKitsList().size() + "";
     	}
-    	// ·şÎñÆ÷²Ëµ¥Êı
+    	// æœåŠ¡å™¨èœå•æ•°
     	if(params.equalsIgnoreCase("servermenus")) {
     		return MenuManager.getMenus().size() + "";
     	}
-    	// ×ÔË¢ĞÂÀñ°üÊı
-    	if(params.equalsIgnoreCase("cronkits")) {
-    		return WkKit.refreshCount + "";
-    	}
-        //Íæ¼ÒÀñ°üÓÊÏäµÄ×ÜÀñ°üÊıÁ¿
+        //ç©å®¶ç¤¼åŒ…é‚®ç®±çš„æ€»ç¤¼åŒ…æ•°é‡
         if(params.equalsIgnoreCase("kitmail")) {
         	int kitnum = 0;
         	List<String> kits = WkKit.getPlayerData().getMailKits(player.getName());
@@ -68,9 +64,9 @@ public class WkKitPAPI extends PlaceholderExpansion {
         	}
         	return "0";
         }
-        // Ö¸¶¨Àñ°üµÄĞÅÏ¢
+        // æŒ‡å®šç¤¼åŒ…çš„ä¿¡æ¯
         String[] s = params.split("_");
-        // ÁìÈ¡´ÎÊı
+        // é¢†å–æ¬¡æ•°
         if(s.length == 2 && s[0].equalsIgnoreCase("times")) {
         	String kitname = s[1];
         	Kit kit = Kit.getKit(kitname);
@@ -80,7 +76,7 @@ public class WkKitPAPI extends PlaceholderExpansion {
         	}
         	return null;
         }
-        // Ö¸¶¨Àñ°üµÄÀäÈ´Ê±¼ä
+        // æŒ‡å®šç¤¼åŒ…çš„å†·å´æ—¶é—´
         if(s.length == 2 && s[0].equalsIgnoreCase("delay")) {
         	String kitname = s[1];
         	Kit kit = Kit.getKit(kitname);
@@ -90,14 +86,14 @@ public class WkKitPAPI extends PlaceholderExpansion {
         	}
         	return null;
         }
-        // Ö¸¶¨Àñ°üµÄÕ¹Ê¾Ãû
+        // æŒ‡å®šç¤¼åŒ…çš„å±•ç¤ºå
         if(s.length == 2 && s[0].equalsIgnoreCase("name")) {
         	String kitname = s[1];
         	Kit kit = Kit.getKit(kitname);
         	if(kit != null) return kit.getDisplayName();
         	return null;
         }
-        // Ö¸¶¨Àñ°üËùĞèÒªµÄÈ¨ÏŞ
+        // æŒ‡å®šç¤¼åŒ…æ‰€éœ€è¦çš„æƒé™
         if(s.length == 2 && s[0].equalsIgnoreCase("permission")) {
         	String kitname = s[1];
         	Kit kit = Kit.getKit(kitname);
@@ -106,7 +102,7 @@ public class WkKitPAPI extends PlaceholderExpansion {
         	}
         	return "None";
         }
-        // »ñµÃÖ¸¶¨Àñ°ü¾àÀëÏÂ´ÎË¢ĞÂµÄ´óÖÂÊ±¼ä
+        // è·å¾—æŒ‡å®šç¤¼åŒ…è·ç¦»ä¸‹æ¬¡åˆ·æ–°çš„å¤§è‡´æ—¶é—´
         if(s.length == 2 && s[0].equalsIgnoreCase("tonext")) {
         	String kitname = s[1];
         	Kit kit = Kit.getKit(kitname);
@@ -117,7 +113,7 @@ public class WkKitPAPI extends PlaceholderExpansion {
         	}
         	return "None";
         }
-        // »ñµÃÖ¸¶¨Àñ°üµÄÏÂ´ÎË¢ĞÂÈÕÆÚ
+        // è·å¾—æŒ‡å®šç¤¼åŒ…çš„ä¸‹æ¬¡åˆ·æ–°æ—¥æœŸ
         if(s.length == 2 && s[0].equalsIgnoreCase("next")) {
         	String kitname = s[1];
         	Kit kit = Kit.getKit(kitname);

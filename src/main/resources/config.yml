@@ -2,7 +2,7 @@ Setting:
    # 是否开启礼包上线提示领取
    OnlineReminder: true
    ChackUpdate: true
-   Language: 'zh_CN'
+   Language: 'none'
 Default:
    # 默认礼包展示名
    Name: '§6Server Kit'

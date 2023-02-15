@@ -6,13 +6,28 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
 import cn.wekyjay.www.wkkit.kit.Kit;
 
 public class KitRefresh {
+	private static BukkitTask task = null;
+	
+	public static BukkitTask getTask() {
+		return task;
+	}
+	
+	/**
+	 * 取消当前礼包自刷新线程
+	 */
+	public static void cancelTask() {
+		WkKit.getWkKit().getLogger().info("礼包自刷新线程取消！");
+		task.cancel();
+	}
 		
 	/**
 	 * 将时间值转为毫秒
@@ -50,53 +65,33 @@ public class KitRefresh {
 	 * 开启自动刷新线程
 	 * @param kit
 	 */
-	public static void refreshDay(Kit kit) {
-		if(kit.getDocron() != null) {
-			String kitname = kit.getKitname();
-			WkKit.refreshCount++;
-			String cron = kit.getDocron();
-			Calendar cnext = Calendar.getInstance();//初始化时间
-			cnext.setTime(CronManager.getNextExecution(cron)); // 初始化下次执行的时间
-			// 添加匿名内部类
-			ConfigManager.tasklist.put(kitname, 
-				new BukkitRunnable() {
+	public static void enableRefresh() {
+				task = new BukkitRunnable() {
 					@Override
 					public void run() {
-						Calendar cnow = Calendar.getInstance();//玩家当前时间
-						// 时间到执行
-						if(cnow.getTimeInMillis() >= cnext.getTimeInMillis()) {
-							OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
-							for(OfflinePlayer player : playerlist) {
-								if(player.getName() == null) continue; // 如果获取不到玩家姓名则取消该玩家的刷新
-								String playername = player.getName();
-								// 有礼包数据的就刷新领取状态
-								if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
-									WkKit.getPlayerData().setKitData(playername, kitname, "true");
+						List<Kit> list = Kit.getKits();
+						// 遍历检查每个礼包
+						list.forEach(kit->{
+							if(kit.getDocron() != null) {
+								String kitname = kit.getKitname();
+								Calendar cnow = Calendar.getInstance();//玩家当前时间
+								// 判断是否执行
+								if(cnow.getTimeInMillis() >= kit.getNextRC().getTimeInMillis()) {
+									OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
+									for(OfflinePlayer player : playerlist) {
+										if(player.getName() == null) continue; // 如果获取不到玩家姓名则取消该玩家的刷新
+										String playername = player.getName();
+										// 有礼包数据的就刷新领取状态
+										if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
+											WkKit.getPlayerData().setKitData(playername, kitname, "true");
+										}
+									}
+									kit.restNextRC();
 								}
-							}
-							cnext.setTime(CronManager.getNextExecution(cron)); // 重置下次执行的时间（当前时间）
-						}
+							}		
+						});		
 					}
 					
-				}.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, 20)
-			);
-		}
-	}
-	
-	public void enable() {
-		// it.next不能在同一个循环内出现两次，会导致最后一次的游标指向空值
-		List<Kit> list = Kit.getKits();
-		Iterator<Kit> it = list.iterator();
-		while(it.hasNext()) {
-			Kit kit = it.next();
-			String shutdate = WkKit.getWkKit().getConfig().getString("Default.ShutDate");
-			if(kit.getDocron() != null) {
-				KitRefresh.refreshDay(kit);
-				if(!shutdate.equalsIgnoreCase("None") && CronManager.isExecuted(shutdate,kit.getDocron())) {
-					refreshNow(kit);
-				}
-			}
-		}
-
+				}.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, 20);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -16,7 +17,6 @@ import cn.wekyjay.www.wkkit.mysql.MySQLManager;
 import cn.wekyjay.www.wkkit.tool.KitRefresh;
 
 public class ConfigManager {
-	public static Map<String,BukkitTask> tasklist = new HashMap<>();
 	private static KitConfigLoader kitconfig = null;
 	private static KitGroupManager kitGroupManager = null;
 	
@@ -71,11 +71,9 @@ public class ConfigManager {
     	kitconfig = new KitConfigLoader(); // 重置配置
     	getKitconfig().loadConfig(); // 加载配置
 		// 关闭所有自刷新线程
-		for(String kitname : tasklist.keySet()) {
-			tasklist.get(kitname).cancel();
-		}
+    	KitRefresh.cancelTask();
 		// 程序开启线程
-		new KitRefresh().enable();
+		KitRefresh.enableRefresh();
 	}
 
 }

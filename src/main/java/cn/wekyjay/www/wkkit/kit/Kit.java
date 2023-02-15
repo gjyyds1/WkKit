@@ -3,10 +3,12 @@ package cn.wekyjay.www.wkkit.kit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
+import cn.wekyjay.www.wkkit.tool.CronManager;
 import cn.wekyjay.www.wkkit.tool.KitRefresh;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import de.tr7zw.nbtapi.NBTContainer;
@@ -33,6 +36,10 @@ public class Kit {
 	private String docron;
 	private Integer delay;
 	private Integer times;
+	/**
+	 * 下次礼包刷新的时间
+	 */
+	private Calendar nextRC;
 
 	
 	public Kit(@NotNull String kitname,@NotNull String displayname,@NotNull String icon,ItemStack[] itemStack){
@@ -85,7 +92,10 @@ public class Kit {
 			if(ConfigManager.getKitconfig().contains(kitname + ".Permission")) permission =  ConfigManager.getKitconfig().getString(kitname + ".Permission");
 			if(ConfigManager.getKitconfig().contains(kitname + ".Delay")) delay =  ConfigManager.getKitconfig().getInt(kitname + ".Delay");
 			if(ConfigManager.getKitconfig().contains(kitname + ".Times")) times = ConfigManager.getKitconfig().getInt(kitname + ".Times");
-			if(ConfigManager.getKitconfig().contains(kitname + ".DoCron")) docron = ConfigManager.getKitconfig().getString(kitname + ".DoCron");
+			if(ConfigManager.getKitconfig().contains(kitname + ".DoCron")) {
+				docron = ConfigManager.getKitconfig().getString(kitname + ".DoCron");
+				restNextRC();
+			}
 			Kit.getKits().add(kit);
 		}
 	}
@@ -189,15 +199,11 @@ public class Kit {
 	public void setDocron(String docron) {
 		this.docron = docron;
 		this.getConfigurationSection().set("DoCron", docron);
-		// 关闭该礼包线程自刷新
-		for(String kitname : ConfigManager.tasklist.keySet()) {
-			if(kitname.equals(this.kitname)) {
-				ConfigManager.tasklist.get(kitname).cancel();
-			}
-		}
-		// 如果传入值不是null就重新开始刷新该礼包
+		// 判断逻辑
 		if(docron != null) {
-			KitRefresh.refreshDay(this);
+			Calendar cnext = Calendar.getInstance();//初始化时间
+			cnext.setTime(CronManager.getNextExecution(this.docron)); // 获取下次执行的时间
+			this.nextRC = cnext;
 		}
 	}
 	
@@ -236,6 +242,22 @@ public class Kit {
 	public void setLore(List<String> lore) {
 		this.lore = lore;
 		this.getConfigurationSection().set("Lore", lore);
+	}
+	
+	public Calendar getNextRC() {
+		return nextRC;
+	}
+	
+	/**
+	 * 重新计算下次礼包的刷新时间
+	 */
+	public void restNextRC() {
+		// 判断逻辑
+		if(docron != null) {
+			Calendar cnext = Calendar.getInstance();//初始化时间
+			cnext.setTime(CronManager.getNextExecution(this.docron)); // 获取下次执行的时间
+			this.nextRC = cnext;
+		}
 	}
 	
 	public Map<String,Object> getFlags() {

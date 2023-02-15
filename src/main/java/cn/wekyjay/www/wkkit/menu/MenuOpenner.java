@@ -28,7 +28,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public class MenuOpenner {
 	public void openMenu(String menuname,Player p) {
 		if(!(MenuManager.getPermission(menuname) == null) && !p.hasPermission(MenuManager.getPermission(menuname))) {// 缺少权限
-			System.out.println(LangConfigLoader.getStringWithPrefix("MENU_NEED_PERMISSION", ChatColor.RED) + MenuManager.getPermission(menuname));
+			p.sendMessage(LangConfigLoader.getStringWithPrefix("MENU_NEED_PERMISSION", ChatColor.RED )+ " - "  + MenuManager.getPermission(menuname));
 			return;
 		} 
 		String playername = p.getName();

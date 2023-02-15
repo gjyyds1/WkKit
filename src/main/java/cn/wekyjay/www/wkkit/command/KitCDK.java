@@ -53,7 +53,7 @@ public class KitCDK {
 				}
 				WkKit.getCdkData().addCDKToFile(cdk, sb.toString(),  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), mark);
 			}
-			sender.sendMessage("§aCDK已生成！本次生成CDK：" + num + " 个");
+			sender.sendMessage(LangConfigLoader.getString("CDK_GENERATION") + num);
 
 		}
 		// CDK验证
@@ -64,13 +64,13 @@ public class KitCDK {
 			}
 			String CDK = args[2];
 			if(CodeManager.VerifyCode(CDK) && WkKit.getCdkData().Contain_CDK(CDK)) {
-				String status = "§aCDK可用";
-				if(!WkKit.getCdkData().getCDKStatus(CDK).equals("Available")) status = "§c已被玩家 §e" +WkKit.getCdkData().getCDKStatus(CDK) + " §c使用";
-				sender.sendMessage("§a========== §6§lCDK兑换 §a=========");
+				String status = LangConfigLoader.getString("CDK_AVAILABLE");
+				if(!WkKit.getCdkData().getCDKStatus(CDK).equals("Available")) status = LangConfigLoader.getString("CDK_USED") + " §e" +WkKit.getCdkData().getCDKStatus(CDK);
+				sender.sendMessage("§a========== " + LangConfigLoader.getString("CDK_TIPS_TITLE") + " §a=========");
 				sender.sendMessage("§8CDK: §9" + CDK);
-				sender.sendMessage("§8CDK备注: §7" +  WkKit.getCdkData().getCDKMark(CDK));
-				sender.sendMessage("§8生成日期: §a" + WkKit.getCdkData().getCDKDate(CDK));
-				sender.sendMessage("§8使用情况: " + status);
+				sender.sendMessage(LangConfigLoader.getString("CDK_TIPS_MARK") + ": §7" +  WkKit.getCdkData().getCDKMark(CDK));
+				sender.sendMessage(LangConfigLoader.getString("CDK_TIPS_DATE") + ": §a" + WkKit.getCdkData().getCDKDate(CDK));
+				sender.sendMessage(LangConfigLoader.getString("CDK_TIPS_STATUS") + ": " + status);
 				sender.sendMessage("§a==============================");
 			}else {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("CDK_INVALID", ChatColor.RED));
@@ -97,7 +97,7 @@ public class KitCDK {
 					for(String kit : kitlist) {
 						player.getInventory().addItem(Kit.getKit(kit).getKitItem());
 					}
-					player.sendMessage("§aCDK兑换成功！");
+					player.sendMessage(LangConfigLoader.getString("CDK_EXCHANGE_SUCCESS"));
 				}else {//否则发送到礼包邮箱
 					for(String kitname : kitlist) {
 						if(WkKit.getPlayerData().contain_Mail(player.getName(),kitname)) {
@@ -108,7 +108,7 @@ public class KitCDK {
 						}
 
 					}
-					player.sendMessage("§aCDK兑换成功！已发送至礼包邮箱...");
+					player.sendMessage(LangConfigLoader.getString("CDK_EXCHANGE_SUCCESS_TOMAIL"));
 				}
 				WkKit.getCdkData().setCDKStatus(CDK, player.getName());
 				return;
@@ -143,7 +143,7 @@ public class KitCDK {
 					ra.write("\n".getBytes());
 				}
 				ra.close();
-				sender.sendMessage("§a已导出至 Export\\"+foldername+".txt");
+				sender.sendMessage(LangConfigLoader.getString("CDK_EXPORT_SUCCESS") + " Export\\"+foldername+".txt");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

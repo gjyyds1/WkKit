@@ -21,7 +21,9 @@ Menu2:
    Size: 6
    Slots:
       Default: 
-         id: 'GRASS'
+         id: 'PAPER'
+         # 模型数据值，使用IA时即可看到效果 支持版本1.14+
+         custommodeldata: 10004
          name: 'Spilt Line'
          lore: ''
          slot: 0-8,45-53

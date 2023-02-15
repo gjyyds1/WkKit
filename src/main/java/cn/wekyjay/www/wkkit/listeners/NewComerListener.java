@@ -1,9 +1,11 @@
 package cn.wekyjay.www.wkkit.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
@@ -20,13 +22,19 @@ public class NewComerListener implements Listener {
 	    String nckitname = this.wk.getConfig().getString("NewComer.Kit");//新人礼包名
 	    if (isnc && Kit.getKit(nckitname) != null && e.getPlayer().getStatistic(Statistic.LEAVE_GAME) == 0) {
 	    	if(WkKit.getPlayerData().contain_Kit(pname, nckitname))return;
-	    	if(isauto) {
-	    		e.getPlayer().getInventory().addItem(Kit.getKit(nckitname).getKitItem());
-		    	WkKit.getPlayerData().setKitToFile(pname, nckitname, "false", 0);
-	    	}else {
-		    	WkKit.getPlayerData().setKitToFile(pname, nckitname, "true", 1);
-	    	}
-
+	    	new BukkitRunnable() {
+				
+				@Override
+				public void run() {
+			    	if(isauto) {
+			    		e.getPlayer().getInventory().addItem(Kit.getKit(nckitname).getKitItem());
+				    	WkKit.getPlayerData().setKitToFile(pname, nckitname, "false", 0);
+			    	}else {
+				    	WkKit.getPlayerData().setKitToFile(pname, nckitname, "true", 1);
+			    	}
+					
+				}
+			}.runTaskLater(wk, 20L);
 	    } 
 	    
 	  }

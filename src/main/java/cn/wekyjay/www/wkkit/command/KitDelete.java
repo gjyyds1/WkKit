@@ -23,14 +23,6 @@ public class KitDelete {
 		String filename = ConfigManager.getKitconfig().getContainsFilename(kitname);
 		
 		if(Kit.getKit(kitname) != null) {//判断是否存在该礼包
-			// 如果有礼包自刷新线程就遍历关闭
-			if(Kit.getKit(kitname).getDocron() != null) {
-				for(String value : ConfigManager.tasklist.keySet()) {
-					if(value.equalsIgnoreCase(kitname)) {
-						ConfigManager.tasklist.get(value).cancel();
-					}
-				}
-			}
 			//删除礼包
 			ConfigManager.getKitconfig().set(kitname, null);
 			ConfigManager.getKitconfig().getKitsList().remove(Kit.getKit(kitname));

@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import cn.wekyjay.www.wkkit.command.KitInfo;
 import cn.wekyjay.www.wkkit.command.TabCompleter;
@@ -55,8 +56,7 @@ public class WkKit extends JavaPlugin {
 	public static FileConfiguration CDKConfig;
 	private static PlayerData playerdata = null;
 	private static CdkData cdkdata = null;
-	public static int refreshCount = 0;
-	
+	private static BukkitTask antiShutDownTask = null;
 	// 初始化数据
 	public static PlayerData getPlayerData() {
 		if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
@@ -84,15 +84,7 @@ public class WkKit extends JavaPlugin {
     public void onEnable() {
 		wkkit = this;//为Getter赋值为本类
 		
-		// 启动数据库
-		if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					MySQLManager.get().enableMySQL();
-				}
-			}.runTaskAsynchronously(this);
-		}
+
 		
 		saveDefaultConfig();//初始化Config文件
 		
@@ -194,12 +186,25 @@ public class WkKit extends JavaPlugin {
             t.start();
         }
         
-        
-        // 启动自动刷新礼包检测
-        new KitRefresh().enable();         
-        this.getLogger().info(LangConfigLoader.getString("REFRESH_NUM") + WkKit.refreshCount);
-        this.getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
-        this.getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
+		// 启动数据库
+		if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					MySQLManager.get().enableMySQL();
+			        // 启动自动刷新礼包检测
+			        KitRefresh.enableRefresh();         
+			        getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
+			        getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
+				}
+			}.runTaskAsynchronously(this);
+		}else {
+	        // 启动自动刷新礼包检测
+	        KitRefresh.enableRefresh();
+	        getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
+	        getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
+		}
+
         
         // 防崩服记录线程启用
         this.enableAntiShutDown();
@@ -239,11 +244,11 @@ public class WkKit extends JavaPlugin {
      * 启用防崩服记录线程启用
      */
     public void enableAntiShutDown() {
+    	if(antiShutDownTask != null) antiShutDownTask.cancel();
     	if(this.getConfig().getInt("Default.AntiShutDown") == 0) return;
         long ticks = 20 * this.getConfig().getInt("Default.AntiShutDown") * 60;
         // 放入线程
-        ConfigManager.tasklist.put("AntiShutDown",
-	        new BukkitRunnable() {
+        antiShutDownTask = new BukkitRunnable() {
 				@Override
 				public void run() {
 					File file = new File(WkKit.getWkKit().getDataFolder(),"config.yml");
@@ -257,8 +262,7 @@ public class WkKit extends JavaPlugin {
 					}
 					
 				}
-			}.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, ticks)
-		);
+			}.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, ticks);
         
 	}
 

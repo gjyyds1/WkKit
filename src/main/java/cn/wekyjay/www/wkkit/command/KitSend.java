@@ -8,9 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
 import cn.wekyjay.www.wkkit.kit.Kit;
 
 public  class KitSend {

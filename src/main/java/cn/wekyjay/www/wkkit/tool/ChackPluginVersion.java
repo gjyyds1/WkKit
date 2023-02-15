@@ -17,7 +17,7 @@ public class ChackPluginVersion implements Listener,Runnable{
 	public String getLastestVersion() {
 		String ver = null;
 		try {
-			URL url = new URL("https://www.wekyjay.cn/version/wkkit.txt");
+			URL url = new URL("https://forum.wekyjay.cn/version/wkkit.txt");
 			InputStream is = url.openStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
 			ver = br.readLine();

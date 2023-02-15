@@ -1,8 +1,10 @@
 name: WkKit
 main: cn.wekyjay.www.wkkit.WkKit
-version: 1.0.7
+version: 1.0.12
 api-version: 1.13
 author: WekyJay
+description: A minecraft plugin by WekyJay.
+website: https://forum.wekyjay.cn/
 depend:
    - NBTAPI
 softdepend: 
@@ -10,6 +12,28 @@ softdepend:
 commands:
   wkkit:
     description: Get plugin helper.
-    usage: /<command>
+    permission: wkkit.help
+    permission-message: You do not have permission!
+    usage: /<command> help
     aliases: 
        - wk
+permissions:
+  wkkit.*:
+    description: Wildcard permission
+    default: op
+    children:
+      wkkit.help: true
+      wkkit.open: true
+      wkkit.mail: true
+      wkkit.cdk.*: true
+  wkkit.help:
+    default: true
+  wkkit.open:
+    default: true
+  wkkit.mail:
+    default: true
+  wkkit.cdk.*:
+    default: true
+    children:
+      wkkit.cdk.verify: true
+      wkkit.cdk.exchange: true

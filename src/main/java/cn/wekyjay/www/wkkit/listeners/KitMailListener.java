@@ -19,10 +19,10 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 
 import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.command.KitMail;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.handlerlist.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.handlerlist.ReceiveType;
 import cn.wekyjay.www.wkkit.invholder.MailHolder;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.WKTool;
@@ -71,7 +71,7 @@ public class KitMailListener implements Listener {
 			          return;
 				}
 				List<String> set = WkKit.getPlayerData().getMailKits(name);
-				if(!set.isEmpty() && e.getRawSlot() == 52) {
+				if(set != null && !set.isEmpty() && e.getRawSlot() == 52) {
 		          if (!WKTool.hasSpace(p, set.size())) {
 		              p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_FAILED", ChatColor.YELLOW));
 		              return;

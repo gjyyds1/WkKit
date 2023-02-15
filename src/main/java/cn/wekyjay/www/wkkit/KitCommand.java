@@ -1,5 +1,6 @@
 package cn.wekyjay.www.wkkit;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import cn.wekyjay.www.wkkit.edit.EditGUI;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.menu.MenuOpenner;
+import cn.wekyjay.www.wkkit.tool.KitCache;
 import de.tr7zw.nbtapi.NBTItem;
 
 
@@ -42,6 +44,7 @@ public class KitCommand implements CommandExecutor{
 				sender.sendMessage(LangConfigLoader.getString("Commands.PS"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.help"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.admin"));
+				sender.sendMessage(LangConfigLoader.getString("Commands.savechache"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.create"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.delete"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.mail"));
@@ -75,9 +78,7 @@ public class KitCommand implements CommandExecutor{
 		
 		/*重载插件*/
 		if (args[0].equalsIgnoreCase("reload") && sender.isOp()){
-			WkKit.refreshCount = 0;
 			ConfigManager.reloadPlugin();
-			sender.sendMessage(LangConfigLoader.getStringWithPrefix("REFRESH_NUM",ChatColor.GRAY) + WkKit.refreshCount);
 	        sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_NUM",ChatColor.GRAY) + Kit.getKits().size());
 	        sender.sendMessage(LangConfigLoader.getStringWithPrefix("MENU_NUM",ChatColor.GRAY) + MenuManager.getInvs().size());
 			sender.sendMessage(LangConfigLoader.getStringWithPrefix("CONFIG_RELOAD",ChatColor.GREEN));
@@ -161,13 +162,24 @@ public class KitCommand implements CommandExecutor{
 			new KitGroup().onCommand(sender, command, label, args);
 		}
 		
+		/** 礼包编辑 **/
 		if(args[0].equalsIgnoreCase("edit") && sender.isOp()) {
 			Player p = (Player)sender;
 			p.openInventory(EditGUI.getEditGUI().getEditInv());
 		}
 		
+		/* cdk系统 */
 		if(args[0].equalsIgnoreCase("cdk")) {
 			new KitCDK().onCommand(sender, args);
+		}
+		
+		/* 保存日志 */
+		if(args[0].equalsIgnoreCase("SaveCache") && sender.isOp()) {
+			try {
+				KitCache.getCache().saveCache();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		/*到底了*/

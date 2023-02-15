@@ -23,9 +23,9 @@ import de.tr7zw.nbtapi.NBTItem;
 public class WKTool{
 
 	/**
-	 * Ìí¼ÓÖ¸¶¨µÄÎïÆ·µ½Ö¸¶¨µÄÍæ¼Ò±³°ü
-	 * @param e - Ö¸¶¨µÄÍæ¼Ò
-	 * @param i - Ö¸¶¨µÄÎïÆ·
+	 * æ·»åŠ æŒ‡å®šçš„ç‰©å“åˆ°æŒ‡å®šçš„ç©å®¶èƒŒåŒ…
+	 * @param e - æŒ‡å®šçš„ç©å®¶
+	 * @param i - æŒ‡å®šçš„ç‰©å“
 	 */
 	public static void addItem(Player e, ItemStack i) {
 		InventoryHolder invholder = (InventoryHolder) e;
@@ -35,7 +35,7 @@ public class WKTool{
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñÓĞ×ã¹»µÄ¿Õ¼äÁìÈ¡Ö¸¶¨µÄÀñ°ü
+	 * åˆ¤æ–­æ˜¯å¦æœ‰è¶³å¤Ÿçš„ç©ºé—´é¢†å–æŒ‡å®šçš„ç¤¼åŒ…
 	 * @param p
 	 * @param kit
 	 * @return
@@ -43,7 +43,7 @@ public class WKTool{
 	public static boolean hasSpace(Player p,Kit kit) {
 		int nullNum = 0;
 		int kitItemNum = 0;
-		//¼ÆËã³ö±³°üÓĞ¶àÉÙ¿Õ¼ä
+		//è®¡ç®—å‡ºèƒŒåŒ…æœ‰å¤šå°‘ç©ºé—´
 		for(int i = 0;i < 36; i++) {
 			try {
 				p.getInventory().getItem(i).getType();
@@ -51,7 +51,7 @@ public class WKTool{
 				nullNum += 1;
 			}
 		}
-		//¼ÆËã³öÀñ°üÖĞÓĞ¶àÉÙ¿Õ¼ä
+		//è®¡ç®—å‡ºç¤¼åŒ…ä¸­æœ‰å¤šå°‘ç©ºé—´
 		for(int i = 0;i < kit.getItemStack().length;i++) {
 			if(kit.getItemStack()[i] != null) {
 				kitItemNum++;
@@ -64,7 +64,7 @@ public class WKTool{
 		}
 	}
 	/**
-	 * ÅĞ¶ÏÊÇ·ñÓĞ×ã¹»µÄ¿Õ¼äÁìÈ¡×ã¹»¶àÊıÁ¿µÄÎïÆ·
+	 * åˆ¤æ–­æ˜¯å¦æœ‰è¶³å¤Ÿçš„ç©ºé—´é¢†å–è¶³å¤Ÿå¤šæ•°é‡çš„ç‰©å“
 	 * @param p
 	 * @param kit
 	 * @return
@@ -72,7 +72,7 @@ public class WKTool{
 	public static boolean hasSpace(Player p,int num) {
 		int nullNum = 0;
 		int ItemNum = num;
-		//¼ÆËã³ö±³°üÓĞ¶àÉÙ¿Õ¼ä
+		//è®¡ç®—å‡ºèƒŒåŒ…æœ‰å¤šå°‘ç©ºé—´
 		for(int i = 0;i < 36; i++) {
 			try {
 				p.getInventory().getItem(i).getType();
@@ -88,10 +88,10 @@ public class WKTool{
 	}
 	
 	/**
-	 * ¸ü¸ÄÕ¼Î»·ûÎªÖ¸¶¨µÄÖµ
-	 * @param key Õ¼Î»·ûµÄkey(²»¼Ó{})
-	 * @param value ÒªÌæ»»µÄÖµ
-	 * @param msg ÒªÌæ»»µÄÏûÏ¢¶Î
+	 * æ›´æ”¹å ä½ç¬¦ä¸ºæŒ‡å®šçš„å€¼
+	 * @param key å ä½ç¬¦çš„key(ä¸åŠ {})
+	 * @param value è¦æ›¿æ¢çš„å€¼
+	 * @param msg è¦æ›¿æ¢çš„æ¶ˆæ¯æ®µ
 	 * @return
 	 */
 	public static String replacePlaceholder(String key,String value,String msg) {
@@ -100,15 +100,15 @@ public class WKTool{
 		
 	}
 	/**
-	 * NBT×ª»»³ÉÍ·Â­
+	 * NBTè½¬æ¢æˆå¤´é¢…
 	 * @param skullnbt
 	 * @return ItemStack
 	 */
 	public static ItemStack nbtCovertoSkull(String skullnbt) {
-		ItemStack head = PlayerHead.DEFAULT.getItemStack();//ĞÂ½¨Ò»¸öÍ·Â­ÎïÆ·
-	    NBTItem nbti = new NBTItem(head);//´«ÈëÍ·Â­µÄNBTµ½NBTItem
+		ItemStack head = PlayerHead.DEFAULT.getItemStack();//æ–°å»ºä¸€ä¸ªå¤´é¢…ç‰©å“
+	    NBTItem nbti = new NBTItem(head);//ä¼ å…¥å¤´é¢…çš„NBTåˆ°NBTItem
 	    String nbt = skullnbt;
-		NBTContainer c = new NBTContainer(nbt);//Ìí¼ÓÒ»¸öNBTÈİÆ÷
+		NBTContainer c = new NBTContainer(nbt);//æ·»åŠ ä¸€ä¸ªNBTå®¹å™¨
 	    nbti.mergeCompound(c);
 	    head = nbti.getItem();
 	    return head;
@@ -124,7 +124,7 @@ public class WKTool{
 	}
 	
 	/**
-	 * »ñµÃ·şÎñÆ÷ËùÓĞÍæ¼ÒµÄÃû×Ö£¨°üÀ¨ÀëÏß£©
+	 * è·å¾—æœåŠ¡å™¨æ‰€æœ‰ç©å®¶çš„åå­—ï¼ˆåŒ…æ‹¬ç¦»çº¿ï¼‰
 	 * @return
 	 */
     public static List<String> getPlayerNames() {
@@ -138,41 +138,41 @@ public class WKTool{
     }
 	
 	/**
-	 * »ñÈ¡slotµÄÎ»ÖÃ
+	 * è·å–slotçš„ä½ç½®
 	 * @param path
 	 * @return
 	 */
 	public static List<Integer> getSlotNum(String path){
 		String slotnum = MenuConfigLoader.getString(path);
 		List<Integer> list = new ArrayList<>();
-		if(slotnum.contains(",")) {// ÓĞ·Ö¸ô·û
+		if(slotnum.contains(",")) {// æœ‰åˆ†éš”ç¬¦
 			for(String s : slotnum.split(",")) {
 				if(s.contains("-") && s.split("-").length == 2) {
 					String[] s1 = s.split("-");
 					int begain = Integer.parseInt(s1[0]);
 					int end = Integer.parseInt(s1[1]);
-					// ±éÀúÊı×ÖÇø¼ä
+					// éå†æ•°å­—åŒºé—´
 					for(int i = begain;i <= end;i++) {
 						if(!list.contains(i)) {
 							list.add(i);
 						}
 					}
-				}else if(!list.contains(Integer.parseInt(s))) {// Ã»ÓĞÊı×ÖÇø¼ä¾ÍÖ±½Ó¼ÓÈë
+				}else if(!list.contains(Integer.parseInt(s))) {// æ²¡æœ‰æ•°å­—åŒºé—´å°±ç›´æ¥åŠ å…¥
 					list.add(Integer.parseInt(s));
 				}
 			}
-		}else {// Ã»ÓĞ·Ö¸ô·û
+		}else {// æ²¡æœ‰åˆ†éš”ç¬¦
 			if(slotnum.contains("-") && slotnum.split("-").length == 2) {
 				String[] s1 = slotnum.split("-");
 				int begain = Integer.parseInt(s1[0]);
 				int end = Integer.parseInt(s1[1]);
-				// ±éÀúÊı×ÖÇø¼ä
+				// éå†æ•°å­—åŒºé—´
 				for(int i = begain;i <= end;i++) {
 					if(!list.contains(i)) {
 						list.add(i);
 					}
 				}
-			}else {// Ã»ÓĞÊı×ÖÇø¼ä¾ÍÖ±½Ó¼ÓÈë
+			}else {// æ²¡æœ‰æ•°å­—åŒºé—´å°±ç›´æ¥åŠ å…¥
 				if(!list.contains(Integer.parseInt(slotnum))) {
 					list.add(Integer.parseInt(slotnum));
 				}
@@ -181,23 +181,23 @@ public class WKTool{
 		return list;
 	}
 	/**
-	 * »ñÈ¡·şÎñÆ÷°æ±¾ºÅ
+	 * è·å–æœåŠ¡å™¨ç‰ˆæœ¬å·
 	 * @return x.xx.x
 	 */
 	public static int getVersion() {
-		String[] versions = Bukkit.getBukkitVersion().split("\\.");//»ñµÃ°æ±¾ºÅ²¢ÇÒ·Ö¸î¸øversion×Ö·û´®×é
+		String[] versions = Bukkit.getBukkitVersion().split("\\.");//è·å¾—ç‰ˆæœ¬å·å¹¶ä¸”åˆ†å‰²ç»™versionå­—ç¬¦ä¸²ç»„
 		
 		Pattern pattern = Pattern.compile("^-?\\d+(\\.\\d+)?$");
         if(pattern.matcher(versions[1]).matches()) {
     		int versionsnum = Integer.parseInt(versions[1]);//16
     		return versionsnum;
         }
-        // ·ñÔòÄ¬ÈÏ
+        // å¦åˆ™é»˜è®¤
         return 99;
 	}
 	
 	/**
-	 * ÉèÖÃItemµÄDisplayName
+	 * è®¾ç½®Itemçš„DisplayName
 	 * @param is
 	 * @param name
 	 * @return
@@ -209,7 +209,7 @@ public class WKTool{
 		return is;
 	}
 	/**
-	 * ÉèÖÃItemµÄLore
+	 * è®¾ç½®Itemçš„Lore
 	 * @param is
 	 * @param lore
 	 * @return
@@ -222,7 +222,7 @@ public class WKTool{
 	}
 	
 	/**
-	 * ÅĞ¶ÏÎÄ±¾ÊÇ·ñ·ûºÏÕıÔò±í´ïÊ½
+	 * åˆ¤æ–­æ–‡æœ¬æ˜¯å¦ç¬¦åˆæ­£åˆ™è¡¨è¾¾å¼
 	 * @param str
 	 * @param pattern
 	 * @return

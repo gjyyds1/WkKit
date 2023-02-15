@@ -15,12 +15,12 @@ public class PlayerSQLData {
 			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(cmd);
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {
-			System.out.println("¡ìcÍæ¼ÒÊı¾İ±í´´½¨Ê§°Ü");
+			System.out.println("Â§cç©å®¶æ•°æ®è¡¨åˆ›å»ºå¤±è´¥");
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * ÏòÊı¾İ¿âÌí¼ÓÊı¾İ
+	 * å‘æ•°æ®åº“æ·»åŠ æ•°æ®
 	 * @param kitname
 	 * @param player
 	 * @param data

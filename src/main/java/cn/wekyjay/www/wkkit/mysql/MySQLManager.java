@@ -35,7 +35,7 @@ public class MySQLManager {
 	}
 	
 	/**
-	 * Æô¶¯Êı¾İ¿â
+	 * å¯åŠ¨æ•°æ®åº“
 	 */
 	public void enableMySQL()
 	{
@@ -45,20 +45,20 @@ public class MySQLManager {
 		userName = WkKit.getWkKit().getConfig().getString("MySQL.username");
 		userPassword = WkKit.getWkKit().getConfig().getString("MySQL.password");
 		port = WkKit.getWkKit().getConfig().getString("MySQL.port");
-		// Á¬½ÓÊı¾İ¿â
+		// è¿æ¥æ•°æ®åº“
 		connectMySQL();
-		// ´´½¨±í
+		// åˆ›å»ºè¡¨
 		MailSQLData.createTable();
 		PlayerSQLData.createTable();
 		CdkSQLData.createTable();
 	}
 	
 	/**
-	 * Á¬½ÓÊı¾İ¿â
+	 * è¿æ¥æ•°æ®åº“
 	 */
 	private void connectMySQL(){
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + databaseName + "?autoReconnect=true", userName, userPassword);
+			connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + databaseName, userName, userPassword);
 			WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("MYSQL_CONNECT_SUCCESS"));
 		}catch(SQLTimeoutException e1) {
 			WkKit.getWkKit().getLogger().severe(LangConfigLoader.getString("MYSQL_CONECTTIMEOUT"));
@@ -71,7 +71,7 @@ public class MySQLManager {
 		}
 	}
 	/**
-	 * Ö´ĞĞMySQLÃüÁî
+	 * æ‰§è¡ŒMySQLå‘½ä»¤
 	 * @param ps
 	 */
 	public void doCommand(PreparedStatement ps){
@@ -85,7 +85,7 @@ public class MySQLManager {
 	}
 	
 	/**
-	 * ¹Ø±ÕÊı¾İ¿â
+	 * å…³é—­æ•°æ®åº“
 	 */
 	public void shutdown() {
 		try {

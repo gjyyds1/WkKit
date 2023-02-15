@@ -15,7 +15,7 @@ public class TabCompleter implements TabExecutor{
 		if(!sender.isOp()) {
 			return Arrays.asList("mail","open","cdk");
 		}
-		List<String> list = Arrays.asList("create","cdk","delete","send","kits","give","info","open","mail","group","edit","transfer","reload");
+		List<String> list = Arrays.asList("create","cdk","delete","send","savechache","kits","give","info","open","mail","group","edit","transfer","reload");
 		List<String> savelist = new ArrayList<String>();
 		String firstcmd = args[0];
 		
