@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CdkData {
 	/**
-	 * Ìí¼ÓCDKÊı¾İ
+	 * æ·»åŠ CDKæ•°æ®
 	 * @param CDK
 	 * @param kits
 	 * @param data
@@ -12,64 +12,64 @@ public interface CdkData {
 	 */
 	void addCDKToFile(String CDK, String kits, String data,String mark);
 	/**
-	 * ÉèÖÃÖ¸¶¨cdkµÄÊ¹ÓÃÇé¿ö
+	 * è®¾ç½®æŒ‡å®šcdkçš„ä½¿ç”¨æƒ…å†µ
 	 * @param CDK
 	 * @param playername
 	 */
 	void setCDKStatus(String CDK,String playername);
 	/**
-	 * ĞŞ¸ÄÖ¸¶¨markµÄmark
+	 * ä¿®æ”¹æŒ‡å®šmarkçš„mark
 	 * @param mark
 	 * @param newmark
 	 */
 	void setCDKMark(String mark,String newmark);
 	/**
-	 * É¾³ımarkÎªmarkµÄËùÓĞCDK
+	 * åˆ é™¤markä¸ºmarkçš„æ‰€æœ‰CDK
 	 * @param mark
 	 */
 	void delCDKOfMark(String mark);
 	/**
-	 * É¾³ıÖ¸¶¨µÄCDK
+	 * åˆ é™¤æŒ‡å®šçš„CDK
 	 * @param cdk
 	 */
 	void delCDK(String cdk);
 	/**
-	 * ·µ»ØÓĞÖ¸¶¨markµÄ¶Ò»»Âë
+	 * è¿”å›æœ‰æŒ‡å®šmarkçš„å…‘æ¢ç 
 	 * @param mark
 	 */
 	List<String> findCDK(String mark);
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚÖ¸¶¨µÄCDK
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨æŒ‡å®šçš„CDK
 	 * @param CDK
 	 * @return
 	 */
 	boolean Contain_CDK(String CDK);
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚÖ¸¶¨µÄMark
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨æŒ‡å®šçš„Mark
 	 * @param mark
 	 * @return
 	 */
 	boolean Contain_CDKMark(String mark);
 	/**
-	 * »ñÈ¡Ö¸¶¨cdkµÄkits
+	 * è·å–æŒ‡å®šcdkçš„kits
 	 * @param cdk
 	 * @return
 	 */
 	String getCDKKits(String cdk);
 	/**
-	 * »ñÈ¡Ö¸¶¨CDKµÄDate
+	 * è·å–æŒ‡å®šCDKçš„Date
 	 * @param cdk
 	 * @return
 	 */
 	String getCDKDate(String cdk);
 	/**
-	 * »ñÈ¡Ö¸¶¨CDKµÄStatus
+	 * è·å–æŒ‡å®šCDKçš„Status
 	 * @param cdk
 	 * @return
 	 */
 	String getCDKStatus(String cdk);
 	/**
-	 * »ñÈ¡Ö¸¶¨CDKµÄMark
+	 * è·å–æŒ‡å®šCDKçš„Mark
 	 * @param cdk
 	 * @return
 	 */

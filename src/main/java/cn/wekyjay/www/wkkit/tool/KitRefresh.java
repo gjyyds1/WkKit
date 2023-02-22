@@ -25,7 +25,6 @@ public class KitRefresh {
 	 * 取消当前礼包自刷新线程
 	 */
 	public static void cancelTask() {
-		WkKit.getWkKit().getLogger().info("礼包自刷新线程取消！");
 		task.cancel();
 	}
 		

@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.other;
+package cn.wekyjay.www.wkkit.hook;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,11 +13,11 @@ import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.tool.CronManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
-public class WkKitPAPI extends PlaceholderExpansion {
+public class PapiHooker extends PlaceholderExpansion {
 
 	private final WkKit plugin;
     
-    public WkKitPAPI(WkKit plugin) {
+    public PapiHooker(WkKit plugin) {
         this.plugin = plugin;
     }
     

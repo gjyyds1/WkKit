@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cn.wekyjay.www.wkkit.hook.VaultHooker;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,236 +35,240 @@ import cn.wekyjay.www.wkkit.listeners.KitReminderListener;
 import cn.wekyjay.www.wkkit.listeners.NewComerListener;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.mysql.MySQLManager;
-import cn.wekyjay.www.wkkit.other.Metrics;
-import cn.wekyjay.www.wkkit.other.WkKitPAPI;
+import cn.wekyjay.www.wkkit.hook.Metrics;
+import cn.wekyjay.www.wkkit.hook.PapiHooker;
 import cn.wekyjay.www.wkkit.tool.ChackFiles;
 import cn.wekyjay.www.wkkit.tool.ChackPluginVersion;
 import cn.wekyjay.www.wkkit.tool.KitCache;
 import cn.wekyjay.www.wkkit.tool.KitRefresh;
 
 public class WkKit extends JavaPlugin {
-	
-	/*声明静态属性*/
-	public static File playerConfigFile;
-	public static File playerMailConfigFile;
-	public static File CDKConfigFile;
-	public static File msgConfigFile;
-	public static File menuFile;
-	public static File kitFile;
-	public static File langFile;
-	public static FileConfiguration playerConfig;
-	public static FileConfiguration playerMailConfig;
-	public static FileConfiguration CDKConfig;
-	private static PlayerData playerdata = null;
-	private static CdkData cdkdata = null;
-	private static BukkitTask antiShutDownTask = null;
-	// 初始化数据
-	public static PlayerData getPlayerData() {
-		if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
-			return playerdata == null ? new PlayerData_MySQL() : playerdata;
-		}
-		return playerdata == null ? new PlayerData_Yaml() : playerdata;
-	}
-	public static CdkData getCdkData() {
-		if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
-			return cdkdata == null ? new CdkData_MySQL() : cdkdata;
-		}
-		return cdkdata == null ? new CdkData_Yaml() : cdkdata;
-	}
-	
 
-	/*创建一个可调用本类的方法的Getter*/
-	public static WkKit wkkit;
-	public static WkKit getWkKit() {
-		return wkkit;
-	}
-	
-	
-	/*插件启动标识*/
-    @Override 
+    /*声明静态属性*/
+    public static File playerConfigFile;
+    public static File playerMailConfigFile;
+    public static File CDKConfigFile;
+    public static File msgConfigFile;
+    public static File menuFile;
+    public static File kitFile;
+    public static File langFile;
+    public static FileConfiguration playerConfig;
+    public static FileConfiguration playerMailConfig;
+    public static FileConfiguration CDKConfig;
+    private static PlayerData playerdata = null;
+    private static CdkData cdkdata = null;
+    private static BukkitTask antiShutDownTask = null;
+    // 初始化数据
+    public static PlayerData getPlayerData() {
+        if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
+            return playerdata == null ? new PlayerData_MySQL() : playerdata;
+        }
+        return playerdata == null ? new PlayerData_Yaml() : playerdata;
+    }
+    public static CdkData getCdkData() {
+        if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
+            return cdkdata == null ? new CdkData_MySQL() : cdkdata;
+        }
+        return cdkdata == null ? new CdkData_Yaml() : cdkdata;
+    }
+
+
+    /*创建一个可调用本类的方法的Getter*/
+    public static WkKit wkkit;
+    public static WkKit getWkKit() {
+        return wkkit;
+    }
+
+
+    /*插件启动标识*/
+    @Override
     public void onEnable() {
-		wkkit = this;//为Getter赋值为本类
-		
+        wkkit = this;//为Getter赋值为本类
 
-		
-		saveDefaultConfig();//初始化Config文件
-		
-		
-		reloadConfig();
-		
-		
-		//创建文件
-		playerConfigFile = new File(getDataFolder(),"player.yml");
-		playerMailConfigFile = new File(getDataFolder(),"maildata.yml");
-		CDKConfigFile = new File(getDataFolder(),"CDK.yml");
 
-		
-		//检测是否存在不存在就创建一个
-		if(!playerConfigFile.exists()) {saveResource("player.yml", false);}
-		if(!playerMailConfigFile.exists()) {saveResource("maildata.yml", false);}
-		if(!CDKConfigFile.exists()) {saveResource("CDK.yml", false);}
-		
-		//加载文件
-		playerConfig = YamlConfiguration.loadConfiguration(WkKit.playerConfigFile);
-		playerMailConfig = YamlConfiguration.loadConfiguration(WkKit.playerMailConfigFile);
-		CDKConfig = YamlConfiguration.loadConfiguration(WkKit.CDKConfigFile);
-		
-		
-		// 创建配置文件
-		String menupath = getDataFolder().getAbsolutePath() + File.separatorChar + "Menus";
-		String kitpath = getDataFolder().getAbsolutePath() + File.separatorChar + "Kits";
-		String langpath = getDataFolder().getAbsolutePath() + File.separatorChar + "Language";
-		menuFile = new File(menupath);
-		kitFile = new File(kitpath);
-		langFile = new File(langpath);
-		
-		if(!menuFile.exists()) {
-			menuFile.mkdir();
-			saveResource("Menus" + File.separatorChar + "ExampleMenu.yml", false);
-		}
-		if(!langFile.exists()) {
-			saveResource("Language" + File.separatorChar + "zh_CN.yml", false);
-			saveResource("Language" + File.separatorChar + "zh_HK.yml", false);
-			saveResource("Language" + File.separatorChar + "zh_TW.yml", false);
-			saveResource("Language" + File.separatorChar + "en_US.yml", false);
-		}
-		if(!kitFile.exists()) {
-			kitFile.mkdir();
-			saveResource("Kits" + File.separatorChar + "ExampleKits.yml", false);
-		}
-		
+
+        saveDefaultConfig();//初始化Config文件
+
+
+        reloadConfig();
+
+
+        //创建文件
+        playerConfigFile = new File(getDataFolder(),"player.yml");
+        playerMailConfigFile = new File(getDataFolder(),"maildata.yml");
+        CDKConfigFile = new File(getDataFolder(),"CDK.yml");
+
+
+        //检测是否存在不存在就创建一个
+        if(!playerConfigFile.exists()) {saveResource("player.yml", false);}
+        if(!playerMailConfigFile.exists()) {saveResource("maildata.yml", false);}
+        if(!CDKConfigFile.exists()) {saveResource("CDK.yml", false);}
+
+        //加载文件
+        playerConfig = YamlConfiguration.loadConfiguration(WkKit.playerConfigFile);
+        playerMailConfig = YamlConfiguration.loadConfiguration(WkKit.playerMailConfigFile);
+        CDKConfig = YamlConfiguration.loadConfiguration(WkKit.CDKConfigFile);
+
+
+        // 创建配置文件
+        String menupath = getDataFolder().getAbsolutePath() + File.separatorChar + "Menus";
+        String kitpath = getDataFolder().getAbsolutePath() + File.separatorChar + "Kits";
+        String langpath = getDataFolder().getAbsolutePath() + File.separatorChar + "Language";
+        menuFile = new File(menupath);
+        kitFile = new File(kitpath);
+        langFile = new File(langpath);
+
+        if(!menuFile.exists()) {
+            menuFile.mkdir();
+            saveResource("Menus" + File.separatorChar + "ExampleMenu.yml", false);
+        }
+        if(!langFile.exists()) {
+            saveResource("Language" + File.separatorChar + "zh_CN.yml", false);
+            saveResource("Language" + File.separatorChar + "zh_HK.yml", false);
+            saveResource("Language" + File.separatorChar + "zh_TW.yml", false);
+            saveResource("Language" + File.separatorChar + "en_US.yml", false);
+        }
+        if(!kitFile.exists()) {
+            kitFile.mkdir();
+            saveResource("Kits" + File.separatorChar + "ExampleKits.yml", false);
+        }
+
         // 检查文件节点
         ChackFiles cf = new ChackFiles();
         cf.chack(this.getDataFolder());
-		
-        // 读取文件
-		ConfigManager.loadConfig();
-		LangConfigLoader.loadConfig();
-		
-		
-		//指令&监听注册
-		Bukkit.getPluginCommand("wkkit").setExecutor(new KitCommand());//注册指令
-		Bukkit.getPluginCommand("wkkit").setTabCompleter(new TabCompleter());//补全指令
-		Bukkit.getPluginManager().registerEvents(new KitMailListener(),this);
-		Bukkit.getPluginManager().registerEvents(new DropKitListener(),this);
-		Bukkit.getPluginManager().registerEvents(new NewComerListener(),this);
-		Bukkit.getPluginManager().registerEvents(new KitReminderListener(),this);
-		Bukkit.getPluginManager().registerEvents(new KitInfo(),this);
-		Bukkit.getPluginManager().registerEvents(new KitMenuListener(),this);
-		Bukkit.getPluginManager().registerEvents(new  ChackPluginVersion(),this);
-		Bukkit.getPluginManager().registerEvents(EditGUI.getEditGUI(),this);
-		Bukkit.getPluginManager().registerEvents(new EditKit(),this);
 
-		//插件检测
+        // 读取文件
+        ConfigManager.loadConfig();
+        LangConfigLoader.loadConfig();
+
+
+        //指令&监听注册
+        Bukkit.getPluginCommand("wkkit").setExecutor(new KitCommand());//注册指令
+        Bukkit.getPluginCommand("wkkit").setTabCompleter(new TabCompleter());//补全指令
+        Bukkit.getPluginManager().registerEvents(new KitMailListener(),this);
+        Bukkit.getPluginManager().registerEvents(new DropKitListener(),this);
+        Bukkit.getPluginManager().registerEvents(new NewComerListener(),this);
+        Bukkit.getPluginManager().registerEvents(new KitReminderListener(),this);
+        Bukkit.getPluginManager().registerEvents(new KitInfo(),this);
+        Bukkit.getPluginManager().registerEvents(new KitMenuListener(),this);
+        Bukkit.getPluginManager().registerEvents(new  ChackPluginVersion(),this);
+        Bukkit.getPluginManager().registerEvents(EditGUI.getEditGUI(),this);
+        Bukkit.getPluginManager().registerEvents(new EditKit(),this);
+
+        //插件检测
         if (Bukkit.getPluginManager().getPlugin("NBTAPI") != null) {
-        	getLogger().info("");
-        	getLogger().info(" __ __ __   ___   ___   ___   ___   ________  _________  ");
-        	getLogger().info("/_//_//_/\\ /___/\\/__/\\ /___/\\/__/\\ /_______/\\/________/\\ ");
-        	getLogger().info("\\:\\\\:\\\\:\\ \\\\::.\\ \\\\ \\ \\\\::.\\ \\\\ \\ \\\\__.::._\\/\\__.::.__\\/ ");
-        	getLogger().info(" \\:\\\\:\\\\:\\ \\\\:: \\/_) \\ \\\\:: \\/_) \\ \\  \\::\\ \\    \\::\\ \\   ");
-        	getLogger().info("  \\:\\\\:\\\\:\\ \\\\:. __  ( ( \\:. __  ( (  _\\::\\ \\__  \\::\\ \\  ");
-        	getLogger().info("   \\:\\\\:\\\\:\\ \\\\: \\ )  \\ \\ \\: \\ )  \\ \\/__\\::\\__/\\  \\::\\ \\ ");
-        	getLogger().info("    \\_______\\/ \\__\\/\\__\\/  \\__\\/\\__\\/\\________\\/   \\__\\/ ");
-        	getLogger().info("");
-        	getLogger().info("Version: "+ getDescription().getVersion() + " | Author: WekyJay | QQ Group: 945144520");
-        	getLogger().info("§a特别鸣谢：§eBiulay Gentry §7(排名不分先后)");
+            getLogger().info("");
+            getLogger().info(" __ __ __   ___   ___   ___   ___   ________  _________  ");
+            getLogger().info("/_//_//_/\\ /___/\\/__/\\ /___/\\/__/\\ /_______/\\/________/\\ ");
+            getLogger().info("\\:\\\\:\\\\:\\ \\\\::.\\ \\\\ \\ \\\\::.\\ \\\\ \\ \\\\__.::._\\/\\__.::.__\\/ ");
+            getLogger().info(" \\:\\\\:\\\\:\\ \\\\:: \\/_) \\ \\\\:: \\/_) \\ \\  \\::\\ \\    \\::\\ \\   ");
+            getLogger().info("  \\:\\\\:\\\\:\\ \\\\:. __  ( ( \\:. __  ( (  _\\::\\ \\__  \\::\\ \\  ");
+            getLogger().info("   \\:\\\\:\\\\:\\ \\\\: \\ )  \\ \\ \\: \\ )  \\ \\/__\\::\\__/\\  \\::\\ \\ ");
+            getLogger().info("    \\_______\\/ \\__\\/\\__\\/  \\__\\/\\__\\/\\________\\/   \\__\\/ ");
+            getLogger().info("");
+            getLogger().info("Version: "+ getDescription().getVersion() + " | Author: WekyJay | QQ Group: 945144520");
+            getLogger().info("§a特别鸣谢：§eBiulay Gentry §7(排名不分先后)");
         } else {
             getLogger().warning(LangConfigLoader.getString("PLUGIN_NONBTAPI"));
             Bukkit.getPluginManager().disablePlugin(this);
         }
-        
+
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new WkKitPAPI(this).register();
+            new PapiHooker(this).register();
         }
-        
+
+        if(Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            new VaultHooker();
+        }
+
         //bStats
         int pluginId = 13579;
         new Metrics(this, pluginId);
-        
+
         //Check Version
         if(getConfig().contains("Setting.ChackUpdate") && getConfig().getBoolean("Setting.ChackUpdate")) {
             Thread t = new Thread(new ChackPluginVersion());
             t.start();
         }
-        
-		// 启动数据库
-		if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					MySQLManager.get().enableMySQL();
-			        // 启动自动刷新礼包检测
-			        KitRefresh.enableRefresh();         
-			        getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
-			        getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
-				}
-			}.runTaskAsynchronously(this);
-		}else {
-	        // 启动自动刷新礼包检测
-	        KitRefresh.enableRefresh();
-	        getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
-	        getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
-		}
 
-        
+        // 启动数据库
+        if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    MySQLManager.get().enableMySQL();
+                    // 启动自动刷新礼包检测
+                    KitRefresh.enableRefresh();
+                    getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
+                    getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
+                }
+            }.runTaskAsynchronously(this);
+        }else {
+            // 启动自动刷新礼包检测
+            KitRefresh.enableRefresh();
+            getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
+            getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
+        }
+
+
         // 防崩服记录线程启用
         this.enableAntiShutDown();
-        
+
         // 检查礼包密码
         CodeManager.checkPassWord();
-        
+
         // 日志管理
         KitCache.getCache();
-        
+
     }
-    
+
     /*插件关闭标识*/
     @Override
     public void onDisable() {
-		try {
-    	// 保存日志
-			KitCache.getCache().saveCache();
-    	// 保存关服时间
-			File file = new File(WkKit.getWkKit().getDataFolder(),"config.yml");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			YamlConfiguration fileYaml = YamlConfiguration.loadConfiguration(file);
-			fileYaml.set("Default.ShutDate", sdf.format(new Date()));
-			fileYaml.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            // 保存日志
+            KitCache.getCache().saveCache();
+            // 保存关服时间
+            File file = new File(WkKit.getWkKit().getDataFolder(),"config.yml");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            YamlConfiguration fileYaml = YamlConfiguration.loadConfiguration(file);
+            fileYaml.set("Default.ShutDate", sdf.format(new Date()));
+            fileYaml.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    	// 关闭数据库
-		if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
-			MySQLManager.get().shutdown(); 
-		}
-		this.getLogger().info(LangConfigLoader.getString("PLUGIN_UNINSTALL"));
+        // 关闭数据库
+        if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
+            MySQLManager.get().shutdown();
+        }
+        this.getLogger().info(LangConfigLoader.getString("PLUGIN_UNINSTALL"));
     }
-    
+
     /**
      * 启用防崩服记录线程启用
      */
     public void enableAntiShutDown() {
-    	if(antiShutDownTask != null) antiShutDownTask.cancel();
-    	if(this.getConfig().getInt("Default.AntiShutDown") == 0) return;
+        if(antiShutDownTask != null) antiShutDownTask.cancel();
+        if(this.getConfig().getInt("Default.AntiShutDown") == 0) return;
         long ticks = 20 * this.getConfig().getInt("Default.AntiShutDown") * 60;
         // 放入线程
         antiShutDownTask = new BukkitRunnable() {
-				@Override
-				public void run() {
-					File file = new File(WkKit.getWkKit().getDataFolder(),"config.yml");
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					YamlConfiguration fileYaml = YamlConfiguration.loadConfiguration(file);
-					fileYaml.set("Default.ShutDate", sdf.format(new Date()));
-					try {
-						fileYaml.save(file);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					
-				}
-			}.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, ticks);
-        
-	}
+            @Override
+            public void run() {
+                File file = new File(WkKit.getWkKit().getDataFolder(),"config.yml");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                YamlConfiguration fileYaml = YamlConfiguration.loadConfiguration(file);
+                fileYaml.set("Default.ShutDate", sdf.format(new Date()));
+                try {
+                    fileYaml.save(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.runTaskTimerAsynchronously(WkKit.getWkKit(), 20, ticks);
+
+    }
 
 }

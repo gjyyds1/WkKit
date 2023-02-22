@@ -17,7 +17,6 @@ public class LangConfigLoader {
 	
 	/**
 	 * 加载文件夹中的配置文件
-	 * @param file
 	 */
 	public static void loadConfig() {
 		String path = WkKit.getWkKit().getDataFolder().getAbsolutePath() + File.separator + "Language";

@@ -2,8 +2,12 @@ package cn.wekyjay.www.wkkit.kit;
 
 import java.util.List;
 
+import cn.wekyjay.www.wkkit.hook.VaultHooker;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
+import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -22,13 +26,12 @@ import cn.wekyjay.www.wkkit.tool.WKTool;
 public class KitGetter{
 	/**
 	 * 领取礼包
-	 * @param kitname
-	 * @param p
 	 */
 	public void getKit(Kit kit,Player p, String menuname) {
 		if(kit.getPermission() != null) {if(!this.runPermission(kit, p)) {return;}}
 		if(kit.getItemStack() != null) {if(!this.runItem(kit, p)) {return;}}
 		if(kit.getTimes() != null) {if(!this.runTimes(kit, p)) {return;}}
+		if(kit.getVault() != null) {if(!this.runVault(kit,p)){return;}}
 		// 以下代码可以安全执行
 		// 回调事件
 	    PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.MENU);
@@ -41,8 +44,6 @@ public class KitGetter{
 	//******************************命 令 行*********************************//
 	/**
 	 * 运行指令
-	 * @param kitname
-	 * @param playername
 	 */
 	public void runCommands(Kit kit,Player p) {
 		List<String> commands = kit.getCommands();
@@ -68,7 +69,7 @@ public class KitGetter{
 	}
 	/**
 	 * 权限检查，如果玩家没有权限则返回false
-	 * @param kitname
+	 * @param kit 礼包名称
 	 * @param p
 	 * @return
 	 */
@@ -80,9 +81,31 @@ public class KitGetter{
 			return false;
 		}
 	}
+
+	/**
+	 * 经济插件支持，检测是否有足够的的金币来领取礼包。
+	 * @param kit 礼包
+	 * @param p 玩家
+	 * @return
+	 */
+	public boolean runVault(Kit kit,Player p) {
+		if(VaultHooker.getEcon() == null) return true;
+		if(VaultHooker.getEcon().getBalance(p.getPlayer()) < kit.getVault()) {
+			p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_NO_MUCH_MONEY",ChatColor.YELLOW));
+			return false;
+		}
+		EconomyResponse economyResponse = VaultHooker.getEcon().withdrawPlayer(p.getPlayer(),kit.getVault());
+		if (economyResponse.transactionSuccess()){
+			p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_DEDUCT_MONEY_SUCCESS",ChatColor.GREEN) + VaultHooker.getEcon().format(kit.getVault()));
+		}else{
+			p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_DEDUCT_MONEY_FAILED",ChatColor.RED));
+		}
+
+		return true;
+	}
 	/**
 	 * 物品领取到背包
-	 * @param kitname
+	 * @param kit 礼包名称
 	 * @param p
 	 * @return
 	 */
@@ -96,7 +119,7 @@ public class KitGetter{
 	
 	/**
 	 * 计算领取次数
-	 * @param kitname
+	 * @param kit 礼包名称
 	 * @param p
 	 * @return
 	 */
@@ -121,7 +144,7 @@ public class KitGetter{
 	
 	/**
 	 * 领取后执行
-	 * @param kitname
+	 * @param kit 礼包名称
 	 * @param p
 	 */
 	private void getSuccess(Kit kit, Player p) {

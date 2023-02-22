@@ -15,11 +15,11 @@ public class MailSQLData {
 			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(cmd);
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {
-			System.out.println("¡ìcÓÊÏäÊı¾İ±í´´½¨Ê§°Ü");
+			System.out.println("Â§cé‚®ç®±æ•°æ®è¡¨åˆ›å»ºå¤±è´¥");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void insertData(String playername, String kitname, int num) {
 		try {
 			PreparedStatement ps;
@@ -90,7 +90,7 @@ public class MailSQLData {
 		} catch (SQLException e) {}
 		return 0;
 	}
-	
+
 	public void update_Num(String playername,String kitname, int value) {
 		try {
 			String s = SQLCommand.UPDATE_NUM_DATA.commandToString();

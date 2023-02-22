@@ -1,4 +1,4 @@
-package cn.wekyjay.www.wkkit.other;
+package cn.wekyjay.www.wkkit.hook;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

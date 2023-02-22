@@ -36,6 +36,7 @@ public class Kit {
 	private String docron;
 	private Integer delay;
 	private Integer times;
+	private Integer vault;
 	/**
 	 * 下次礼包刷新的时间
 	 */
@@ -96,6 +97,7 @@ public class Kit {
 				docron = ConfigManager.getKitconfig().getString(kitname + ".DoCron");
 				restNextRC();
 			}
+			if(ConfigManager.getKitconfig().contains(kitname + ".Vault")) vault = ConfigManager.getKitconfig().getInt(kitname + ".Vault");
 			Kit.getKits().add(kit);
 		}
 	}
@@ -176,7 +178,11 @@ public class Kit {
 	public List<String> getCommands() {
 		return commands;
 	}
-	
+
+	public Integer getVault() {
+		return vault;
+	}
+
 	public void setCommands(List<String> commands) {
 		this.commands = commands;
 		this.getConfigurationSection().set("Commands", commands);

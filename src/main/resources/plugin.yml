@@ -1,6 +1,6 @@
 name: WkKit
 main: cn.wekyjay.www.wkkit.WkKit
-version: 1.0.12
+version: 1.1.0
 api-version: 1.13
 author: WekyJay
 description: A minecraft plugin by WekyJay.
@@ -9,6 +9,7 @@ depend:
    - NBTAPI
 softdepend: 
    - PlaceholderAPI
+   - Vault
 commands:
   wkkit:
     description: Get plugin helper.

@@ -21,7 +21,7 @@ import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 
 public class KitCreate {
-	static WkKit wk = WkKit.getWkKit();// µ÷ÓÃÖ÷ÀàÊµÀı		
+	static WkKit wk = WkKit.getWkKit();// ???????????		
 
 	public Boolean onCommand(CommandSender sender, String[] args) {
 		if(args.length < 2) {
@@ -36,27 +36,27 @@ public class KitCreate {
 		String itemtype = wk.getConfig().getString("Default.Icon");
 		List<String> lore = new ArrayList<>();
 		
-		// Èç¹ûÌîĞ´ÁËÕ¹Ê¾Ãû³Æ
+		// ?????Ğ´????????
 		if(args.length >= 3) {
 			displayname = ChatColor.translateAlternateColorCodes('&', args[2]);
 		}
 		
-		//ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÀñ°ü
+		//?Ğ¶???????????
 		if(Kit.getKit(kitname) != null && args[0].equals("create")) {
 			player.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_CREATE_EXISTS", ChatColor.YELLOW));
 			return true;
 		}
 		
-		// ÅĞ¶ÏÊÇ·ñ´æÔÚ×é£¬·ñÔòÒÆ¶¯µ½default×é
+		// ?Ğ¶????????é£¬?????????default??
 		if(args.length >= 4 && KitGroupManager.contains(args[3])) {
-			target = args[3];// ×éÃû³Æ
+			target = args[3];// ??????
 		}else {
 			File file = new File(WkKit.kitFile.getAbsolutePath(),"Default.yml");
 			if(!file.exists())new KitGroupManager("Default");
 			sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GROUP_DEFAULT", ChatColor.YELLOW));
 		}
 
-		// »ñÈ¡Íæ¼ÒÊÖÖĞµÄÎïÆ·ĞÅÏ¢
+		// ?????????Ğµ???????
 		ItemStack is;
 		if(WKTool.getVersion() >= 9) {
 			is =  player.getInventory().getItemInMainHand();
@@ -73,38 +73,38 @@ public class KitCreate {
 		}
 		
 		
-		/*½«±³°üÎïÆ·Ğ´ÈëÀñ°ü*/
+		/*?????????Ğ´?????*/
 		
-		//Ê¹ÓÃ·â×°ÀàµÄgetplayer·½·¨»ñÈ¡Íæ¼Ò±³°ü
+		//??Ã·?????getplayer?????????????
 		PlayerInventory pinv = ((Player) sender).getInventory();
 		
 		List<String> l = new ArrayList<String>();
 		
-		//»ñÈ¡Íæ¼Ò±³°üµÄËùÓĞµÄÄÚÈİ
+		//??????????????Ğµ?????
 		ItemStack[] obj = pinv.getContents();
 		
 		for(int i = 0; i < obj.length; i++) {
 			if(obj[i] != null) {
-				//´æÈëNBTÖµ
+				//????NBT?
 				l.add(NBTItem.convertItemtoNBT(obj[i]).toString());
 			}
 		}
 		ItemStack[] iss = new ItemStack[l.size()];
-		// ItemStack¹ıÂË×ª»»
+		// ItemStack???????
 		for(int i = 0; i < l.size(); i++) {
 			iss[i] = NBTItem.convertNBTtoItem(new NBTContainer(l.get(i)));
 		}
 		
-			// ĞÅÏ¢Ğ´ÈëÎÄ¼ş
+			// ???Ğ´?????
 			ConfigManager.getKitconfig().set(kitname + ".Name", displayname, target);
 			ConfigManager.getKitconfig().set(kitname + ".Icon", itemtype, target);
-			//ÅĞ¶Ï¸ÃList¼¯ºÏÄÚÊÇ·ñÎª¿Õ
+			//?Ğ¶??List????????????
 			if(lore.isEmpty()) {
 				ConfigManager.getKitconfig().set(kitname + ".Lore", "", target);	
 			}else {
 				ConfigManager.getKitconfig().set(kitname + ".Lore", lore, target);	
 			}
-			//ÅĞ¶Ï¸ÃList¼¯ºÏÄÚÊÇ·ñÎª¿Õ
+			//?Ğ¶??List????????????
 			if(l.isEmpty()) {
 				ConfigManager.getKitconfig().set(kitname + ".Item", "", target);
 			}else {
@@ -113,7 +113,7 @@ public class KitCreate {
 
 
 		
-		//±£´æÅäÖÃ
+		//????????
 		try {
 			ConfigManager.getKitconfig().save(target + ".yml");
 			new Kit(kitname, displayname, itemtype, iss);

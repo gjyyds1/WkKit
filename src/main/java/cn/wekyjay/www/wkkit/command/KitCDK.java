@@ -19,6 +19,7 @@ import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kitcode.CodeManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class KitCDK {
 	public void onCommand(CommandSender sender, String[] args) {
@@ -58,6 +59,7 @@ public class KitCDK {
 		}
 		// CDK验证
 		if(args[1].equalsIgnoreCase("verify") && sender.hasPermission("wkkit.cdk.verify")) {
+			Player player = (Player)sender;
 			if(args.length < 3) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("Commands.cdk_verify", ChatColor.GREEN));
 				return;

@@ -1,56 +1,56 @@
 package cn.wekyjay.www.wkkit.mysql.cdksqldata;
 
 enum SQLCommand {
-	// ¥¥Ω®±Ì
+	// ÂàõÂª∫Ë°®
 	CREATE_TABLE(
 			"CREATE TABLE IF NOT EXISTS `cdk` (" +
-			"`id` INT UNSIGNED AUTO_INCREMENT," +
-			"`cdk` VARCHAR(100) NULL DEFAULT NULL," +
-			"`kits` VARCHAR(100) NULL DEFAULT NULL," +
-			"`date` VARCHAR(100) NULL DEFAULT NULL," +
-			"`status` VARCHAR(100) NULL DEFAULT NULL," +
-			"`mark` VARCHAR(100) NULL DEFAULT NULL," +
-			"PRIMARY KEY (`id`),"+ 
-			"UNIQUE KEY (`cdk`, `mark`)"+ 
-			") DEFAULT CHARSET=utf8" 
+					"`id` INT UNSIGNED AUTO_INCREMENT," +
+					"`cdk` VARCHAR(100) NULL DEFAULT NULL," +
+					"`kits` VARCHAR(100) NULL DEFAULT NULL," +
+					"`date` VARCHAR(100) NULL DEFAULT NULL," +
+					"`status` VARCHAR(100) NULL DEFAULT NULL," +
+					"`mark` VARCHAR(100) NULL DEFAULT NULL," +
+					"PRIMARY KEY (`id`),"+
+					"UNIQUE KEY (`cdk`, `mark`)"+
+					") DEFAULT CHARSET=utf8"
 	),
-	
 
-	// ÃÌº” ˝æ›
+
+	// Ê∑ªÂä†Êï∞ÊçÆ
 	ADD_DATA(
 			"INSERT INTO `cdk` " +
-			"(`id`,`cdk`,`kits`,`date`,`status`,`mark`)" +
-			"VALUES (?, ?, ?, ?, ?, ?)"
+					"(`id`,`cdk`,`kits`,`date`,`status`,`mark`)" +
+					"VALUES (?, ?, ?, ?, ?, ?)"
 	),
-	
-	// ∏¸–¬¡Ï»°◊¥Ã¨
+
+	// Êõ¥Êñ∞È¢ÜÂèñÁä∂ÊÄÅ
 	UPDATE_STATUS_DATA(
 			"UPDATE `cdk` SET `status` = ? WHERE `cdk` = ? AND `mark` = ? "
 	),
-	
-	// ∏¸–¬Mark
+
+	// Êõ¥Êñ∞Mark
 	UPDATE_MARK_DATA(
 			"UPDATE `cdk` SET `mark` = ? WHERE `mark` = ? "
 	),
-	
-	// …æ≥˝ ˝æ›
+
+	// Âà†Èô§Êï∞ÊçÆ
 	DELETE_DATA(
 			"DELETE FROM `cdk` WHERE `cdk` = ?"
 	),
-	// ≤È’“CDK
+	// Êü•ÊâæCDK
 	SELECT_MARK(
 			"SELECT * FROM `cdk` WHERE `mark` = ?"
 	),
-	// ≤È’“CDK
+	// Êü•ÊâæCDK
 	SELECT_CDK(
 			"SELECT * FROM `cdk` WHERE `cdk` = ?"
 	);
-	
-	
+
+
 	private String command;
-	
+
 	SQLCommand(String command){
-        this.command = command;
+		this.command = command;
 	}
 	public String commandToString() {
 		return command;

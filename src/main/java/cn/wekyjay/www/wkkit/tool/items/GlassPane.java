@@ -24,31 +24,31 @@ public enum GlassPane {
 	GREEN("green","13s"),
 	RED("red","14s"),
 	BLACK("black","15s");
-	
+
 	private ItemStack item;
 	GlassPane() {
 		int version = WKTool.getVersion();
 		if(version <= 12 && WKTool.getVersion() > 7) {
 			NBTContainer c = new NBTContainer("{id:\"minecraft:stained_glass_pane\",Count:1b,Damage:0s}");
-			item = NBTItem.convertNBTtoItem(c);//ĞÂ½¨Ò»¸öÎïÆ·
+			item = NBTItem.convertNBTtoItem(c);//æ–°å»ºä¸€ä¸ªç‰©å“
 		}else if(WKTool.getVersion() <= 7) {
 			NBTContainer c = new NBTContainer("{id:102s,Count:1b,Damage:0s,}");
-			item = NBTItem.convertNBTtoItem(c);//ĞÂ½¨Ò»¸öÎïÆ·
+			item = NBTItem.convertNBTtoItem(c);//æ–°å»ºä¸€ä¸ªç‰©å“
 		}else {
 			NBTContainer c = new NBTContainer("{id:\"white_stained_glass_pane\",Count:1b}");
-			item = NBTItem.convertNBTtoItem(c);//ĞÂ½¨Ò»¸öÎïÆ·
+			item = NBTItem.convertNBTtoItem(c);//æ–°å»ºä¸€ä¸ªç‰©å“
 		}
 	}
 	GlassPane(String color,String data) {
 		if(WKTool.getVersion() <= 12 && WKTool.getVersion() > 7) {
 			NBTContainer c = new NBTContainer("{id:\"minecraft:stained_glass_pane\",Count:1b,Damage:"+ data + "}");
-			item = NBTItem.convertNBTtoItem(c);//ĞÂ½¨Ò»¸öÎïÆ·
+			item = NBTItem.convertNBTtoItem(c);//æ–°å»ºä¸€ä¸ªç‰©å“
 		}else if(WKTool.getVersion() <= 7) {
 			NBTContainer c = new NBTContainer("{id:102s,Count:1b,Damage:0s,}");
-			item = NBTItem.convertNBTtoItem(c);//ĞÂ½¨Ò»¸öÎïÆ·
+			item = NBTItem.convertNBTtoItem(c);//æ–°å»ºä¸€ä¸ªç‰©å“
 		}else {
 			NBTContainer c = new NBTContainer("{id:\""+ color +"_stained_glass_pane\",Count:1b}");
-			item = NBTItem.convertNBTtoItem(c);//ĞÂ½¨Ò»¸öÎïÆ·
+			item = NBTItem.convertNBTtoItem(c);//æ–°å»ºä¸€ä¸ªç‰©å“
 		}
 	}
 	public ItemStack getItemStack() {

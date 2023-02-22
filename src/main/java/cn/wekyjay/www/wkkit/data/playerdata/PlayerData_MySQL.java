@@ -36,7 +36,7 @@ public class PlayerData_MySQL implements PlayerData{
 
 	@Override
 	public void setKitData(String playername, String kitname, String value) {
-		if(!contain_Kit(playername, kitname)) {//如果没有数据
+		if(!contain_Kit(playername, kitname)) {//濡傛灉娌℃湁鏁版嵁
 			int time;
 			if(Kit.getKit(kitname).getTimes() == null) time = -1;
 			else time = Kit.getKit(kitname).getTimes();
@@ -48,7 +48,7 @@ public class PlayerData_MySQL implements PlayerData{
 
 	@Override
 	public void setKitTime(String playername, String kitname, int value) {
-		if(!contain_Kit(playername, kitname)) {//如果没有数据
+		if(!contain_Kit(playername, kitname)) {//濡傛灉娌℃湁鏁版嵁
 			setKitToFile(playername, kitname, "2009-5-17-8-0-0", value);
 		}else {
 			new PlayerSQLData().update_Time_Data(playername, kitname, value);
@@ -71,18 +71,18 @@ public class PlayerData_MySQL implements PlayerData{
 	@Override
 	public void setMailToFile(String playername, String kitname, int num) {
 		new MailSQLData().insertData(playername, kitname, num);
-		
+
 	}
 
 	@Override
 	public void delMailToFile(String playername, String kitname) {
 		new MailSQLData().deleteData(playername, kitname);
-		
+
 	}
 
 	@Override
 	public void setMailNum(String playername, String kitname, int num) {
-		if(!contain_Mail(playername, kitname)) {//如果没有数据
+		if(!contain_Mail(playername, kitname)) {//濡傛灉娌℃湁鏁版嵁
 			setMailToFile(playername, kitname, num);
 		}else {
 			new MailSQLData().update_Num(playername, kitname, num);

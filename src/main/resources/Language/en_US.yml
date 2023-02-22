@@ -83,6 +83,9 @@ SAVE_SUCCESS: '§aSaved successfully！'
 KIT_GET_SUCCESS: 'Successfully received'
 KIT_GET_FAILED: "Inventory doesn't have enough space, please clean it up and get it!"
 KIT_GET_LEFTTIME: '§7You still have §c{lefttime} §7to get the kit!'
+KIT_GET_NO_MUCH_MONEY: "You don't have enough money to claim the kit!"
+KIT_GET_DEDUCT_MONEY_SUCCESS: '§8 Has been taken away §6'
+KIT_GET_DEDUCT_MONEY_FAILED: 'Take failed...'
 KIT_CREATE_SUCCESS: 'Created successfully'
 KIT_CREATE_FAILED: 'Creation failed'
 KIT_CREATE_RECREATE: 'Reset succeeded'

@@ -1,46 +1,46 @@
 package cn.wekyjay.www.wkkit.mysql.mailsqldata;
 
 enum SQLCommand {
-	// ¥¥Ω®±Ì
+	// ÂàõÂª∫Ë°®
 	CREATE_TABLE(
 			"CREATE TABLE IF NOT EXISTS `maildata` (" +
-			"`id` INT UNSIGNED AUTO_INCREMENT," +
-			"`player` VARCHAR(100) NULL DEFAULT NULL," +
-			"`kitname` VARCHAR(100) NULL DEFAULT NULL," +
-			"`num` INT NOT NULL," +
-			"PRIMARY KEY (`id`)," +
-			"UNIQUE KEY (`player`, `kitname`)"+ 
-			") DEFAULT CHARSET=utf8 "
+					"`id` INT UNSIGNED AUTO_INCREMENT," +
+					"`player` VARCHAR(100) NULL DEFAULT NULL," +
+					"`kitname` VARCHAR(100) NULL DEFAULT NULL," +
+					"`num` INT NOT NULL," +
+					"PRIMARY KEY (`id`)," +
+					"UNIQUE KEY (`player`, `kitname`)"+
+					") DEFAULT CHARSET=utf8 "
 	),
-	
 
-	// ÃÌº” ˝æ›
+
+	// Ê∑ªÂä†Êï∞ÊçÆ
 	ADD_DATA(
 			"INSERT INTO `maildata` " +
-			"(`id`,`player`,`kitname`,`num`)" +
-			"VALUES (?, ?, ?, ?)"
+					"(`id`,`player`,`kitname`,`num`)" +
+					"VALUES (?, ?, ?, ?)"
 	),
-	
-	// ∏¸–¬¡Ï»°¥Œ ˝ ˝æ›
+
+	// Êõ¥Êñ∞È¢ÜÂèñÊ¨°Êï∞Êï∞ÊçÆ
 	UPDATE_NUM_DATA(
 			"UPDATE `maildata` SET `num` = ? WHERE `player` = ? AND `kitname` = ? "
 	),
-	
-	
-	// …æ≥˝ ˝æ›
+
+
+	// Âà†Èô§Êï∞ÊçÆ
 	DELETE_DATA(
 			"DELETE FROM `maildata` WHERE `player` = ? AND `kitname` = ?"
 	),
-	
+
 	SELECT_DATA(
 			"SELECT * FROM `maildata` WHERE `player` = ?"
 	);
-	
-	
+
+
 	private String command;
-	
+
 	SQLCommand(String command){
-        this.command = command;
+		this.command = command;
 	}
 	public String commandToString() {
 		return command;
