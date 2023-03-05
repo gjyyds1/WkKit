@@ -11,36 +11,36 @@ import cn.wekyjay.www.wkkit.tool.WKTool;
 public class CodeManager {
 	private final static String Base32Alphabet = "ABCDEFGHIJKMNPQRSTUVWXYZ23456789";
 	private static String password;
-	
-	//´Óbyte×ªÎª×Ö·û±íË÷ÒıËùĞèÒªµÄÎ»Êı
+
+	//ä»byteè½¬ä¸ºå­—ç¬¦è¡¨ç´¢å¼•æ‰€éœ€è¦çš„ä½æ•°
 	final static int convertByteCount = 5;
-	
+
 	public static String getPassword() {
 		return password;
 	}
-	
+
 	public static void checkPassWord() {
 		String value = WkKit.getWkKit().getConfig().getString("KitCode.Key");
 		String pattern = "^(?=.*[a-zA-Z])(?=.*\\d).+$";
 		if(!(value != null && WKTool.ismatche(value, pattern) && value.length() > 6 && value.length() < 18)) {
-			   char charr[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
-			   StringBuilder sb = new StringBuilder();
-			   Random r = new Random();
-			   for (int x = 0; x < 12; ++x) {
-				   sb.append(charr[r.nextInt(charr.length)]);
-			   }
-			   password = sb.toString();
-			   WkKit.getWkKit().getConfig().set("KitCode.Key", sb.toString());
-			   WkKit.getWkKit().saveConfig();
-			   WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("AUTO_GENERATE_KEY"));
+			char charr[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
+			StringBuilder sb = new StringBuilder();
+			Random r = new Random();
+			for (int x = 0; x < 12; ++x) {
+				sb.append(charr[r.nextInt(charr.length)]);
+			}
+			password = sb.toString();
+			WkKit.getWkKit().getConfig().set("KitCode.Key", sb.toString());
+			WkKit.getWkKit().saveConfig();
+			WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("AUTO_GENERATE_KEY"));
 		}else {
 			password = value;
 		}
 	}
- 
+
 	/**
-	 * Éú³É¶Ò»»Âë
-	 * ÕâÀïÃ¿Ò»´ÎÉú³É¶Ò»»ÂëµÄ×î´óÊıÁ¿ÎªintµÄ×î´óÖµ¼´2147483647
+	 * ç”Ÿæˆå…‘æ¢ç 
+	 * è¿™é‡Œæ¯ä¸€æ¬¡ç”Ÿæˆå…‘æ¢ç çš„æœ€å¤§æ•°é‡ä¸ºintçš„æœ€å¤§å€¼å³2147483647
 	 * @param time
 	 * @param id
 	 * @param count
@@ -49,47 +49,47 @@ public class CodeManager {
 	public static List<String> create(byte groupid,int codecount,int codelength,String password) {
 		List<String> cdklist = new ArrayList<>();
 
-		//8Î»µÄÊı¾İ×Ü³¤¶È
-		int fullcodelength = codelength * convertByteCount / 8; 
-		//Ëæ»úÂë¶ÔÊ±¼äºÍidÍ¬Ê±×öÒì»ò´¦Àí
-		//ÀàĞÍ1£¬id4£¬Ëæ»úÂën,Ğ£ÑéÂë1 
-		int randcount = fullcodelength - 6;//Ëæ»úÂëÓĞ¶àÉÙ¸ö
-		
-		//Èç¹ûËæ»úÂëĞ¡ÓÚ0 ²»Éú³É
+		//8ä½çš„æ•°æ®æ€»é•¿åº¦
+		int fullcodelength = codelength * convertByteCount / 8;
+		//éšæœºç å¯¹æ—¶é—´å’ŒidåŒæ—¶åšå¼‚æˆ–å¤„ç†
+		//ç±»å‹1ï¼Œid4ï¼Œéšæœºç n,æ ¡éªŒç 1
+		int randcount = fullcodelength - 6;//éšæœºç æœ‰å¤šå°‘ä¸ª
+
+		//å¦‚æœéšæœºç å°äº0 ä¸ç”Ÿæˆ
 		if(randcount <= 0 ) {
 			return null;
 		}
 		for(int i = 0 ; i < codecount ; i ++) {
-			//ÕâÀïÊ¹ÓÃi×÷ÎªcodeµÄid
-			//Éú³ÉnÎ»Ëæ»úÂë
+			//è¿™é‡Œä½¿ç”¨iä½œä¸ºcodeçš„id
+			//ç”Ÿæˆnä½éšæœºç 
 			byte[] randbytes = new byte[randcount];
 			for(int j = 0 ; j  < randcount ; j ++) {
 				randbytes[j] = (byte)(Math.random() * Byte.MAX_VALUE);
 			}
- 
-			//´æ´¢ËùÓĞÊı¾İ
+
+			//å­˜å‚¨æ‰€æœ‰æ•°æ®
 			ByteHelper byteHapper = ByteHelper.CreateBytes(fullcodelength);
 			byteHapper.AppendNumber(groupid).AppendNumber(i).AppendBytes(randbytes);
- 
-			//¼ÆËãĞ£ÑéÂë ÕâÀïÊ¹ÓÃËùÓĞÊı¾İÏà¼ÓµÄ×ÜºÍÓëbyte.max È¡Óà
+
+			//è®¡ç®—æ ¡éªŒç  è¿™é‡Œä½¿ç”¨æ‰€æœ‰æ•°æ®ç›¸åŠ çš„æ€»å’Œä¸byte.max å–ä½™
 			byte verify = (byte) (byteHapper.GetSum() % Byte.MAX_VALUE);
 			byteHapper.AppendNumber(verify);
- 
-			//Ê¹ÓÃËæ»úÂëÓëÊ±¼äºÍID½øĞĞÒì»ò
+
+			//ä½¿ç”¨éšæœºç ä¸æ—¶é—´å’ŒIDè¿›è¡Œå¼‚æˆ–
 			for(int j = 0 ; j < 5 ; j ++) {
 				byteHapper.bytes[j] = (byte) (byteHapper.bytes[j] ^ (byteHapper.bytes[5 + j % randcount]));
 			}
- 
-			//Ê¹ÓÃÃÜÂëÓëËùÓĞÊı¾İ½øĞĞÒì»òÀ´¼ÓÃÜÊı¾İ
+
+			//ä½¿ç”¨å¯†ç ä¸æ‰€æœ‰æ•°æ®è¿›è¡Œå¼‚æˆ–æ¥åŠ å¯†æ•°æ®
 			byte[] passwordbytes = password.getBytes();
 			for(int j = 0 ; j < byteHapper.bytes.length ; j++){
 				byteHapper.bytes[j] = (byte) (byteHapper.bytes[j] ^ passwordbytes[j % passwordbytes.length]);
 			}
-			
-			//ÕâÀï´æ´¢×îÖÕµÄÊı¾İ
+
+			//è¿™é‡Œå­˜å‚¨æœ€ç»ˆçš„æ•°æ®
 			byte[] bytes = new byte[codelength];
-			
-			//°´6Î»Ò»×é¸´ÖÆ¸ø×îÖÕÊı×é
+
+			//æŒ‰6ä½ä¸€ç»„å¤åˆ¶ç»™æœ€ç»ˆæ•°ç»„
 			for(int j = 0 ; j < byteHapper.bytes.length ; j ++) {
 				for(int k = 0 ; k < 8 ; k ++) {
 					int sourceindex = j*8+k;
@@ -97,82 +97,82 @@ public class CodeManager {
 					int targetindex_y = sourceindex % convertByteCount;
 					byte placeval = (byte)Math.pow(2, k);
 					byte val = (byte)((byteHapper.bytes[j] & placeval) == placeval ? 1:0);
-					//¸´ÖÆÃ¿Ò»¸öbit
+					//å¤åˆ¶æ¯ä¸€ä¸ªbit
 					bytes[targetindex_x] = (byte)(bytes[targetindex_x] | (val << targetindex_y));
 				}
 			}
-			
+
 			StringBuilder result = new StringBuilder();
-			//±à¼­×îÖÕÊı×éÉú³É×Ö·û´®
+			//ç¼–è¾‘æœ€ç»ˆæ•°ç»„ç”Ÿæˆå­—ç¬¦ä¸²
 			for(int j = 0 ; j < bytes.length ; j ++) {
 				result.append(Base32Alphabet.charAt(bytes[j]));
 				if(j == 3 || j == 7) result.append('-');
 			}
-			// Èç¹û´æÔÚ¾ÍÖØĞÂÉú³É
+			// å¦‚æœå­˜åœ¨å°±é‡æ–°ç”Ÿæˆ
 			if(WkKit.CDKConfig.contains(result.toString()))i--;
 			else  cdklist.add(result.toString());
 		}
 		return cdklist;
 	}
-	
+
 	/**
-	 * ÑéÖ¤¶Ò»»Âë
+	 * éªŒè¯å…‘æ¢ç 
 	 * @param code
 	 */
 	public static Boolean VerifyCode(String code){
 		if(code.length() != 14 || !code.contains("-")) return false;
-		// È¥µô·Ö½Ú
+		// å»æ‰åˆ†èŠ‚
 		StringBuilder result = new StringBuilder();
 		for(String str : code.split("-")) {
 			result.append(str);
 		}
 		code = result.toString();
-		
+
 		byte[] bytes = new byte[code.length()];
-		
-		//Ê×ÏÈ±éÀú×Ö·û´®´Ó×Ö·û±íÖĞ»ñÈ¡ÏàÓ¦µÄ¶ş½øÖÆÊı¾İ
+
+		//é¦–å…ˆéå†å­—ç¬¦ä¸²ä»å­—ç¬¦è¡¨ä¸­è·å–ç›¸åº”çš„äºŒè¿›åˆ¶æ•°æ®
 		for(int i=0;i<code.length();i++){
-		    byte index = (byte) Base32Alphabet.indexOf(code.charAt(i));
-		    bytes[i] = index;
+			byte index = (byte) Base32Alphabet.indexOf(code.charAt(i));
+			bytes[i] = index;
 		}
-		
-		//»¹Ô­Êı×é
+
+		//è¿˜åŸæ•°ç»„
 		int fullcodelength = code.length() * convertByteCount / 8;
-		int randcount = fullcodelength - 6;//Ëæ»úÂëÓĞ¶àÉÙ¸ö
-		
+		int randcount = fullcodelength - 6;//éšæœºç æœ‰å¤šå°‘ä¸ª
+
 		byte[] fullbytes = new byte[fullcodelength];
 		for(int j = 0 ; j < fullbytes.length ; j ++) {
 			for(int k = 0 ; k < 8 ; k ++) {
 				int sourceindex = j*8+k;
 				int targetindex_x = sourceindex / convertByteCount;
 				int targetindex_y = sourceindex % convertByteCount;
-				
+
 				byte placeval = (byte)Math.pow(2, targetindex_y);
 				byte val = (byte)((bytes[targetindex_x] & placeval) == placeval ? 1:0);
-				
+
 				fullbytes[j] = (byte) (fullbytes[j] | (val << k));
 			}
 		}
- 
-		//½âÃÜ£¬Ê¹ÓÃÃÜÂëÓëËùÓĞÊı¾İ½øĞĞÒì»òÀ´¼ÓÃÜÊı¾İ
+
+		//è§£å¯†ï¼Œä½¿ç”¨å¯†ç ä¸æ‰€æœ‰æ•°æ®è¿›è¡Œå¼‚æˆ–æ¥åŠ å¯†æ•°æ®
 		byte[] passwordbytes = password.getBytes();
 		for(int j = 0 ; j < fullbytes.length ; j++){
 			fullbytes[j] = (byte) (fullbytes[j] ^ passwordbytes[j % passwordbytes.length]);
 		}
- 
-		//Ê¹ÓÃËæ»úÂëÓëÊ±¼äºÍID½øĞĞÒì»ò
+
+		//ä½¿ç”¨éšæœºç ä¸æ—¶é—´å’ŒIDè¿›è¡Œå¼‚æˆ–
 		for(int j = 0 ; j < 5 ; j ++) {
 			fullbytes[j] = (byte) (fullbytes[j] ^ (fullbytes[5 + j % randcount]));
 		}
-		
-		//»ñÈ¡Ğ£ÑéÂë ¼ÆËã³ıĞ£ÑéÂëÎ»ÒÔÍâËùÓĞÎ»µÄ×ÜºÍ
+
+		//è·å–æ ¡éªŒç  è®¡ç®—é™¤æ ¡éªŒç ä½ä»¥å¤–æ‰€æœ‰ä½çš„æ€»å’Œ
 		int sum = 0;
 		for(int i = 0 ;i < fullbytes.length - 1; i ++){
 			sum += fullbytes[i];
 		}
 		byte verify = (byte) (sum % Byte.MAX_VALUE);
-		
-		//Ğ£Ñé
+
+		//æ ¡éªŒ
 		if(verify == fullbytes[fullbytes.length - 1]){
 			return true;
 		}else {

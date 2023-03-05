@@ -10,7 +10,8 @@ Commands:
    info: '§6/wk info <KitName> : §fPreview the specified kit.'
    kits: '§6/wk kits : §fCheck all kits.'
    send: '§6/wk send <KitName> <Target> [Amount] : §fSend the kit to the mailbox of the specified target.'
-   give: '§6/wk give <KitName> <Player> [Mode] : §fGive kit to players'
+   give: '§6/wk give <KitName> <Player> [Mode] : §fGive kit to players.'
+   get: '§6/wk get <KitName> : §fReceive kit in the form of command.'
    open: '§6/wk open <MenuName> : §fOpen the specified menu.'
    cdk_create: '§6/wk cdk create <Amount> <KitName> <Mark> : §fCreate a specified number of CDK,Kit can be multiple, please use English comma separation.'
    cdk_verify: '§6/wk cdk verify <CDK> : §fVerify the information of the specified CDK for the query.(Permission：wkkit.cdk.verify)'
@@ -39,6 +40,10 @@ GUI_PLAYER_NO_KIT: "You don't have Kit."
 # Kit Mail
 KITMAIL_TITLE: 'Kit Mail'
 KITMAIL_GETALL: '§aGet All'
+
+# Kit cache
+PLAYER_RECEIVE_KIT: "Player {player} received {kit} of {type}."
+PLAYER_KIT_REFRESH: "Refreshed player {player}'s kit - {kit}."
 
 # Edit
 EDIT_TITLE: '§1§lWkKit Editor'

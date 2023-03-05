@@ -25,6 +25,7 @@ public class PlayersReceiveKitEvent extends PlayerEvent implements Cancellable {
 		super(who);
 		this.kit = kit;
 		this.receivetype = type;
+
 	}
 	public PlayersReceiveKitEvent(Player who,Kit kit,String menuname, ReceiveType type) {
 		super(who);
@@ -71,7 +72,7 @@ public class PlayersReceiveKitEvent extends PlayerEvent implements Cancellable {
     
 	/**
 	 * 回调方法
-	 * @return
+	 * @return PlayersReceiveKitEvent
 	 */
 	public static PlayersReceiveKitEvent callEvent(Player player,Kit kit,ReceiveType type) {
 	    PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(player, kit, type);

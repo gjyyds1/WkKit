@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.HandlerList;
@@ -47,7 +48,7 @@ public class KitRefresh {
 	
 	/**
 	 * 立刻刷新一个礼包
-	 * @param kitname
+	 * @param kit 礼包
 	 */
 	public static void refreshNow(Kit kit) {
 		String kitname = kit.getKitname();
@@ -62,7 +63,6 @@ public class KitRefresh {
 	}
 	/**
 	 * 开启自动刷新线程
-	 * @param kit
 	 */
 	public static void enableRefresh() {
 				task = new BukkitRunnable() {
@@ -82,6 +82,7 @@ public class KitRefresh {
 										String playername = player.getName();
 										// 有礼包数据的就刷新领取状态
 										if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
+											PlayersKitRefreshEvent.callEvent(player,kit); // 回调
 											WkKit.getPlayerData().setKitData(playername, kitname, "true");
 										}
 									}

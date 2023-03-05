@@ -1,10 +1,13 @@
 package cn.wekyjay.www.wkkit.listeners;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.wekyjay.www.wkkit.WkKit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.SpawnCategory;
 import org.bukkit.event.EventHandler;
@@ -26,6 +29,9 @@ import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CountDelayTime;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import de.tr7zw.nbtapi.NBTItem;
+
+import javax.tools.Tool;
+
 public class DropKitListener implements Listener{
 
 	@EventHandler
@@ -102,12 +108,12 @@ public class DropKitListener implements Listener{
 								}
 							}
 						}
+
+
 						//添加礼包
 						for(ItemStack item : kit.getItemStack()) {
-							if(item != null) {
-								pinv.addItem(item);//添加物品至背包
-							}
-
+							if(item == null) continue;
+							WKTool.addItem(item,e.getPlayer());
 						}
 						e.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_SUCCESS",ChatColor.GREEN));
 					}else {

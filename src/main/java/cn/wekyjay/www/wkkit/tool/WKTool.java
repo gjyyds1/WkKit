@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -22,17 +24,7 @@ import de.tr7zw.nbtapi.NBTItem;
 
 public class WKTool{
 
-	/**
-	 * 添加指定的物品到指定的玩家背包
-	 * @param e - 指定的玩家
-	 * @param i - 指定的物品
-	 */
-	public static void addItem(Player e, ItemStack i) {
-		InventoryHolder invholder = (InventoryHolder) e;
-		Inventory inv = invholder.getInventory();
-		PlayerInventory playerinv = (PlayerInventory) inv;
-		playerinv.addItem(i);
-	}
+
 	
 	/**
 	 * 判断是否有足够的空间领取指定的礼包
@@ -85,6 +77,34 @@ public class WKTool{
 		}else {
 			return false;
 		}
+	}
+
+	/**
+	 * 添加物品至玩家背包
+	 * @param itemStack
+	 * @param player
+	 */
+	public static void addItem(ItemStack itemStack , Player player){
+		if (WkKit.getWkKit().getConfig().getBoolean("Default.AutoEquipment")){ // 自动穿戴开启
+			// 判断是否为护甲类型
+			if(itemStack.getType().toString().contains("HELMET") && player.getEquipment().getHelmet() == null){
+				player.getEquipment().setHelmet(itemStack);
+			}
+			else if (itemStack.getType().toString().contains("CHESTPLATE") && player.getEquipment().getChestplate() == null){
+				player.getEquipment().setChestplate(itemStack);
+			}
+			else if (itemStack.getType().toString().contains("LEGGINGS") && player.getEquipment().getLeggings() == null){
+				player.getEquipment().setLeggings(itemStack);
+			}
+			else if (itemStack.getType().toString().contains("BOOTS") && player.getEquipment().getBoots() == null){
+				player.getEquipment().setBoots(itemStack);
+			}else{
+				player.getInventory().addItem(itemStack);//添加物品至背包
+			}
+		}else{//自动穿戴关闭,不自动穿戴.
+			player.getInventory().addItem(itemStack);
+		}
+
 	}
 	
 	/**

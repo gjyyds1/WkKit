@@ -3,7 +3,7 @@ Commands:
    PS: '§8注释：<必填项>、[选填项]'
    help: '§6/wk help : §f插件指令详情'
    admin: '§6/wk edit : §f进入礼包管理界面'
-   savechache: '§6/wk savechache : §f手动保存礼包日志（如果不使用该指令关服会自动保存）'
+   savecache: '§6/wk savechache : §f手动保存礼包日志（如果不使用该指令关服会自动保存）'
    mail: '§6/wk mail : §f打开礼包邮箱'
    create: '§6/wk create <礼包名称> [展示名] [礼包组] : §f创建礼包'
    delete: '§6/wk delete <礼包名称> : §f删除指定礼包'
@@ -11,6 +11,7 @@ Commands:
    kits: '§6/wk kits : §f查看所有礼包'
    send: '§6/wk send <礼包名称> <目标> [数量] : §f发放礼包到指定目标的邮箱'
    give: '§6/wk give <礼包名称> <玩家> [模式] : §f发送礼包给玩家'
+   get: '§6/wk get <礼包名称> : §f通过指令的形式领取礼包'
    open: '§6/wk open <菜单名称> : §f打开指定菜单'
    cdk_create: '§6/wk cdk create <数量> <礼包名称> <标记> : §f创建指定数量个CDK,礼包可以多个，请使用英文逗号分隔'
    cdk_verify: '§6/wk cdk verify <CDK> : §f验证查询指定CDK的信息(权限：wkkit.cdk.verify)'
@@ -40,6 +41,10 @@ GUI_PLAYER_NO_KIT: '很抱歉，您没有礼包！'
 KITMAIL_TITLE: '礼包邮箱'
 KITMAIL_GETALL: '§a一键领取'
 
+# Kit cache
+PLAYER_RECEIVE_KIT: "玩家 {player} 收到 {type} 的礼包 {kit}."
+PLAYER_KIT_REFRESH: "已刷新玩家 {player} 的礼包 - {kit}."
+
 # Edit
 EDIT_TITLE: '§1§lWkKit管理界面'
 EDIT_MENU: '菜单管理'
@@ -64,6 +69,7 @@ KIT_NUM: '已加载礼包数量: '
 MENU_NUM: '已加载菜单数量: '
 COMMAND_INVALID: '指令参数错误或无效'
 NO_PLAYER: '指定的玩家不存在'
+NO_KIT: '指定礼包不存在'
 NO_KIT_CONFIG: '未发现礼包配置'
 NO_PERMISSION: '抱歉您的权限不足！'
 CDK_MARK_NONEXIST: '该标记不存在，请检查一遍重新输入。'

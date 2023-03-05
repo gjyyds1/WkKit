@@ -11,6 +11,7 @@ Commands:
    kits: '§6/wk kits : §f查看所有禮包'
    send: '§6/wk send <禮包名稱> <目標> [數量] : §f發放禮包到指定目標的郵箱'
    give: '§6/wk give <禮包名稱> <玩家> [模式] : §f發送禮包給玩家'
+   get: '§6/wk get <禮包名稱> : §f通过指令的形式领取禮包'
    open: '§6/wk open <菜單名稱> : §f打開指定菜單'
    cdk_create: '§6/wk cdk create <數量> <禮包名稱> <標記> : §f創建指定數量個CDK,禮包可以多個，請使用英文逗號分隔'
    cdk_verify: '§6/wk cdk verify <CDK> : §f驗證查詢指定CDK的信息(權限：wkkit.cdk.verify)'
@@ -39,6 +40,10 @@ GUI_PLAYER_NO_KIT: '很抱歉，您沒有禮包！'
 # Kit Mail
 KITMAIL_TITLE: '禮包郵箱'
 KITMAIL_GETALL: '§a一鍵領取'
+
+# Kit cache
+PLAYER_RECEIVE_KIT: "玩家 {player} 收到 {type} 的禮包 {kit}."
+PLAYER_KIT_REFRESH: "已刷新玩家 {player} 的禮包 - {kit}."
 
 # Edit
 EDIT_TITLE: '§1§lWkKit管理界面'

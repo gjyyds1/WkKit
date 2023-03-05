@@ -34,9 +34,10 @@ public class KitGetter{
 		if(kit.getVault() != null) {if(!this.runVault(kit,p)){return;}}
 		// 以下代码可以安全执行
 		// 回调事件
-	    PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.MENU);
+		PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.GET);
+		if (menuname != null) event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.MENU);
 	    Bukkit.getPluginManager().callEvent(event);
-	    if (event.isCancelled())return; 
+	    if (event.isCancelled())return;
 		if(kit.getCommands() != null) {this.runCommands(kit, p);}
 		this.getSuccess(kit, p);
 	}
@@ -165,7 +166,8 @@ public class KitGetter{
 		PlayerInventory pinv = p.getInventory();//使用封装类的getplayer方法获取玩家背包
 		ItemStack[] itemlist = kit.getItemStack();
 		for(ItemStack item : itemlist) {
-			pinv.addItem(item);//添加物品至背包
+			//添加物品至背包
+			WKTool.addItem(item,p);
 		}
 		// 发送消息
 		p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_SUCCESS",ChatColor.GREEN));

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
@@ -81,33 +83,21 @@ public class KitCache implements Listener{
 	public void onPlayerRececiveKit(PlayersReceiveKitEvent e) {
 		ReceiveType type = e.getType();
 		String str = "[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "] ";
-		switch(type) {
-			case MAIL: 
-			{
-				str += "[" + e.getEventName() + "] " + "玩家 \"" + e.getPlayer().getName() + "\" 从 \"礼包邮箱\" 中领取了礼包 \"" + e.getKit().getKitname() + "\".";
-				cacheList.add(str);
-				break;
-			}
-			case MENU:
-			{
-				str += "[" + e.getEventName() + "] " + "玩家 \"" + e.getPlayer().getName() + "\" 从 \"礼包菜单\"(" + e.getMenuname() + ") 中领取了礼包 \"" + e.getKit().getKitname() + "\".";
-				cacheList.add(str);
-				break;
-			}
-			case SEND:
-			{
-				str += "[" + e.getEventName() + "] " + "玩家 \"" + e.getMenuname() + "\" 收到 \"指令Send\" 的礼包 \"" + e.getKit().getKitname() + "\".";
-				cacheList.add(str);
-				break;
-			}
-			case GIVE:
-			{
-				str += "[" + e.getEventName() + "] " + "玩家 \"" + e.getPlayer().getName() + "\" 收到 \"指令Give\" 的礼包 \"" + e.getKit().getKitname() + "\".";
-				cacheList.add(str);
-				break;
-			}
-			default:
-				break;
-		}
+		str += "[" + e.getEventName() + "] ";
+		str += LangConfigLoader.getString("PLAYER_RECEIVE_KIT").replaceAll("[{]player[}]","\"" + e.getPlayer().getName() + "\"")
+				.replaceAll("[{]type[}]","\"" + type.toString() + "\"")
+				.replaceAll("[{]kit[}]", "\"" + e.getKit().getKitname() + "\"");
+		cacheList.add(str);
+	}
+
+	@EventHandler
+	public void onPlayerKitRefresh(PlayersKitRefreshEvent e) {
+		String kitName = e.getKit().getKitname();
+		String playerName = e.getOfflinePlayer().getName();
+		String str = "[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "] ";
+		str += "[" + e.getEventName() + "] ";
+		str += LangConfigLoader.getString("PLAYER_KIT_REFRESH").replaceAll("[{]player[}]","\"" + e.getOfflinePlayer().getName() + "\"")
+				.replaceAll("[{]kit[}]", "\"" + e.getKit().getKitname() + "\"");
+		cacheList.add(str);
 	}
 }

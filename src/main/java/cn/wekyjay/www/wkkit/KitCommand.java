@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.wekyjay.www.wkkit.kit.KitGetter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,7 +45,7 @@ public class KitCommand implements CommandExecutor{
 				sender.sendMessage(LangConfigLoader.getString("Commands.PS"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.help"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.admin"));
-				sender.sendMessage(LangConfigLoader.getString("Commands.savechache"));
+				sender.sendMessage(LangConfigLoader.getString("Commands.savecache"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.create"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.delete"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.mail"));
@@ -52,6 +53,7 @@ public class KitCommand implements CommandExecutor{
 				sender.sendMessage(LangConfigLoader.getString("Commands.kits"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.send"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.give"));
+				sender.sendMessage(LangConfigLoader.getString("Commands.get"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.open"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.cdk_create"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.cdk_verify"));
@@ -69,6 +71,7 @@ public class KitCommand implements CommandExecutor{
 				sender.sendMessage("§a━━━━━━━━━━━━ WkKit Command ━━━━━━━━━━━━");
 				sender.sendMessage(LangConfigLoader.getString("Commands.mail"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.open"));
+				sender.sendMessage(LangConfigLoader.getString("Commands.get"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.cdk_verify"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.cdk_exchange"));
 				sender.sendMessage("§a━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -105,6 +108,7 @@ public class KitCommand implements CommandExecutor{
 		if(args[0].equalsIgnoreCase("create") && sender.isOp() && sender instanceof Player){//判断指令参数是否为/wkkit create <name>
 			KitCreate kc = new KitCreate();
 			kc.onCommand(sender, args);
+			return true;
 		}
 	
 		
@@ -133,6 +137,7 @@ public class KitCommand implements CommandExecutor{
 		/*get获取礼包的内容*/
 		if(args[0].equalsIgnoreCase("info") && sender.isOp() && sender instanceof Player) {
 			new KitInfo().onCommand(sender, command, label, args);
+			return true;
 		}
 		
 		
@@ -140,6 +145,7 @@ public class KitCommand implements CommandExecutor{
 		if(args[0].equalsIgnoreCase("give") && sender.isOp()) {
 			KitGive ks = new KitGive();
 			ks.onCommand(sender, command, label, args);
+			return true;
 		}
 		
 		/*数据迁移*/
@@ -155,22 +161,38 @@ public class KitCommand implements CommandExecutor{
 			Player p = (Player)sender;
 			if(MenuManager.getMenu(args[1]) != null) new MenuOpenner().openMenu(args[1], p);
 			else sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_MENU_INVALID", ChatColor.RED));
+			return true;
 
 		}
 		
 		if(args[0].equalsIgnoreCase("group") && sender.isOp()) {
 			new KitGroup().onCommand(sender, command, label, args);
+			return true;
 		}
 		
 		/** 礼包编辑 **/
 		if(args[0].equalsIgnoreCase("edit") && sender.isOp()) {
 			Player p = (Player)sender;
 			p.openInventory(EditGUI.getEditGUI().getEditInv());
+			return true;
 		}
 		
 		/* cdk系统 */
 		if(args[0].equalsIgnoreCase("cdk")) {
 			new KitCDK().onCommand(sender, args);
+			return true;
+		}
+
+		/* 玩家领取指令 */
+		if(args.length >= 2 && args[0].equalsIgnoreCase("get") && sender instanceof Player && sender.hasPermission("wkkit.open")) {
+			String kitname = args[1];
+			Kit kit = Kit.getKit(kitname);
+			if (kit == null){
+				sender.sendMessage(LangConfigLoader.getStringWithPrefix("NO_KIT",ChatColor.RED) + " - " + kitname);
+				return true;
+			}
+			new KitGetter().getKit(kit,(Player)sender,null);
+			return true;
 		}
 		
 		/* 保存日志 */
@@ -180,6 +202,7 @@ public class KitCommand implements CommandExecutor{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return true;
 		}
 		
 		/*到底了*/

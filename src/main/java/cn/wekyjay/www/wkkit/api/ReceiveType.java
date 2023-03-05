@@ -4,7 +4,8 @@ public enum ReceiveType{
 	MAIL("MAIL"),
 	SEND("SEND"),
 	MENU("MENU"),
-	GIVE("GIVE");
+	GIVE("GIVE"),
+	GET("GET");
 	
 	private final String TYPE;
 	
