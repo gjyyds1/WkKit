@@ -32,6 +32,8 @@ NewComer:
    Kit: 'NCKit'
    # 是否自动发放
    Auto: true
+   # 严格检测模式(如果开启则严格检测游戏数据,即使数据丢失玩过的玩家也不会发放。)
+   Strict: false
 KitCode:
    # CDK密钥(不要随意改动)
    Key: 'none'

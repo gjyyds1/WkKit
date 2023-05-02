@@ -1,19 +1,5 @@
 package cn.wekyjay.www.wkkit.menu;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.config.MenuConfigLoader;
@@ -23,6 +9,19 @@ import cn.wekyjay.www.wkkit.tool.CronManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import de.tr7zw.nbtapi.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 
 public class MenuOpenner {
@@ -50,9 +49,11 @@ public class MenuOpenner {
 				String kitname = kitlist.get(0);
 				Kit kit = Kit.getKit(kitname);
 				// 判断是否领过
-				if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
+				if(Kit.getKit(kitname).isNoRefreshFirst()
+						|| WkKit.getPlayerData().contain_Kit(playername, kitname)) {
 					// 判断是否可以领取
-					if(WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false") || WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
+					if(Kit.getKit(kitname).isNoRefreshFirst() || WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false")
+							|| WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
 						for(int num : WKTool.getSlotNum(menuname + ".Slots.Get.slot")) {
 							ItemStack item = new ItemStack(Material.BARRIER);
 							// 设置自定义图标
@@ -159,9 +160,11 @@ public class MenuOpenner {
 		// 普通类型菜单
 		// 遍历检查
 		for(String kitname : kitlist) {
-			if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
+			if(Kit.getKit(kitname).isNoRefreshFirst() ||WkKit.getPlayerData().contain_Kit(playername, kitname)) {
 				// 如果不能领取
-				if(WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false") || WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
+				if(Kit.getKit(kitname).isNoRefreshFirst()
+						||WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false")
+						|| WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
 						for(int num : WKTool.getSlotNum(menuname + ".Slots." + kitname + ".slot")) {
 							ItemStack item = new ItemStack(Material.BARRIER);
 							// 设置自定义图标

@@ -130,3 +130,26 @@ MonthlyKit:
      - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
      - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
      - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
+SpecifiedDateKit:
+  Name: '§e指定日期礼包' # 次月自动刷新
+  Permission: 'wkkit.ServerKit'
+  Icon: 'BOOK'
+  DoCron: '0 0 0 1 * ? *' # Cron表达式
+  NoRefreshFirst: true
+  Commands:
+    - 'CMD:give {player} apple'
+    - 'OP:give {player} apple'
+    - 'give {player} apple'
+  Lore:
+    - '§b| 礼包介绍： §8指定日期和时间可领取'
+  Item:
+    - '{id:"minecraft:apple",Count:64b,Damage:0s}'
+    - '{id:"minecraft:iron_helmet",Count:1b,Damage:0s}'
+    - '{id:"minecraft:iron_chestplate",Count:1b,Damage:0s}'
+    - '{id:"minecraft:iron_leggings",Count:1b,Damage:0s}'
+    - '{id:"minecraft:iron_boots",Count:1b,Damage:0s}'
+    - '{id:"minecraft:bread",Count:64b,Damage:0s}'
+    - '{id:"minecraft:milk_bucket",Count:1b,Damage:0s}'
+    - '{id:"minecraft:iron_axe",Count:1b,Damage:0s}'
+    - '{id:"minecraft:iron_pickaxe",Count:1b,Damage:0s}'
+    - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'

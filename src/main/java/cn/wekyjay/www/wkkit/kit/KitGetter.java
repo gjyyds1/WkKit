@@ -1,23 +1,18 @@
 package cn.wekyjay.www.wkkit.kit;
 
-import java.util.List;
-
-import cn.wekyjay.www.wkkit.hook.VaultHooker;
-import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Server;
-import org.bukkit.entity.LightningStrike;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
 import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.menu.MenuManager;
+import cn.wekyjay.www.wkkit.hook.VaultHooker;
 import cn.wekyjay.www.wkkit.tool.WKTool;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 /**
  * 用于领取礼包后保存玩家领取数据(目前只有菜单使用)
  * @author Administrator
@@ -28,6 +23,7 @@ public class KitGetter{
 	 * 领取礼包
 	 */
 	public void getKit(Kit kit,Player p, String menuname) {
+		if(kit.isNoRefreshFirst()) {if(!this.runNoRefreshFirst(kit, p)) {return;}}
 		if(kit.getPermission() != null) {if(!this.runPermission(kit, p)) {return;}}
 		if(kit.getItemStack() != null) {if(!this.runItem(kit, p)) {return;}}
 		if(kit.getTimes() != null) {if(!this.runTimes(kit, p)) {return;}}
@@ -83,6 +79,19 @@ public class KitGetter{
 		}
 	}
 
+	/**
+	 *
+	 * @param kit
+	 * @param p
+	 * @return
+	 */
+	public boolean runNoRefreshFirst(Kit kit,Player p) {
+		if (kit.isNoRefreshFirst()){// 不首次刷新
+			p.sendMessage(LangConfigLoader.getStringWithPrefix("MENU_NEED_WAIT",ChatColor.YELLOW));
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * 经济插件支持，检测是否有足够的的金币来领取礼包。
 	 * @param kit 礼包
@@ -150,20 +159,21 @@ public class KitGetter{
 	 */
 	private void getSuccess(Kit kit, Player p) {
 		String kitname = kit.getKitname();
-		int times = -1;
+		int times = kit.getTimes(); // 获取初始领取次数
 		if(WkKit.getPlayerData().getKitTime(p.getName(),kitname) != null) {
 			times = WkKit.getPlayerData().getKitTime(p.getName(),kitname);
+		}else{
+			WkKit.getPlayerData().setKitTime(p.getName(),kitname,times); // 初始化次数
 		}
-		// 计算领取状态
+		// 计算领取状态（DoCron存在时）
 		if(kit.getDocron() != null) {
 			WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
 		}
-		// 计算领取次数
+		// 计算领取次数（times大于0时计算）
 		if(times > 0)WkKit.getPlayerData().setKitTime(p.getName(), kitname, times - 1);
 		// 如果领取次数变成0了就也变成false
-		if(WkKit.getPlayerData().getKitTime(p.getName(),kitname) != null && WkKit.getPlayerData().getKitTime(p.getName(),kitname) == 0)WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
+		if(WkKit.getPlayerData().getKitTime(p.getName(),kitname) == 0)WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
 		// 发送物品
-		PlayerInventory pinv = p.getInventory();//使用封装类的getplayer方法获取玩家背包
 		ItemStack[] itemlist = kit.getItemStack();
 		for(ItemStack item : itemlist) {
 			//添加物品至背包

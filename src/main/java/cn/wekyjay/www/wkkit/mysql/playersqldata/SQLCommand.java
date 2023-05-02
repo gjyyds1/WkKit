@@ -14,6 +14,10 @@ enum SQLCommand {
 			") DEFAULT CHARSET=utf8 "
 	),
 	
+	// 锁表
+	LOCK_TABLE(
+			"LOCK TABLES player WRITE"
+	),
 
 	// 添加数据
 	ADD_DATA(

@@ -1,12 +1,12 @@
 package cn.wekyjay.www.wkkit.mysql.cdksqldata;
 
+import cn.wekyjay.www.wkkit.mysql.MySQLManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.wekyjay.www.wkkit.mysql.MySQLManager;
 
 public class CdkSQLData {
 	public static void createTable(){
@@ -144,7 +144,6 @@ public class CdkSQLData {
 	 * 更新status
 	 * @param playername
 	 * @param CDK
-	 * @param mark
 	 */
 	public void update_Status(String playername,String CDK) {
 		try {

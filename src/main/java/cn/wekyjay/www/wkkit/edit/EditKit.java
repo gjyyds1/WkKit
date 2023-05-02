@@ -1,25 +1,5 @@
 package cn.wekyjay.www.wkkit.edit;
 
-import static org.bukkit.event.inventory.InventoryAction.NOTHING;
-import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.edit.prompt.KitDeletePrompt;
@@ -33,31 +13,49 @@ import cn.wekyjay.www.wkkit.kit.KitGroupManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import cn.wekyjay.www.wkkit.tool.items.GlassPane;
 import de.tr7zw.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.bukkit.event.inventory.InventoryAction.NOTHING;
+import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
 
 public class EditKit implements Listener {
 	private String editTitle;
-	private Inventory[] invs;
-	private List<ItemStack> itemlist = new ArrayList<>();
+	private Inventory[] kitGroupInvs; // 礼包组管理界面
+	private List<ItemStack> kitGroupItemList;
 	/**
 	 * 礼包管理主页
 	 */
 	public EditKit() {
-		int kitnum = KitGroupManager.getGroups().size();
-		itemlist = new ArrayList<>();
+		int groupNum = KitGroupManager.getGroups().size();
+		kitGroupItemList = new ArrayList<>();
 		editTitle = LangConfigLoader.getString("EDIT_KIT_TITLE");
 		//判断可创建的gui个数
 		int guinum = 0;
-		if (kitnum % 45 == 0 && kitnum != 0) guinum = kitnum / 45;
-	    else guinum = kitnum / 45 + 1;
+		if (groupNum % 45 == 0 && groupNum != 0) guinum = groupNum / 45;
+	    else guinum = groupNum / 45 + 1;
 		
-		invs = new Inventory[guinum];
+		kitGroupInvs = new Inventory[guinum];
 		
 		//添加物品到itemlist
 
 		for(String kitGroupName : KitGroupManager.getGroups()) {
 			NBTItem nbti = new NBTItem(WKTool.setItemName(new ItemStack(Material.BOOK), kitGroupName));
 			nbti.setString("wkkit", kitGroupName);
-			itemlist.add(nbti.getItem());
+			kitGroupItemList.add(nbti.getItem());
 		}
 		
 		//创建gui到linv
@@ -96,20 +94,30 @@ public class EditKit implements Listener {
 				inv.setItem(i1, item_mn);
 			}
 
-			invs[i-1] = inv;
+			kitGroupInvs[i-1] = inv;
 		}
 		//添加物品到指定的inv
 		int num = 0;
 		for(int invnum = 0; invnum < guinum; invnum++) {
 			for(int i2 = 0; i2 < 45; i2++) {
-				if(num >= kitnum || itemlist.size() == 0 ) {
+				if(num >= groupNum || kitGroupItemList.size() == 0 ) {
 					break;
 				}
-				invs[invnum].setItem(i2, itemlist.get(num));
+				kitGroupInvs[invnum].setItem(i2, kitGroupItemList.get(num));
 				num += 1;
 			}
 		}
 	}
+
+	/**
+	 * 获取礼包组展示界面的首页
+	 * @return
+	 */
+	public Inventory getInventory() {
+		return kitGroupInvs[0];
+
+	}
+
 	/**
 	 * 编辑礼包组
 	 * @param groupname
@@ -261,6 +269,7 @@ public class EditKit implements Listener {
 				im.setDisplayName("§e§l[√]§f§l " + key);
 				if(obj instanceof String)im.setLore(Arrays.asList((String)obj));
 				if(obj instanceof Integer) im.setLore(Arrays.asList(String.valueOf((int)obj)));
+				if(obj instanceof Boolean) im.setLore(Arrays.asList(String.valueOf((boolean) obj)));
 				if(obj instanceof List) im.setLore((List<String>)obj);
 				if(obj instanceof ItemStack[]) im.setLore(Arrays.asList(LangConfigLoader.getString("EDIT_CLICK_EDIT")));
 				is.setItemMeta(im);
@@ -313,12 +322,7 @@ public class EditKit implements Listener {
 		}
 		return kitinv;
 	}
-	
-	
-	public Inventory getInventory() {
-		return invs[0];
-		
-	}
+
 	
 	@EventHandler
 	public void onInvClick(InventoryClickEvent e) {
@@ -383,6 +387,8 @@ public class EditKit implements Listener {
 				if(key.equals("Commands")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "Commands");return;}
 				if(key.equals("Lore")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "Lore");return;}
 				if(key.equals("Drop")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "Drop");return;}
+				if(key.equals("Vault")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "Vault");return;}
+				if(key.equals("NoRefreshFirst")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "NoRefreshFirst");return;}
 				if(key.equals("Item")) {e.getWhoClicked().openInventory(this.editKitItem(kitname));return;}
 			}
 			if( WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit") && e.getClick().equals(ClickType.RIGHT)) {
@@ -399,6 +405,8 @@ public class EditKit implements Listener {
 					if(key.equals("Commands")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Commands");return;}
 					if(key.equals("Lore")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Lore");return;}
 					if(key.equals("Drop")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Drop");return;}
+					if(key.equals("Vault")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Vault");return;}
+					if(key.equals("NoRefreshFirst")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "NoRefreshFirst");return;}
 				}else {
 					return;
 				}

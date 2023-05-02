@@ -1,19 +1,15 @@
 package cn.wekyjay.www.wkkit.tool;
 
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
-
+import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
+import cn.wekyjay.www.wkkit.kit.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.ConfigManager;
-import cn.wekyjay.www.wkkit.kit.Kit;
+import java.util.Calendar;
+import java.util.List;
 
 public class KitRefresh {
 	private static BukkitTask task = null;
@@ -82,7 +78,12 @@ public class KitRefresh {
 										String playername = player.getName();
 										// 有礼包数据的就刷新领取状态
 										if(WkKit.getPlayerData().contain_Kit(playername, kitname)) {
-											PlayersKitRefreshEvent.callEvent(player,kit); // 回调
+											// 异步中同步回调
+											Bukkit.getScheduler().callSyncMethod(WkKit.getWkKit(), ()->{
+												PlayersKitRefreshEvent.callEvent(player,kit); // 回调
+												return true;
+											});
+
 											WkKit.getPlayerData().setKitData(playername, kitname, "true");
 										}
 									}

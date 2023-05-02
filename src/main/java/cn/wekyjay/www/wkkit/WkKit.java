@@ -1,19 +1,6 @@
 package cn.wekyjay.www.wkkit;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import cn.wekyjay.www.wkkit.hook.VaultHooker;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-
 import cn.wekyjay.www.wkkit.command.KitInfo;
 import cn.wekyjay.www.wkkit.command.TabCompleter;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
@@ -26,23 +13,34 @@ import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_MySQL;
 import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_Yaml;
 import cn.wekyjay.www.wkkit.edit.EditGUI;
 import cn.wekyjay.www.wkkit.edit.EditKit;
-import cn.wekyjay.www.wkkit.kit.Kit;
-import cn.wekyjay.www.wkkit.kitcode.CodeManager;
-import cn.wekyjay.www.wkkit.listeners.DropKitListener;
-import cn.wekyjay.www.wkkit.listeners.KitMailListener;
-import cn.wekyjay.www.wkkit.listeners.KitMenuListener;
-import cn.wekyjay.www.wkkit.listeners.KitReminderListener;
-import cn.wekyjay.www.wkkit.listeners.NewComerListener;
-import cn.wekyjay.www.wkkit.menu.MenuManager;
-import cn.wekyjay.www.wkkit.mysql.MySQLManager;
 import cn.wekyjay.www.wkkit.hook.Metrics;
 import cn.wekyjay.www.wkkit.hook.PapiHooker;
+import cn.wekyjay.www.wkkit.hook.VaultHooker;
+import cn.wekyjay.www.wkkit.kit.Kit;
+import cn.wekyjay.www.wkkit.kitcode.CodeManager;
+import cn.wekyjay.www.wkkit.listeners.*;
+import cn.wekyjay.www.wkkit.menu.MenuManager;
+import cn.wekyjay.www.wkkit.mysql.MySQLManager;
 import cn.wekyjay.www.wkkit.tool.ChackFiles;
 import cn.wekyjay.www.wkkit.tool.ChackPluginVersion;
 import cn.wekyjay.www.wkkit.tool.KitCache;
 import cn.wekyjay.www.wkkit.tool.KitRefresh;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
-public class WkKit extends JavaPlugin {
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class WkKit extends JavaPlugin implements PluginMessageListener {
 
     /*声明静态属性*/
     public static File playerConfigFile;
@@ -271,4 +269,8 @@ public class WkKit extends JavaPlugin {
 
     }
 
+    @Override
+    public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, @NotNull byte[] message) {
+
+    }
 }

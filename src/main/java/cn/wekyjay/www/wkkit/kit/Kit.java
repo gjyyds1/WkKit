@@ -1,28 +1,21 @@
 package cn.wekyjay.www.wkkit.kit;
 
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.ConfigManager;
+import cn.wekyjay.www.wkkit.tool.CronManager;
+import cn.wekyjay.www.wkkit.tool.WKTool;
+import de.tr7zw.nbtapi.NBTContainer;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NbtApiException;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.ConfigManager;
-import cn.wekyjay.www.wkkit.tool.CronManager;
-import cn.wekyjay.www.wkkit.tool.KitRefresh;
-import cn.wekyjay.www.wkkit.tool.WKTool;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.NbtApiException;
+import java.io.IOException;
+import java.util.*;
 
 public class Kit {
 	private String kitname;
@@ -35,8 +28,9 @@ public class Kit {
 	private String permission;
 	private String docron;
 	private Integer delay;
-	private Integer times;
+	private Integer times = -1; // 初始值为-1（无限领取次数）
 	private Integer vault;
+	private boolean noRefreshFirst;
 	/**
 	 * 下次礼包刷新的时间
 	 */
@@ -77,7 +71,7 @@ public class Kit {
 		return null;
 	}
 	
-	
+
 	
 	
 	/**
@@ -97,6 +91,7 @@ public class Kit {
 				docron = ConfigManager.getKitconfig().getString(kitname + ".DoCron");
 				restNextRC();
 			}
+			if(ConfigManager.getKitconfig().contains(kitname + ".NoRefreshFirst")) noRefreshFirst = ConfigManager.getKitconfig().getBoolean(kitname + ".NoRefreshFirst");
 			if(ConfigManager.getKitconfig().contains(kitname + ".Vault")) vault = ConfigManager.getKitconfig().getInt(kitname + ".Vault");
 			Kit.getKits().add(kit);
 		}
@@ -120,9 +115,20 @@ public class Kit {
 	public String getKitname() {
 		return kitname;
 	}
-	
-	
-	
+
+	/**
+	 * 判断礼包是否为创建时自动刷新 true为首次创建不刷新
+	 * @return
+	 */
+	public boolean isNoRefreshFirst() {
+		return noRefreshFirst;
+	}
+
+	public void setNoRefreshFirst(boolean noRefreshFirst) {
+		this.noRefreshFirst = noRefreshFirst;
+		this.getConfigurationSection().set("NoRefreshFirst", noRefreshFirst);
+	}
+
 	// Getter & Setter
 	/**
 	 * 获得该礼包的文件块
@@ -181,6 +187,11 @@ public class Kit {
 
 	public Integer getVault() {
 		return vault;
+	}
+
+	public void setVault(Integer vault) {
+		this.vault = vault;
+		this.getConfigurationSection().set("Vault", vault);
 	}
 
 	public void setCommands(List<String> commands) {
@@ -253,6 +264,8 @@ public class Kit {
 	public Calendar getNextRC() {
 		return nextRC;
 	}
+
+
 	
 	/**
 	 * 重新计算下次礼包的刷新时间
@@ -278,6 +291,8 @@ public class Kit {
 		kitflags.put("Lore", lore);
 		kitflags.put("Drop", drop);
 		kitflags.put("Item", itemStack);
+		kitflags.put("Vault", vault);
+		kitflags.put("NoRefreshFirst", noRefreshFirst);
 		return kitflags;
 	}
 
@@ -311,7 +326,6 @@ public class Kit {
 		item.setItemMeta(meta);
 		return item;
 	}
-	
 	
 	
 	

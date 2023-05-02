@@ -25,7 +25,7 @@ enum SQLCommand {
 
 	// 更新领取状态
 	UPDATE_STATUS_DATA(
-			"UPDATE `cdk` SET `status` = ? WHERE `cdk` = ? AND `mark` = ? "
+			"UPDATE `cdk` SET `status` = ? WHERE `cdk` = ? "
 	),
 
 	// 更新Mark

@@ -1,16 +1,11 @@
 package cn.wekyjay.www.wkkit.edit.prompt;
 
-import java.util.Arrays;
-
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.ValidatingPrompt;
-import org.bukkit.entity.Player;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
+import org.bukkit.conversations.*;
+import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 
 public class KitFlagPrompt {
 	// 添加Flag
@@ -50,7 +45,9 @@ class KitFlagPrompt_SetFlag extends ValidatingPrompt{
 	    if (flag.equals("Delay") && (input.equalsIgnoreCase("Cancel") || !input.matches("[0-9]+")))
 	      return false; 
 	    if (flag.equals("Times") && (input.equalsIgnoreCase("Cancel") || !input.matches("[0-9]+")))
-	      return false; 
+	      return false;
+	    if (flag.equals("Vault") && (input.equalsIgnoreCase("Cancel") || !input.matches("[0-9]+")))
+	      return false;
 	    return (input.length() > 0);
 	}
 
@@ -74,6 +71,8 @@ class KitFlagPrompt_SetFlag extends ValidatingPrompt{
 		case "Lore" : kit.setLore(Arrays.asList(input.replaceAll("&", "§").split(",")));break;
 		case "Drop": kit.setDrop(Arrays.asList(input.split(",")));break;
 		case "Commands": kit.setCommands(Arrays.asList(input.replaceAll("&", "§").split(",")));break;
+		case "Vault": kit.setVault(Integer.parseInt(input));break;
+		case "NoRefreshFirst": kit.setNoRefreshFirst(Boolean.parseBoolean(input));break;
 		}
 		kit.saveConfig(); // 保存礼包配置
 		context.getForWhom().sendRawMessage("§a修改成功！");

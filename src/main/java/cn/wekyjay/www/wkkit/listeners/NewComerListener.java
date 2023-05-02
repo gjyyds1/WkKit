@@ -1,14 +1,12 @@
 package cn.wekyjay.www.wkkit.listeners;
 
-import org.bukkit.Bukkit;
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.kit.Kit;
 import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.kit.Kit;
 
 public class NewComerListener implements Listener {
 	WkKit wk = WkKit.getWkKit();
@@ -20,10 +18,11 @@ public class NewComerListener implements Listener {
 	    boolean isnc = this.wk.getConfig().getBoolean("NewComer.Enable");//新人礼包是否开启
 	    boolean isauto = this.wk.getConfig().getBoolean("NewComer.Auto"); // 是否自动发放
 	    String nckitname = this.wk.getConfig().getString("NewComer.Kit");//新人礼包名
-	    if (isnc && Kit.getKit(nckitname) != null && e.getPlayer().getStatistic(Statistic.LEAVE_GAME) == 0) {
+	    if (isnc && Kit.getKit(nckitname) != null) {
+	    	if(this.wk.getConfig().getBoolean("NewComer.Strict")
+					&& e.getPlayer().getStatistic(Statistic.LEAVE_GAME) > 0) return;
 	    	if(WkKit.getPlayerData().contain_Kit(pname, nckitname))return;
 	    	new BukkitRunnable() {
-				
 				@Override
 				public void run() {
 			    	if(isauto) {
