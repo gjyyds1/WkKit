@@ -1,26 +1,23 @@
 package cn.wekyjay.www.wkkit.tool;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.ConfigManager;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
-
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.config.MenuConfigLoader;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.items.PlayerHead;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WKTool{
 
@@ -44,8 +41,8 @@ public class WKTool{
 			}
 		}
 		//计算出礼包中有多少空间
-		for(int i = 0;i < kit.getItemStack().length;i++) {
-			if(kit.getItemStack()[i] != null) {
+		for(int i = 0; i < kit.getItemStacks().length; i++) {
+			if(kit.getItemStacks()[i] != null) {
 				kitItemNum++;
 			}
 		}
@@ -57,8 +54,6 @@ public class WKTool{
 	}
 	/**
 	 * 判断是否有足够的空间领取足够多数量的物品
-	 * @param p
-	 * @param kit
 	 * @return
 	 */
 	public static boolean hasSpace(Player p,int num) {
@@ -104,9 +99,12 @@ public class WKTool{
 		}else{//自动穿戴关闭,不自动穿戴.
 			player.getInventory().addItem(itemStack);
 		}
-
 	}
-	
+	public static void addItem(Player player,ItemStack...itemStack){
+		for (int i = 0;i<itemStack.length;i++){
+			addItem(itemStack[i],player);
+		}
+	}
 	/**
 	 * 更改占位符为指定的值
 	 * @param key 占位符的key(不加{})
@@ -156,7 +154,26 @@ public class WKTool{
     	
     	return players;
     }
-	
+
+	/**
+	 * 将一段文字加上前插件前缀
+	 * @param text
+	 * @return
+	 */
+	public static String ofTextWithPrefix(String text) {
+		String msg = LangConfigLoader.getString("Prefix");
+		return ChatColor.translateAlternateColorCodes('&', msg+ " " + text) ;
+	}
+
+	/**
+	 * 将语言文件中的文字加上前插件前缀
+	 * @param msgname
+	 * @return
+	 */
+	public static String getMessageWithPrefix(String msgname) {
+		String msg =  LangConfigLoader.getString("Prefix") + " " + LangConfigLoader.getString(msgname);
+		return ChatColor.translateAlternateColorCodes('&', msg);
+	}
 	/**
 	 * 获取slot的位置
 	 * @param path

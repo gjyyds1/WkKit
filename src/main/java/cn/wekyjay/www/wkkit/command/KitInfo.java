@@ -1,8 +1,8 @@
 package cn.wekyjay.www.wkkit.command;
 
-import static org.bukkit.event.inventory.InventoryAction.NOTHING;
-import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
-
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.invholder.KitPreviewHolder;
+import cn.wekyjay.www.wkkit.kit.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,9 +14,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.invholder.KitPreviewHolder;
-import cn.wekyjay.www.wkkit.kit.Kit;
+import static org.bukkit.event.inventory.InventoryAction.NOTHING;
+import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
 
 public class KitInfo implements Listener{
 	String title;
@@ -40,7 +39,7 @@ public class KitInfo implements Listener{
 
 		if(Kit.getKit(kitname) == null)return;//如果不存在该礼包就返回
 		Kit kit = Kit.getKit(kitname);
-		ItemStack[] itemlist = kit.getItemStack();//物品集合
+		ItemStack[] itemlist = kit.getItemStacks();//物品集合
 		
 
 		

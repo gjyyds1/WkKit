@@ -300,7 +300,7 @@ public class EditKit implements Listener {
 		Kit kit = Kit.getKit(kitname);
 		Inventory kitinv = Bukkit.createInventory(new EditKitItemHolder(), 5*9, LangConfigLoader.getString("EDIT_KIT_ITEM_TITLE") + " - " + kitname);
 		// 填充物品
-		kitinv.addItem(kit.getItemStack());
+		kitinv.addItem(kit.getItemStacks());
 		for(int i = 36; i < 45; i++) {
 			if(i == 40) {
 				ItemStack is = GlassPane.GREEN.getItemStack();

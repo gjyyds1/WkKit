@@ -25,7 +25,7 @@ public class KitGetter{
 	public void getKit(Kit kit,Player p, String menuname) {
 		if(kit.isNoRefreshFirst()) {if(!this.runNoRefreshFirst(kit, p)) {return;}}
 		if(kit.getPermission() != null) {if(!this.runPermission(kit, p)) {return;}}
-		if(kit.getItemStack() != null) {if(!this.runItem(kit, p)) {return;}}
+		if(kit.getItemStacks() != null) {if(!this.runItem(kit, p)) {return;}}
 		if(kit.getTimes() != null) {if(!this.runTimes(kit, p)) {return;}}
 		if(kit.getVault() != null) {if(!this.runVault(kit,p)){return;}}
 		// 以下代码可以安全执行
@@ -174,7 +174,7 @@ public class KitGetter{
 		// 如果领取次数变成0了就也变成false
 		if(WkKit.getPlayerData().getKitTime(p.getName(),kitname) == 0)WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
 		// 发送物品
-		ItemStack[] itemlist = kit.getItemStack();
+		ItemStack[] itemlist = kit.getItemStacks();
 		for(ItemStack item : itemlist) {
 			//添加物品至背包
 			WKTool.addItem(item,p);

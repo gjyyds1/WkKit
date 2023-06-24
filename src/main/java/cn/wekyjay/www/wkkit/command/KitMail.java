@@ -1,8 +1,11 @@
 package cn.wekyjay.www.wkkit.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.invholder.MailHolder;
+import cn.wekyjay.www.wkkit.kit.Kit;
+import cn.wekyjay.www.wkkit.tool.WKTool;
+import cn.wekyjay.www.wkkit.tool.items.GlassPane;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -12,12 +15,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.invholder.MailHolder;
-import cn.wekyjay.www.wkkit.kit.Kit;
-import cn.wekyjay.www.wkkit.tool.WKTool;
-import cn.wekyjay.www.wkkit.tool.items.GlassPane;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -62,7 +61,9 @@ public class KitMail{
 		//添加物品到litem
 			//添加礼包
 			for(String kitname : kits) {
-				ItemStack is = Kit.getKit(kitname).getKitItem();
+				Kit kit = Kit.getKit(kitname);
+				if(kit == null) continue;
+				ItemStack is = kit.getKitItem();
 				if(WkKit.getPlayerData().getMailKitNum(pname, kitname) > 1) {
 					is.setAmount(WkKit.getPlayerData().getMailKitNum(pname, kitname));
 				}

@@ -1,6 +1,6 @@
 Prefix: '[WkKit]'
 Commands:
-   PS: '§8注释：<必填项>、[选填项]'
+   PS: '§7注释：<必填项>、[选填项]'
    help: '§6/wk help : §f插件指令详情'
    admin: '§6/wk edit : §f进入礼包管理界面'
    savecache: '§6/wk savechache : §f手动保存礼包日志（如果不使用该指令关服会自动保存）'

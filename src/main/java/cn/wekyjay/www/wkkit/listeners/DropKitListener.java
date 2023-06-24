@@ -1,36 +1,24 @@
 package cn.wekyjay.www.wkkit.listeners;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.SpawnCategory;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityDropItemEvent;
-import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
-import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CountDelayTime;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import de.tr7zw.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
-import javax.tools.Tool;
+import java.util.Iterator;
+import java.util.List;
 
 public class DropKitListener implements Listener{
 
@@ -111,7 +99,7 @@ public class DropKitListener implements Listener{
 
 
 						//添加礼包
-						for(ItemStack item : kit.getItemStack()) {
+						for(ItemStack item : kit.getItemStacks()) {
 							if(item == null) continue;
 							WKTool.addItem(item,e.getPlayer());
 						}

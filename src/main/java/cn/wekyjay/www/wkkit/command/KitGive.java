@@ -1,13 +1,5 @@
 package cn.wekyjay.www.wkkit.command;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
 import cn.wekyjay.www.wkkit.api.ReceiveType;
@@ -15,6 +7,13 @@ import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGetter;
 import cn.wekyjay.www.wkkit.tool.WKTool;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class KitGive {
 	static WkKit wk = WkKit.getWkKit();// 调用主类实例		
@@ -42,7 +41,7 @@ public class KitGive {
 	}
 	public void ExcutionMode(CommandSender sender,Player player, Kit kit, String mode) {
 		PlayerInventory pinv = player.getInventory();//使用封装类的getplayer方法获取玩家背包
-		ItemStack[] getItemList = kit.getItemStack();//获取Kits.Item的list集合
+		ItemStack[] getItemList = kit.getItemStacks();//获取Kits.Item的list集合
 		switch(mode) {
 			case "2":
 				if(!WKTool.hasSpace(player, kit)) {//判断是否有足够的背包空间

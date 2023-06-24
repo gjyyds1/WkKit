@@ -21,10 +21,7 @@ import cn.wekyjay.www.wkkit.kitcode.CodeManager;
 import cn.wekyjay.www.wkkit.listeners.*;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.mysql.MySQLManager;
-import cn.wekyjay.www.wkkit.tool.ChackFiles;
-import cn.wekyjay.www.wkkit.tool.ChackPluginVersion;
-import cn.wekyjay.www.wkkit.tool.KitCache;
-import cn.wekyjay.www.wkkit.tool.KitRefresh;
+import cn.wekyjay.www.wkkit.tool.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -155,17 +152,17 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
 
         //插件检测
         if (Bukkit.getPluginManager().getPlugin("NBTAPI") != null) {
-            getLogger().info("");
-            getLogger().info(" __ __ __   ___   ___   ___   ___   ________  _________  ");
-            getLogger().info("/_//_//_/\\ /___/\\/__/\\ /___/\\/__/\\ /_______/\\/________/\\ ");
-            getLogger().info("\\:\\\\:\\\\:\\ \\\\::.\\ \\\\ \\ \\\\::.\\ \\\\ \\ \\\\__.::._\\/\\__.::.__\\/ ");
-            getLogger().info(" \\:\\\\:\\\\:\\ \\\\:: \\/_) \\ \\\\:: \\/_) \\ \\  \\::\\ \\    \\::\\ \\   ");
-            getLogger().info("  \\:\\\\:\\\\:\\ \\\\:. __  ( ( \\:. __  ( (  _\\::\\ \\__  \\::\\ \\  ");
-            getLogger().info("   \\:\\\\:\\\\:\\ \\\\: \\ )  \\ \\ \\: \\ )  \\ \\/__\\::\\__/\\  \\::\\ \\ ");
-            getLogger().info("    \\_______\\/ \\__\\/\\__\\/  \\__\\/\\__\\/\\________\\/   \\__\\/ ");
-            getLogger().info("");
-            getLogger().info("Version: "+ getDescription().getVersion() + " | Author: WekyJay | QQ Group: 945144520");
-            getLogger().info("§a特别鸣谢：§eBiulay Gentry §7(排名不分先后)");
+           MessageManager.sendMessageWithPrefix("");
+            MessageManager.sendMessageWithPrefix(" __ __ __   ___   ___   ___   ___   ________  _________  ");
+            MessageManager.sendMessageWithPrefix("/_//_//_/\\ /___/\\/__/\\ /___/\\/__/\\ /_______/\\/________/\\ ");
+            MessageManager.sendMessageWithPrefix("\\:\\\\:\\\\:\\ \\\\::.\\ \\\\ \\ \\\\::.\\ \\\\ \\ \\\\__.::._\\/\\__.::.__\\/ ");
+            MessageManager.sendMessageWithPrefix(" \\:\\\\:\\\\:\\ \\\\:: \\/_) \\ \\\\:: \\/_) \\ \\  \\::\\ \\    \\::\\ \\   ");
+            MessageManager.sendMessageWithPrefix("  \\:\\\\:\\\\:\\ \\\\:. __  ( ( \\:. __  ( (  _\\::\\ \\__  \\::\\ \\  ");
+            MessageManager.sendMessageWithPrefix("   \\:\\\\:\\\\:\\ \\\\: \\ )  \\ \\ \\: \\ )  \\ \\/__\\::\\__/\\  \\::\\ \\ ");
+            MessageManager.sendMessageWithPrefix("    \\_______\\/ \\__\\/\\__\\/  \\__\\/\\__\\/\\________\\/   \\__\\/ ");
+            MessageManager.sendMessageWithPrefix("");
+            MessageManager.sendMessageWithPrefix("Version: "+ getDescription().getVersion() + " | Author: WekyJay | QQ Group: 945144520");
+            MessageManager.sendMessageWithPrefix("§a特别鸣谢：§eBiulay Gentry §7(排名不分先后)");
         } else {
             getLogger().warning(LangConfigLoader.getString("PLUGIN_NONBTAPI"));
             Bukkit.getPluginManager().disablePlugin(this);
@@ -184,7 +181,7 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
         new Metrics(this, pluginId);
 
         //Check Version
-        if(getConfig().contains("Setting.ChackUpdate") && getConfig().getBoolean("Setting.ChackUpdate")) {
+        if(getConfig().contains("Setting.CheckUpdate") && getConfig().getBoolean("Setting.CheckUpdate")) {
             Thread t = new Thread(new ChackPluginVersion());
             t.start();
         }
@@ -197,15 +194,15 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
                     MySQLManager.get().enableMySQL();
                     // 启动自动刷新礼包检测
                     KitRefresh.enableRefresh();
-                    getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
-                    getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
+                    MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
+                    MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
                 }
             }.runTaskAsynchronously(this);
         }else {
             // 启动自动刷新礼包检测
             KitRefresh.enableRefresh();
-            getLogger().info(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
-            getLogger().info(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
+            MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
+            MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
         }
 
 
@@ -240,7 +237,7 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
         if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
             MySQLManager.get().shutdown();
         }
-        this.getLogger().info(LangConfigLoader.getString("PLUGIN_UNINSTALL"));
+       MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_UNINSTALL"));
     }
 
     /**

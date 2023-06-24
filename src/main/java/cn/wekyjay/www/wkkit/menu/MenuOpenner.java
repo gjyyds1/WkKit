@@ -128,7 +128,7 @@ public class MenuOpenner {
 			// 遍历检查
 			for(String kitname : kitlist) {
 				Kit kit = Kit.getKit(kitname);
-				int itemnum = (int) Stream.of(kit.getItemStack()).filter(item -> item != null).count();
+				int itemnum = (int) Stream.of(kit.getItemStacks()).filter(item -> item != null).count();
 				int nounnum = (int) Stream.of(inv.getContents()).filter(item -> item == null).count();
 				// 比较大小，如果有足够空间
 				if(itemnum <= nounnum) {
@@ -138,8 +138,8 @@ public class MenuOpenner {
 						if(inv.getItem(i) == null) slotsIndex.add(i);
 					}
 					// 添加物品
-					for(int i = 0; i < kit.getItemStack().length; i++) {
-						inv.setItem(slotsIndex.get(i), kit.getItemStack()[i]);
+					for(int i = 0; i < kit.getItemStacks().length; i++) {
+						inv.setItem(slotsIndex.get(i), kit.getItemStacks()[i]);
 					}
 				}
 				
@@ -163,7 +163,7 @@ public class MenuOpenner {
 			if(Kit.getKit(kitname).isNoRefreshFirst() ||WkKit.getPlayerData().contain_Kit(playername, kitname)) {
 				// 如果不能领取
 				if(Kit.getKit(kitname).isNoRefreshFirst()
-						||WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false")
+						||WkKit.getPlayerData().getKitData(playername, kitname) != null && WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false")
 						|| WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
 						for(int num : WKTool.getSlotNum(menuname + ".Slots." + kitname + ".slot")) {
 							ItemStack item = new ItemStack(Material.BARRIER);

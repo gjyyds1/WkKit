@@ -239,7 +239,12 @@ public class Kit {
 		this.icon = icon;
 		this.getConfigurationSection().set("Icon", icon);
 	}
-	public ItemStack[] getItemStack() {
+
+	/**
+	 * 获取礼包的礼品内容
+	 * @return
+	 */
+	public ItemStack[] getItemStacks() {
 		return itemStack;
 	}
 	

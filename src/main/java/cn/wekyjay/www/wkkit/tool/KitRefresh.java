@@ -73,6 +73,9 @@ public class KitRefresh {
 								// 判断是否执行
 								if(cnow.getTimeInMillis() >= kit.getNextRC().getTimeInMillis()) {
 									OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
+									// 判断是否为首次不刷新礼包
+									if (kit.isNoRefreshFirst()) kit.setNoRefreshFirst(false);
+									// 遍历刷新玩家数据
 									for(OfflinePlayer player : playerlist) {
 										if(player.getName() == null) continue; // 如果获取不到玩家姓名则取消该玩家的刷新
 										String playername = player.getName();
