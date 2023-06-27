@@ -1,5 +1,14 @@
 package cn.wekyjay.www.wkkit.tool;
 
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
+import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.api.ReceiveType;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,20 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemoryConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.api.ReceiveType;
 
 public class KitCache implements Listener{
 	private static KitCache cache = null;
@@ -84,7 +79,7 @@ public class KitCache implements Listener{
 		ReceiveType type = e.getType();
 		String str = "[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "] ";
 		str += "[" + e.getEventName() + "] ";
-		str += LangConfigLoader.getString("PLAYER_RECEIVE_KIT").replaceAll("[{]player[}]","\"" + e.getPlayer().getName() + "\"")
+		str += LangConfigLoader.getString("PLAYER_RECEIVE_KIT").replaceAll("[{]player[}]","\"" + e.getPlayername() + "\"")
 				.replaceAll("[{]type[}]","\"" + type.toString() + "\"")
 				.replaceAll("[{]kit[}]", "\"" + e.getKit().getKitname() + "\"");
 		cacheList.add(str);

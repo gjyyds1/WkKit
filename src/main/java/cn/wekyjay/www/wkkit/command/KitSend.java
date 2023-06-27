@@ -1,17 +1,16 @@
 package cn.wekyjay.www.wkkit.command;
 
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
+import cn.wekyjay.www.wkkit.api.ReceiveType;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.kit.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
-import cn.wekyjay.www.wkkit.api.ReceiveType;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.kit.Kit;
 
 public  class KitSend {
 	static WkKit wk = WkKit.getWkKit();// 调用主类实例		
@@ -50,7 +49,7 @@ public  class KitSend {
 					if (player != null && player instanceof OfflinePlayer) {
 						String pname = player.getName();
 						// 回调事件
-						if(PlayersReceiveKitEvent.callEvent(player.getPlayer(), Kit.getKit(kitname), player.getName(), ReceiveType.SEND).isCancelled()) return;
+						if(PlayersReceiveKitEvent.callEvent(player.getPlayer(),pname,Kit.getKit(kitname), ReceiveType.SEND).isCancelled()) return;
 						if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
 							int num = WkKit.getPlayerData().getMailKitNum(pname, kitname);
 							WkKit.getPlayerData().setMailNum(pname, kitname, num + kitnum);
