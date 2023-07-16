@@ -13,11 +13,6 @@ enum SQLCommand {
 			"UNIQUE KEY (`player`, `kitname`)"+ 
 			") DEFAULT CHARSET=utf8 "
 	),
-	
-	// 锁表
-	LOCK_TABLE(
-			"LOCK TABLES player WRITE"
-	),
 
 	// 添加数据
 	ADD_DATA(
@@ -35,6 +30,7 @@ enum SQLCommand {
 	UPDATE_DATA_DATA(
 			"UPDATE `player` SET `data` = ? WHERE `player` = ? AND `kitname` = ? "
 	),
+
 	
 	// 删除数据
 	DELETE_DATA(

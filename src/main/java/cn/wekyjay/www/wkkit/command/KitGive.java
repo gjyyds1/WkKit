@@ -64,6 +64,19 @@ public class KitGive {
 				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// 回调事件
 				pinv.addItem(kit.getKitItem());
 				break;
+			case "4":
+				if(!WKTool.hasSpace(player, kit)) {//判断是否有足够的背包空间
+					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));
+					return;
+				}
+				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// 回调事件
+				for(ItemStack item : getItemList) {
+					ItemStack i = item;//通过NBT创建一个Item
+					pinv.addItem(i);//添加物品至背包
+				}
+				// 执行指令
+				if(kit.getMythicMobs() != null) new KitGetter().runMythicMobs(kit,player);
+				break;
 			default:
 				if(!WKTool.hasSpace(player, kit)) {//判断是否有足够的背包空间
 					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GIVE_FAILED",ChatColor.RED));

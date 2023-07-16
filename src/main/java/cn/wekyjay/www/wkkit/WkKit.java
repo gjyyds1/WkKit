@@ -14,6 +14,7 @@ import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_Yaml;
 import cn.wekyjay.www.wkkit.edit.EditGUI;
 import cn.wekyjay.www.wkkit.edit.EditKit;
 import cn.wekyjay.www.wkkit.hook.Metrics;
+import cn.wekyjay.www.wkkit.hook.MythicMobsHooker;
 import cn.wekyjay.www.wkkit.hook.PapiHooker;
 import cn.wekyjay.www.wkkit.hook.VaultHooker;
 import cn.wekyjay.www.wkkit.kit.Kit;
@@ -79,7 +80,6 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
     @Override
     public void onEnable() {
         wkkit = this;//为Getter赋值为本类
-
 
 
         saveDefaultConfig();//初始化Config文件
@@ -174,6 +174,10 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
 
         if(Bukkit.getPluginManager().getPlugin("Vault") != null) {
             new VaultHooker();
+        }
+
+        if(Bukkit.getPluginManager().getPlugin("MythicMobs") != null){
+            new MythicMobsHooker();
         }
 
         //bStats

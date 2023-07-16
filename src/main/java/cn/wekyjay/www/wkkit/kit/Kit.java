@@ -30,6 +30,7 @@ public class Kit {
 	private Integer delay;
 	private Integer times = -1; // 初始值为-1（无限领取次数）
 	private Integer vault;
+	private List<String> mythicMobs;
 	private boolean noRefreshFirst;
 	/**
 	 * 下次礼包刷新的时间
@@ -93,6 +94,7 @@ public class Kit {
 			}
 			if(ConfigManager.getKitconfig().contains(kitname + ".NoRefreshFirst")) noRefreshFirst = ConfigManager.getKitconfig().getBoolean(kitname + ".NoRefreshFirst");
 			if(ConfigManager.getKitconfig().contains(kitname + ".Vault")) vault = ConfigManager.getKitconfig().getInt(kitname + ".Vault");
+			if(ConfigManager.getKitconfig().contains(kitname + ".MythicMobs")) mythicMobs = ConfigManager.getKitconfig().getStringList(kitname + ".MythicMobs");
 			Kit.getKits().add(kit);
 		}
 	}
@@ -192,6 +194,15 @@ public class Kit {
 	public void setVault(Integer vault) {
 		this.vault = vault;
 		this.getConfigurationSection().set("Vault", vault);
+	}
+
+	public List<String> getMythicMobs() {
+		return mythicMobs;
+	}
+
+	public void setMythicMobs(List<String> mythicMobs) {
+		this.mythicMobs = mythicMobs;
+		this.getConfigurationSection().set("MythicMobs", mythicMobs);
 	}
 
 	public void setCommands(List<String> commands) {
@@ -298,6 +309,7 @@ public class Kit {
 		kitflags.put("Item", itemStack);
 		kitflags.put("Vault", vault);
 		kitflags.put("NoRefreshFirst", noRefreshFirst);
+		kitflags.put("MythicMobs", mythicMobs);
 		return kitflags;
 	}
 

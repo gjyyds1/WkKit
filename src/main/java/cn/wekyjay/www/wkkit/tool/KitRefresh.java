@@ -2,6 +2,7 @@ package cn.wekyjay.www.wkkit.tool;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
+import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_MySQL;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -86,8 +87,9 @@ public class KitRefresh {
 												PlayersKitRefreshEvent.callEvent(player,kit); // 回调
 												return true;
 											});
-
-											WkKit.getPlayerData().setKitData(playername, kitname, "true");
+											if (WkKit.getPlayerData() instanceof PlayerData_MySQL){ // 判断是否是数据库模式，如果是则使用锁模式。
+												((PlayerData_MySQL)WkKit.getPlayerData()).setKitDataOfLock(playername, kitname, "true");
+											}else WkKit.getPlayerData().setKitData(playername, kitname, "true");
 										}
 									}
 									kit.restNextRC();

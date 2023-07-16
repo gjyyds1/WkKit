@@ -69,6 +69,7 @@ class KitFlagPrompt_SetFlag extends ValidatingPrompt{
 		case "Delay": kit.setDelay(Integer.parseInt(input));break;
 		case "DoCron": kit.setDocron(input);break;
 		case "Lore" : kit.setLore(Arrays.asList(input.replaceAll("&", "§").split(",")));break;
+		case "MythicMobs" : kit.setMythicMobs(Arrays.asList(input.replaceAll("&", "§").split(",")));break;
 		case "Drop": kit.setDrop(Arrays.asList(input.split(",")));break;
 		case "Commands": kit.setCommands(Arrays.asList(input.replaceAll("&", "§").split(",")));break;
 		case "Vault": kit.setVault(Integer.parseInt(input));break;
@@ -112,6 +113,7 @@ class KitFlagPrompt_DeFlag extends ValidatingPrompt{
 		case "Delay": kit.setDelay(null);break;
 		case "DoCron": kit.setDocron(null);break;
 		case "Lore" : kit.setLore(null);break;
+		case "MythicMobs" : kit.setMythicMobs(null);break;
 		case "Drop": kit.setDrop(null);break;
 		case "Commands": kit.setCommands(null);break;
 		}

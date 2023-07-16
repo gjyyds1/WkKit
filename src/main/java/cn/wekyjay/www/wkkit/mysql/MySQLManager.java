@@ -1,19 +1,14 @@
 package cn.wekyjay.www.wkkit.mysql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.SQLTimeoutException;
-
-import org.bukkit.ChatColor;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.mysql.cdksqldata.CdkSQLData;
 import cn.wekyjay.www.wkkit.mysql.mailsqldata.MailSQLData;
 import cn.wekyjay.www.wkkit.mysql.playersqldata.PlayerSQLData;
+import cn.wekyjay.www.wkkit.tool.Druid;
+import org.bukkit.ChatColor;
+
+import java.sql.*;
 
 public class MySQLManager {
 	private String ip;
@@ -31,6 +26,11 @@ public class MySQLManager {
 	
 
 	public Connection getConnection() {
+		try {
+			connection = Druid.getConnection();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		return connection;
 	}
 	
@@ -58,7 +58,9 @@ public class MySQLManager {
 	 */
 	private void connectMySQL(){
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + databaseName, userName, userPassword);
+//			connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + databaseName, userName, userPassword);
+			Druid druid = new Druid("jdbc:mysql://" + ip + ":" + port + "/" + databaseName + "?serverTimezone=UTC",userName,userPassword);
+			connection = Druid.getConnection();
 			WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("MYSQL_CONNECT_SUCCESS"));
 		}catch(SQLTimeoutException e1) {
 			WkKit.getWkKit().getLogger().severe(LangConfigLoader.getString("MYSQL_CONECTTIMEOUT"));
@@ -89,11 +91,35 @@ public class MySQLManager {
 	 */
 	public void shutdown() {
 		try {
-			connection.close();
+			connection.close(); // 关闭数据库连接
+			Druid.shutdown(); // 回收连接池
 			WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("MYSQL_SHUTDOWN"));
 		} catch (SQLException e) {
 			WkKit.getWkKit().getLogger().severe(LangConfigLoader.getString("MYSQL_SHUTDOWN_FAILED"));
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 关闭连接<br/>
+	 * 在数据库连接池技术中，close 不是真的断掉连接,而是把使用的 Connection 对象放回连接池
+	 * @param resultSet
+	 * @param statement
+	 * @param connection
+	 */
+	public static void close(ResultSet resultSet, Statement statement, Connection connection) {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.api.PlayersReceiveKitEvent;
 import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.hook.MythicMobsHooker;
 import cn.wekyjay.www.wkkit.hook.VaultHooker;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -35,6 +36,7 @@ public class KitGetter{
 	    Bukkit.getPluginManager().callEvent(event);
 	    if (event.isCancelled())return;
 		if(kit.getCommands() != null) {this.runCommands(kit, p);}
+		if(kit.getMythicMobs() != null) {this.runMythicMobs(kit,p);}
 		this.getSuccess(kit, p);
 	}
 	
@@ -150,6 +152,19 @@ public class KitGetter{
 		if(times != 0) return true;
 		return false;
 		
+	}
+
+	/**
+	 * 生成MM怪
+	 * @param kit
+	 * @param p
+	 * @return
+	 */
+	public boolean runMythicMobs(Kit kit,Player p){
+		kit.getMythicMobs().forEach(mob->{
+			MythicMobsHooker.getMythicMobs().spawnMob(p,mob);
+		});
+		return true;
 	}
 	
 	/**

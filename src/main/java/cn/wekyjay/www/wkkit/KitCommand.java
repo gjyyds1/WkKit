@@ -1,34 +1,25 @@
 package cn.wekyjay.www.wkkit;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-
+import cn.wekyjay.www.wkkit.command.*;
+import cn.wekyjay.www.wkkit.config.ConfigManager;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.edit.EditGUI;
+import cn.wekyjay.www.wkkit.hook.MythicMobsHooker;
+import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGetter;
+import cn.wekyjay.www.wkkit.menu.MenuManager;
+import cn.wekyjay.www.wkkit.menu.MenuOpenner;
+import cn.wekyjay.www.wkkit.tool.KitCache;
+import cn.wekyjay.www.wkkit.tool.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import cn.wekyjay.www.wkkit.command.KitCDK;
-import cn.wekyjay.www.wkkit.command.KitCreate;
-import cn.wekyjay.www.wkkit.command.KitDelete;
-import cn.wekyjay.www.wkkit.command.KitGive;
-import cn.wekyjay.www.wkkit.command.KitGroup;
-import cn.wekyjay.www.wkkit.command.KitInfo;
-import cn.wekyjay.www.wkkit.command.KitMail;
-import cn.wekyjay.www.wkkit.command.KitSend;
-import cn.wekyjay.www.wkkit.command.KitTransfer;
-import cn.wekyjay.www.wkkit.config.ConfigManager;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.edit.EditGUI;
-import cn.wekyjay.www.wkkit.kit.Kit;
-import cn.wekyjay.www.wkkit.menu.MenuManager;
-import cn.wekyjay.www.wkkit.menu.MenuOpenner;
-import cn.wekyjay.www.wkkit.tool.KitCache;
-import de.tr7zw.nbtapi.NBTItem;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class KitCommand implements CommandExecutor{
@@ -202,6 +193,13 @@ public class KitCommand implements CommandExecutor{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return true;
+		}
+		/* 保存日志 */
+		if(args.length > 2 && args[0].equalsIgnoreCase("mob") && sender.isOp()) {
+			System.out.println("指令执行成功！");
+			boolean status = MythicMobsHooker.getMythicMobs().spawnMob((Player)sender,args[1]);
+			if (!status) MessageManager.sendMessage("未找到指定的MM怪物...请重新输入!");
 			return true;
 		}
 		

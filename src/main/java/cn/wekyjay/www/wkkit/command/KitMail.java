@@ -46,10 +46,46 @@ public class KitMail{
 			kits = new ArrayList<>();
 		}
 		
+
+		
+	//添加物品到litem
+		//添加礼包
+		for(String kitname : kits) {
+			Kit kit = Kit.getKit(kitname);
+			if(kit == null) continue;
+			ItemStack is = kit.getKitItem();
+			int kitNum = WkKit.getPlayerData().getMailKitNum(pname, kitname);
+			int maxsize = is.getMaxStackSize();
+			System.out.println("最大堆叠数量：" + maxsize);
+			if(kitNum >= 1 && kitNum <= maxsize) {
+				is.setAmount(WkKit.getPlayerData().getMailKitNum(pname, kitname));
+				litem.add(is);
+			}else if(kitNum > maxsize){
+				/**
+				 * 20230630 修复邮箱超过数量不追加BUG
+				 */
+
+				int count = kitNum / maxsize;
+				is.setAmount(maxsize);
+
+				// 遍历添加
+				for (int j = 0;j < count;j++){
+					litem.add(is.clone());
+					System.out.println("添加"+ (j+1) +"次,数量：" + is.getAmount());
+				}
+				// 取模不为0
+				if (kitNum % maxsize != 0){
+					is.setAmount(kitNum % maxsize);
+					litem.add(is.clone());
+				}
+			}
+
+		}
+
 		//有效礼包个数
-		int i = kits.size();
-		
-		
+		int i = litem.size();
+
+
 		//判断可创建的gui个数
 		int guinum = 0;
 		if(i % 36 == 0 && !(i == 0)) {
@@ -57,18 +93,6 @@ public class KitMail{
 		}else {
 			guinum = (i / 36) + 1;
 		}
-		
-		//添加物品到litem
-			//添加礼包
-			for(String kitname : kits) {
-				Kit kit = Kit.getKit(kitname);
-				if(kit == null) continue;
-				ItemStack is = kit.getKitItem();
-				if(WkKit.getPlayerData().getMailKitNum(pname, kitname) > 1) {
-					is.setAmount(WkKit.getPlayerData().getMailKitNum(pname, kitname));
-				}
-				litem.add(is);
-			}
 			
 			//创建gui到linv
 			for(int i1 = 1; i1 <= guinum; i1++) {
@@ -128,7 +152,7 @@ public class KitMail{
 				//判断当前页数添加功能按钮
 				if(i1 > 1 && i1 < guinum) {
 					inv.setItem(48, item_pre);
-					inv.setItem(55, item_next);
+					inv.setItem(50, item_next);
 				}
 				
 				if(i1 == guinum && i1 != 1) {

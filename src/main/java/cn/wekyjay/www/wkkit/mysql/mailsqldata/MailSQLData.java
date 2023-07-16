@@ -1,30 +1,36 @@
 package cn.wekyjay.www.wkkit.mysql.mailsqldata;
 
+import cn.wekyjay.www.wkkit.mysql.MySQLManager;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.wekyjay.www.wkkit.mysql.MySQLManager;
-
 public class MailSQLData {
 	public static void createTable(){
+		Connection connection = MySQLManager.get().getConnection();
+		PreparedStatement ps = null;
 		String cmd = SQLCommand.CREATE_TABLE.commandToString();
 		try {
-			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(cmd);
+			ps = connection.prepareStatement(cmd);
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {
 			System.out.println("§c邮箱数据表创建失败");
 			e.printStackTrace();
+		}finally {
+			MySQLManager.close(null,ps,connection);
 		}
 	}
 
 	public void insertData(String playername, String kitname, int num) {
+		Connection connection = MySQLManager.get().getConnection();
+		PreparedStatement ps = null;
 		try {
-			PreparedStatement ps;
 			String s = SQLCommand.ADD_DATA.commandToString();
-			ps = MySQLManager.get().getConnection().prepareStatement(s);
+			ps = connection.prepareStatement(s);
 			ps.setInt(1, 0);  // id
 			ps.setString(2, playername);
 			ps.setString(3, kitname);
@@ -32,40 +38,54 @@ public class MailSQLData {
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			MySQLManager.close(null,ps,connection);
 		}
 	}
 	public void deleteData(String playername,String kitname) {
+		Connection connection = MySQLManager.get().getConnection();
+		PreparedStatement ps = null;
 		try {
-			PreparedStatement ps;
 			String s = SQLCommand.DELETE_DATA.commandToString();
-			ps = MySQLManager.get().getConnection().prepareStatement(s);
+			ps = connection.prepareStatement(s);
 			ps.setString(1, playername);
 			ps.setString(2, kitname);
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			MySQLManager.close(null,ps,connection);
 		}
 	}
 	public List<String> findKitName(String playername) {
 		List<String> list = new ArrayList<String>();
+		Connection connection = MySQLManager.get().getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
 			String s = SQLCommand.SELECT_DATA.commandToString();
-			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(s);
+			ps = connection.prepareStatement(s);
 			ps.setString(1, playername);
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			while (rs.next())
 			{
 				list.add(rs.getString("kitname"));
 			}
 		} catch (SQLException e) {}
+		finally {
+			MySQLManager.close(rs,ps,connection);
+		}
 		return list;
 	}
 	public Boolean findPlayer(String playername) {
+		Connection connection = MySQLManager.get().getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
 			String s = SQLCommand.SELECT_DATA.commandToString();
-			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(s);
+			ps = connection.prepareStatement(s);
 			ps.setString(1, playername);
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			while (rs.next())
 			{
 				if(rs.getString("player").equals(playername)) {
@@ -73,14 +93,20 @@ public class MailSQLData {
 				}
 			}
 		} catch (SQLException e) {}
+		finally {
+			MySQLManager.close(rs,ps,connection);
+		}
 		return false;
 	}
 	public int findKitNum(String playername,String kitname) {
+		Connection connection = MySQLManager.get().getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
 			String s = SQLCommand.SELECT_DATA.commandToString();
-			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(s);
+			ps = connection.prepareStatement(s);
 			ps.setString(1, playername);
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			while (rs.next())
 			{
 				if(rs.getString("kitname").equals(kitname)) {
@@ -88,17 +114,25 @@ public class MailSQLData {
 				}
 			}
 		} catch (SQLException e) {}
+		finally {
+			MySQLManager.close(rs,ps,connection);
+		}
 		return 0;
 	}
 
 	public void update_Num(String playername,String kitname, int value) {
+		Connection connection = MySQLManager.get().getConnection();
+		PreparedStatement ps = null;
 		try {
 			String s = SQLCommand.UPDATE_NUM_DATA.commandToString();
-			PreparedStatement ps = MySQLManager.get().getConnection().prepareStatement(s);
+			ps = connection.prepareStatement(s);
 			ps.setInt(1, value);
 			ps.setString(2, playername);
 			ps.setString(3, kitname);
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {}
+		finally {
+			MySQLManager.close(null,ps,connection);
+		}
 	}
 }

@@ -1,14 +1,9 @@
 package cn.wekyjay.www.wkkit.edit.prompt;
 
-import org.bukkit.Bukkit;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.ValidatingPrompt;
-import org.bukkit.entity.Player;
-
 import cn.wekyjay.www.wkkit.WkKit;
+import org.bukkit.Bukkit;
+import org.bukkit.conversations.*;
+import org.bukkit.entity.Player;
 
 public class KitDeletePrompt {
 	public static void newConversation(Player player, String kitname) {
@@ -36,7 +31,9 @@ class KitDeletePrompt_1 extends ValidatingPrompt{
 	@Override
 	protected Prompt acceptValidatedInput(ConversationContext context, String input) {
 		if(input.equalsIgnoreCase("Y")) {
-			Bukkit.dispatchCommand((Player)context.getForWhom(), "wk delete " + context.getSessionData("kitname"));
+			Bukkit.getScheduler().runTask(WkKit.getWkKit(),()->{
+				Bukkit.dispatchCommand((Player)context.getForWhom(), "wk delete " + context.getSessionData("kitname"));
+			});
 			context.getForWhom().sendRawMessage("§a已成功删除礼包 - " + context.getSessionData("kitname"));
 		}else {
 			context.getForWhom().sendRawMessage("§c你取消了礼包删除");

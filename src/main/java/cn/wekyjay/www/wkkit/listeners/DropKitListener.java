@@ -1,6 +1,7 @@
 package cn.wekyjay.www.wkkit.listeners;
 
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.hook.MythicMobsHooker;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CountDelayTime;
 import cn.wekyjay.www.wkkit.tool.WKTool;
@@ -96,8 +97,12 @@ public class DropKitListener implements Listener{
 								}
 							}
 						}
-
-
+						// 判断是否有MythicMobs生成
+						if (kit.getMythicMobs() != null){
+							kit.getMythicMobs().forEach(mob->{
+								MythicMobsHooker.getMythicMobs().spawnMob(e.getPlayer(),mob);
+							});
+						}
 						//添加礼包
 						for(ItemStack item : kit.getItemStacks()) {
 							if(item == null) continue;

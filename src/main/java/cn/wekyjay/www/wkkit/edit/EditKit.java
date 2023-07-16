@@ -389,6 +389,7 @@ public class EditKit implements Listener {
 				if(key.equals("Drop")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "Drop");return;}
 				if(key.equals("Vault")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "Vault");return;}
 				if(key.equals("NoRefreshFirst")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "NoRefreshFirst");return;}
+				if(key.equals("MythicMobs")) {e.getWhoClicked().closeInventory();KitFlagPrompt.setFlag((Player)e.getWhoClicked(), kitname, "MythicMobs");return;}
 				if(key.equals("Item")) {e.getWhoClicked().openInventory(this.editKitItem(kitname));return;}
 			}
 			if( WKTool.getItemNBT(e.getCurrentItem()).hasKey("wkkit") && e.getClick().equals(ClickType.RIGHT)) {
@@ -407,6 +408,7 @@ public class EditKit implements Listener {
 					if(key.equals("Drop")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Drop");return;}
 					if(key.equals("Vault")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "Vault");return;}
 					if(key.equals("NoRefreshFirst")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "NoRefreshFirst");return;}
+					if(key.equals("MythicMobs")) {e.getWhoClicked().closeInventory();KitFlagPrompt.deFlag((Player)e.getWhoClicked(), kitname, "MythicMobs");return;}
 				}else {
 					return;
 				}

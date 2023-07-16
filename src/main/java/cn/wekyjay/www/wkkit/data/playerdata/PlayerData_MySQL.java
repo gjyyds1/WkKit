@@ -1,11 +1,11 @@
 package cn.wekyjay.www.wkkit.data.playerdata;
 
-import java.util.List;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.mysql.mailsqldata.MailSQLData;
 import cn.wekyjay.www.wkkit.mysql.playersqldata.PlayerSQLData;
+
+import java.util.List;
 
 public class PlayerData_MySQL implements PlayerData{
 
@@ -43,6 +43,23 @@ public class PlayerData_MySQL implements PlayerData{
 			setKitToFile(playername, kitname, value, time);
 		}else {
 			new PlayerSQLData().update_Data_Data(playername, kitname, value);
+		}
+	}
+
+	/**
+	 * 排他锁的方式更新数据
+	 * @param playername
+	 * @param kitname
+	 * @param value
+	 */
+	public void setKitDataOfLock(String playername, String kitname, String value){
+		if(!contain_Kit(playername, kitname)) {//如果没有数据
+			int time;
+			if(Kit.getKit(kitname).getTimes() == null) time = -1;
+			else time = Kit.getKit(kitname).getTimes();
+			setKitToFile(playername, kitname, value, time);
+		}else {
+			new PlayerSQLData().update_Data_Data_Lock(playername, kitname, value);
 		}
 	}
 
