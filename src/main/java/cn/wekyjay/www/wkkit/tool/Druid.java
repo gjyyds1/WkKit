@@ -14,6 +14,7 @@ public class Druid {
 
     // 初始化连接池
     public Druid(String url,String userName, String userPassword){
+
         druidDataSource=new DruidDataSource();
         druidDataSource.setUrl(url);
         druidDataSource.setUsername(userName);
@@ -22,6 +23,7 @@ public class Druid {
         druidDataSource.setMaxActive(20);
         druidDataSource.setInitialSize(10);
         druidDataSource.setMaxWait(5000);
+
     }
     //获取连接
     public static Connection getConnection() throws SQLException {
@@ -34,8 +36,7 @@ public class Druid {
     }
 
     public static void shutdown(){
-        druidDataSource.close();
-
+            druidDataSource.close();
     }
 
 }

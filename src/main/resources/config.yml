@@ -3,6 +3,7 @@ Setting:
    OnlineReminder: true
    CheckUpdate: true
    Language: 'none'
+   DeBug: false
 Default:
    # 默认礼包展示名
    Name: '§6Server Kit'

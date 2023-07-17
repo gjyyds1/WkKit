@@ -90,14 +90,9 @@ public class MySQLManager {
 	 * 关闭数据库
 	 */
 	public void shutdown() {
-		try {
-			connection.close(); // 关闭数据库连接
-			Druid.shutdown(); // 回收连接池
-			WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("MYSQL_SHUTDOWN"));
-		} catch (SQLException e) {
-			WkKit.getWkKit().getLogger().severe(LangConfigLoader.getString("MYSQL_SHUTDOWN_FAILED"));
-			e.printStackTrace();
-		}
+		close(null,null,connection); // 关闭数据库连接
+		Druid.shutdown(); // 回收连接池
+		WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("MYSQL_SHUTDOWN"));
 	}
 
 	/**

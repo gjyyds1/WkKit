@@ -5,9 +5,9 @@ enum SQLCommand {
 	CREATE_TABLE(
 			"CREATE TABLE IF NOT EXISTS `maildata` (" +
 					"`id` INT UNSIGNED AUTO_INCREMENT," +
-					"`player` VARCHAR(100) NULL DEFAULT NULL," +
-					"`kitname` VARCHAR(100) NULL DEFAULT NULL," +
-					"`num` INT NOT NULL," +
+					"`player` VARCHAR(50) NOT NULL," +
+					"`kitname` VARCHAR(50) NOT NULL," +
+					"`num` SMALLINT UNSIGNED NOT NULL," +
 					"PRIMARY KEY (`id`)," +
 					"UNIQUE KEY (`player`, `kitname`)"+
 					") DEFAULT CHARSET=utf8 "

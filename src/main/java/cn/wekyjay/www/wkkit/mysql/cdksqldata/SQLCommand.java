@@ -5,11 +5,11 @@ enum SQLCommand {
 	CREATE_TABLE(
 			"CREATE TABLE IF NOT EXISTS `cdk` (" +
 					"`id` INT UNSIGNED AUTO_INCREMENT," +
-					"`cdk` VARCHAR(100) NULL DEFAULT NULL," +
-					"`kits` VARCHAR(100) NULL DEFAULT NULL," +
-					"`date` VARCHAR(100) NULL DEFAULT NULL," +
-					"`status` VARCHAR(100) NULL DEFAULT NULL," +
-					"`mark` VARCHAR(100) NULL DEFAULT NULL," +
+					"`cdk` VARCHAR(20) NOT NULL ," +
+					"`kits` VARCHAR(100) NOT NULL," +
+					"`date` VARCHAR(50) NOT NULL," +
+					"`status` VARCHAR(50) NOT NULL," +
+					"`mark` VARCHAR(100) NOT NULL," +
 					"PRIMARY KEY (`id`),"+
 					"UNIQUE KEY (`cdk`, `mark`)"+
 					") DEFAULT CHARSET=utf8"

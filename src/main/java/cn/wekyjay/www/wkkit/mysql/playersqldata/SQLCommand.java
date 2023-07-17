@@ -5,10 +5,10 @@ enum SQLCommand {
 	CREATE_TABLE(
 			"CREATE TABLE IF NOT EXISTS `player` (" +
 			"`id` INT UNSIGNED AUTO_INCREMENT," +
-			"`player` VARCHAR(100) NULL DEFAULT NULL," +
-			"`kitname` VARCHAR(100) NULL DEFAULT NULL," +
-			"`data` VARCHAR(100) NULL DEFAULT NULL," +
-			"`time` INT NOT NULL," +
+			"`player` VARCHAR(50) NOT NULL," +
+			"`kitname` VARCHAR(50) NOT NULL," +
+			"`data` VARCHAR(50) NOT NULL," +
+			"`time` SMALLINT UNSIGNED NOT NULL," +
 			"PRIMARY KEY (`id`)," +
 			"UNIQUE KEY (`player`, `kitname`)"+ 
 			") DEFAULT CHARSET=utf8 "

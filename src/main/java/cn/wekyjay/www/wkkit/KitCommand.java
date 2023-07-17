@@ -4,13 +4,12 @@ import cn.wekyjay.www.wkkit.command.*;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.edit.EditGUI;
-import cn.wekyjay.www.wkkit.hook.MythicMobsHooker;
+import cn.wekyjay.www.wkkit.edit.EditPlayer;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGetter;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.menu.MenuOpenner;
 import cn.wekyjay.www.wkkit.tool.KitCache;
-import cn.wekyjay.www.wkkit.tool.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -126,9 +125,11 @@ public class KitCommand implements CommandExecutor{
 		}
 		
 		/*get获取礼包的内容*/
-		if(args[0].equalsIgnoreCase("info") && sender.isOp() && sender instanceof Player) {
-			new KitInfo().onCommand(sender, command, label, args);
-			return true;
+		if(args[0].equalsIgnoreCase("info")  && sender instanceof Player) {
+			if(sender.hasPermission("wkkit.info") || sender.isOp()){
+				new KitInfo().onCommand(sender, command, label, args);
+				return true;
+			}
 		}
 		
 		
@@ -195,12 +196,9 @@ public class KitCommand implements CommandExecutor{
 			}
 			return true;
 		}
-		/* 保存日志 */
-		if(args.length > 2 && args[0].equalsIgnoreCase("mob") && sender.isOp()) {
-			System.out.println("指令执行成功！");
-			boolean status = MythicMobsHooker.getMythicMobs().spawnMob((Player)sender,args[1]);
-			if (!status) MessageManager.sendMessage("未找到指定的MM怪物...请重新输入!");
-			return true;
+		/* 测试代码 */
+		if(args.length >= 1 && args[0].equalsIgnoreCase("head") && sender.isOp()) {
+			EditPlayer.selectPlayerGUI((Player)sender);
 		}
 		
 		/*到底了*/

@@ -1,10 +1,15 @@
 package cn.wekyjay.www.wkkit.menu;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.MenuConfigLoader;
+import cn.wekyjay.www.wkkit.invholder.MenuHolder;
+import cn.wekyjay.www.wkkit.kit.Kit;
+import cn.wekyjay.www.wkkit.listeners.KitMenuListener;
+import cn.wekyjay.www.wkkit.tool.ItemEditer;
+import cn.wekyjay.www.wkkit.tool.WKTool;
+import de.tr7zw.nbtapi.NBTContainer;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NbtApiException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
@@ -12,17 +17,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.MenuConfigLoader;
-import cn.wekyjay.www.wkkit.invholder.MenuHolder;
-import cn.wekyjay.www.wkkit.kit.Kit;
-import cn.wekyjay.www.wkkit.listeners.KitMenuListener;
-import cn.wekyjay.www.wkkit.tool.WKTool;
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.NbtApiException;
-import de.tr7zw.nbtapi.plugin.NBTAPI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MenuManager {
 	private static Map<String,Menu> menus = new HashMap<>();
@@ -65,7 +63,7 @@ public class MenuManager {
 					// 如果是空气就另外操作
 					if(id.equalsIgnoreCase("AIR") || id.equalsIgnoreCase("NONE")) {
 						item = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("Default.Icon")));
-						item = WKTool.setItemName(item, "AIR");
+						item = new ItemEditer(item).setDisplayName("AIR").getItemStack();
 						List<Integer> slotnum = WKTool.getSlotNum(menuname + ".Slots." + slotname + ".slot");
 						for(int num : slotnum) {
 							inv.setItem(num, item);

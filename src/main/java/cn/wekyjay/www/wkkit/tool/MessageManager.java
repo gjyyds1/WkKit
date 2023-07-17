@@ -19,6 +19,14 @@ public class MessageManager {
     }
 
     /**
+     * 后台打印DeBug消息，颜色代码 - &
+     * @param text
+     */
+    public static void infoDeBug(String text) {
+        if (WkKit.getWkKit().getConfig().getBoolean("Setting.DeBug"))Bukkit.getConsoleSender().sendMessage("§e§l[DEBUG] §f" + ChatColor.translateAlternateColorCodes('&', text));
+    }
+
+    /**
      * 后台打印警告消息，颜色代码 - &
      * @param text
      */

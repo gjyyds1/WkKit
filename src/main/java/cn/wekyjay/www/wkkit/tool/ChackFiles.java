@@ -1,15 +1,8 @@
 package cn.wekyjay.www.wkkit.tool;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 
-import cn.wekyjay.www.wkkit.WkKit;
+import java.io.*;
 
 
 public class ChackFiles {
@@ -48,7 +41,7 @@ public class ChackFiles {
 					for(String key : jarYaml.getKeys(true)) {
 						// 如果不存在就添加
 						if(!fileYaml.contains(key)) {
-							System.out.println(key + " - §c不存在§a(已添加)");
+							MessageManager.infoDeBug(key + " - §cNO EXIST§a(ADDED)");
 							fileYaml.set(key, jarYaml.get(key));
 						}
 					}
@@ -56,7 +49,7 @@ public class ChackFiles {
 					for(String key : fileYaml.getKeys(true)) {
 						// 如果不存在就删除
 						if(!jarYaml.contains(key)) {
-							System.out.println(key + " - §e不存在§7(已删除)");
+							MessageManager.infoDeBug(key + " - §eNO EXIST§7(DELETED)");
 							fileYaml.set(key, null);
 						}
 					}
@@ -110,7 +103,7 @@ public class ChackFiles {
 	 * @throws IOException
 	 */
 	public static File asFile(InputStream inputStream) throws IOException{
-		File tmp = new File("wkkit.tmp");
+		File tmp = File.createTempFile("tmp", null);
 		OutputStream os = new FileOutputStream(tmp);
 		int bytesRead = 0;
 		byte[] buffer = new byte[8192];

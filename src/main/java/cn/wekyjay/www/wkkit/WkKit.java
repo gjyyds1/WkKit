@@ -237,10 +237,7 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
             e.printStackTrace();
         }
 
-        // 关闭数据库
-        if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
-            MySQLManager.get().shutdown();
-        }
+
        MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_UNINSTALL"));
     }
 

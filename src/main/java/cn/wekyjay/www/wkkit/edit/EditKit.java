@@ -10,6 +10,7 @@ import cn.wekyjay.www.wkkit.invholder.EditKitItemHolder;
 import cn.wekyjay.www.wkkit.invholder.EditKitMainHolder;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGroupManager;
+import cn.wekyjay.www.wkkit.tool.ItemEditer;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import cn.wekyjay.www.wkkit.tool.items.GlassPane;
 import de.tr7zw.nbtapi.NBTItem;
@@ -53,7 +54,7 @@ public class EditKit implements Listener {
 		//添加物品到itemlist
 
 		for(String kitGroupName : KitGroupManager.getGroups()) {
-			NBTItem nbti = new NBTItem(WKTool.setItemName(new ItemStack(Material.BOOK), kitGroupName));
+			NBTItem nbti = new NBTItem(new ItemEditer(new ItemStack(Material.BOOK)).setDisplayName(kitGroupName).getItemStack());
 			nbti.setString("wkkit", kitGroupName);
 			kitGroupItemList.add(nbti.getItem());
 		}
@@ -62,10 +63,10 @@ public class EditKit implements Listener {
 		for(int i = 1; i <= guinum; i++) {
 			Inventory inv;
 			if(guinum == 1) {//如果只有一页就不加页数
-				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle); //创建一个GUI,操作人是强转成InventoryHolder的sender
+				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle);
 			}else {
 				String pagetitle = WKTool.replacePlaceholder("page", i+"", LangConfigLoader.getString("GUI_PAGETITLE"));
-				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle + " - " + pagetitle); //创建一个GUI,操作人是强转成InventoryHolder的sender
+				inv = Bukkit.createInventory(new EditKitMainHolder(), 6*9, editTitle + " - " + pagetitle);
 			}
 
 			
@@ -115,7 +116,6 @@ public class EditKit implements Listener {
 	 */
 	public Inventory getInventory() {
 		return kitGroupInvs[0];
-
 	}
 
 	/**
@@ -163,13 +163,13 @@ public class EditKit implements Listener {
 		        	item_mn = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.MenuMaterial")));
 		        } 
 		        // 设置按钮名称
-		        item_mn = WKTool.setItemName(item_mn, LangConfigLoader.getString("DO_NOT_TOUCH"));
+		        item_mn = new ItemEditer(item_mn,LangConfigLoader.getString("DO_NOT_TOUCH")).getItemStack();
 		        // 填入物品
 		        for (int j = 0; j < 54; j++) {
 		          if (!slot.contains(Integer.valueOf(j))) {
 		        	  if(j == 1) {
 	    				ItemStack is = GlassPane.BLACK.getItemStack();
-	    				inv.setItem(j, WKTool.setItemName(is, LangConfigLoader.getString("EDIT_BACK")));
+	    				inv.setItem(j, new ItemEditer(is, LangConfigLoader.getString("EDIT_BACK")).getItemStack());
 	    				continue;
 		        	  }
 		        	 inv.setItem(j, item_mn);  
@@ -179,13 +179,13 @@ public class EditKit implements Listener {
 		        // 如果页数大于1则添加翻页按钮
 		      if (guinum > 1) {
 		          ItemStack item_pre = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
-		          item_pre = WKTool.setItemName(item_pre, LangConfigLoader.getString("PREVIOUS_PAGE"));
+		          item_pre = new ItemEditer(item_pre, LangConfigLoader.getString("PREVIOUS_PAGE")).getItemStack();
 		          NBTItem nbti = WKTool.getItemNBT(item_pre);
 		          nbti.setInteger("page", Integer.valueOf(i));
 		          nbti.setString("groupname", groupname);
 		          item_pre = nbti.getItem();
 		          ItemStack item_next = new ItemStack(Material.getMaterial(WkKit.getWkKit().getConfig().getString("GUI.TurnPageMaterial")));
-		          item_next = WKTool.setItemName(item_next, LangConfigLoader.getString("NEXT_PAGE"));
+		          item_next = new ItemEditer(item_next, LangConfigLoader.getString("NEXT_PAGE")).getItemStack();
 		          nbti = WKTool.getItemNBT(item_next);
 		          nbti.setInteger("page", Integer.valueOf(i));
 		          nbti.setString("groupname", groupname);
@@ -348,7 +348,7 @@ public class EditKit implements Listener {
 		      } 
 		      // 如果是返回按钮
 		      if(e.getRawSlot() == 1) {
-		    	  e.getWhoClicked().openInventory(this.getInventory());
+		    	  e.getWhoClicked().openInventory(kitGroupInvs[0]);
 		    	  return;
 		      }
 		      // 如果是按钮

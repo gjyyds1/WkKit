@@ -1,15 +1,13 @@
 package cn.wekyjay.www.wkkit.config;
 
-import java.io.File;
-import java.sql.Savepoint;
-import java.util.List;
-import java.util.Locale;
-
+import cn.wekyjay.www.wkkit.WkKit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import cn.wekyjay.www.wkkit.WkKit;
+import java.io.File;
+import java.util.List;
+import java.util.Locale;
 
 public class LangConfigLoader {
 	static File langFile = null;
@@ -53,7 +51,7 @@ public class LangConfigLoader {
 	
 	public static String getString(String path) {
 		if(LangConfigLoader.contains(path)) {
-			return langConfig.getString(path);
+			return ChatColor.translateAlternateColorCodes('&',langConfig.getString(path));
 		}
 		return null;
 	}
@@ -61,9 +59,9 @@ public class LangConfigLoader {
 	public static String getStringWithPrefix(String path,ChatColor color) {
 		if(LangConfigLoader.contains(path)) {
 			if(color == null) {
-				return getString("Prefix") + " " + langConfig.getString(path);
+				return getString("Prefix") + " " + ChatColor.translateAlternateColorCodes('&',langConfig.getString(path));
 			}
-			return color + getString("Prefix") + " " + langConfig.getString(path);
+			return color + getString("Prefix") + " " + ChatColor.translateAlternateColorCodes('&',langConfig.getString(path));
 			
 		}
 		return null;

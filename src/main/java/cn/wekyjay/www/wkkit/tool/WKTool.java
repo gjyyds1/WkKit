@@ -9,10 +9,11 @@ import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -234,31 +235,6 @@ public class WKTool{
 	}
 	
 	/**
-	 * 设置Item的DisplayName
-	 * @param is
-	 * @param name
-	 * @return
-	 */
-	public static ItemStack setItemName(ItemStack is,String name) {
-		ItemMeta im = is.getItemMeta();
-		im.setDisplayName(name);
-		is.setItemMeta(im);
-		return is;
-	}
-	/**
-	 * 设置Item的Lore
-	 * @param is
-	 * @param lore
-	 * @return
-	 */
-	public static ItemStack setItemLore(ItemStack is,List<String> lore) {
-		ItemMeta im = is.getItemMeta();
-		im.setLore(lore);
-		is.setItemMeta(im);
-		return is;
-	}
-	
-	/**
 	 * 判断文本是否符合正则表达式
 	 * @param str
 	 * @param pattern
@@ -269,5 +245,35 @@ public class WKTool{
 		Matcher m = r.matcher(str);
 		return m.matches();
 	}
+
+	/**
+	 * 获取指定玩家的头颅
+	 * @param offlinePlayer
+	 * @return
+	 */
+	public static ItemStack getPlayerHead(OfflinePlayer offlinePlayer){
+		ItemStack is = null;
+		int version = getVersion();
+		if (version < 16 && version >= 12){
+			is = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short)3);
+			SkullMeta skullMeta = (SkullMeta) is.getItemMeta();
+			skullMeta.setOwningPlayer(offlinePlayer);
+			is.setItemMeta(skullMeta);
+		}else if (version < 12){
+			is = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short)3);
+			SkullMeta skullMeta = (SkullMeta) is.getItemMeta();
+			skullMeta.setOwner(offlinePlayer.getName());
+			is.setItemMeta(skullMeta);
+		}else {
+			is =new ItemStack(Material.PLAYER_HEAD);
+			SkullMeta skullMeta = (SkullMeta) is.getItemMeta();
+			skullMeta.setOwningPlayer(offlinePlayer);
+			is.setItemMeta(skullMeta);
+		}
+
+		return is;
+	}
+
+
 	
 }
