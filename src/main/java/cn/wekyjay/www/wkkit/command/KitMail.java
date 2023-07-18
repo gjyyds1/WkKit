@@ -56,7 +56,6 @@ public class KitMail{
 			ItemStack is = kit.getKitItem();
 			int kitNum = WkKit.getPlayerData().getMailKitNum(pname, kitname);
 			int maxsize = is.getMaxStackSize();
-			System.out.println("最大堆叠数量：" + maxsize);
 			if(kitNum >= 1 && kitNum <= maxsize) {
 				is.setAmount(WkKit.getPlayerData().getMailKitNum(pname, kitname));
 				litem.add(is);
@@ -71,7 +70,6 @@ public class KitMail{
 				// 遍历添加
 				for (int j = 0;j < count;j++){
 					litem.add(is.clone());
-					System.out.println("添加"+ (j+1) +"次,数量：" + is.getAmount());
 				}
 				// 取模不为0
 				if (kitNum % maxsize != 0){

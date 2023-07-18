@@ -1,17 +1,16 @@
 package cn.wekyjay.www.wkkit.kit;
 
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.ConfigManager;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.ConfigManager;
 
 public class KitGroupManager{
 	public KitGroupManager() {}
@@ -67,6 +66,7 @@ public class KitGroupManager{
 	 */
 	public static List<String> getGroupKits(String GroupName) {
 		List<String> list = new ArrayList<String>();
+		if (ConfigManager.getKitconfig().getFileConfigMap().isEmpty()) return list;
 		for(String kitname : ConfigManager.getKitconfig().getFileConfigMap().get(GroupName + ".yml").getKeys(false)) {
 			if(Kit.getKit(kitname) != null) list.add(kitname);
 		}
@@ -75,7 +75,7 @@ public class KitGroupManager{
 	
 	/**
 	 * 转移礼包到另外一个组
-	 * @param kitname
+	 * @param kit
 	 * @param GroupName
 	 */
 	public static void toGroup(Kit kit,String GroupName) {
@@ -97,7 +97,7 @@ public class KitGroupManager{
 	
 	/**
 	 * 给定的礼包获取所在的礼包组
-	 * @param kitname
+	 * @param kit
 	 * @return
 	 */
 	public static String getContainName(Kit kit) {
