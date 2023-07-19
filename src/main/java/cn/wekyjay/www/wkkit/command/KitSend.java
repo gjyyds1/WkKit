@@ -76,7 +76,9 @@ public  class KitSend {
 							String pname = player.getName();
 							if(player.isOnline()) {//判断是否在线
 								// 回调事件
-								if(PlayersReceiveKitEvent.callEvent(player.getPlayer(), Kit.getKit(kitname), ReceiveType.SEND).isCancelled()) return;
+								Bukkit.getScheduler().runTask(wk,()->{
+									if(PlayersReceiveKitEvent.callEvent(player.getPlayer(),pname,Kit.getKit(kitname), ReceiveType.SEND).isCancelled()) return;
+								});
 								if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
 									int num = WkKit.getPlayerData().getMailKitNum(pname, kitname);
 									WkKit.getPlayerData().setMailNum(pname, kitname, num + finalKitnum);
@@ -91,6 +93,7 @@ public  class KitSend {
 					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SEND_ONLINE", ChatColor.GREEN));
 					return;
 				}
+			});
 				// 发放礼包给自己
 				if(target.equalsIgnoreCase("@Me") && sender instanceof Player) {
 					String pname = sender.getName();
@@ -132,7 +135,6 @@ public  class KitSend {
 				}
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_SENDING", ChatColor.RED));
 				return;
-			});
 		}
 	}
 }

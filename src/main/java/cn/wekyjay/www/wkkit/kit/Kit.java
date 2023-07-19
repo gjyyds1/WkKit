@@ -325,6 +325,10 @@ public class Kit {
 				item = WKTool.nbtCovertoSkull(icon.substring(7));
 			}else if(icon.contains("[NBT]")) {
 				item = NBTItem.convertNBTtoItem(new NBTContainer(icon.substring(5)));
+			}else if(icon.contains("[CUSTOMDATA]")){
+				String[] str = icon.substring(12).split(":");
+				item = new ItemStack(Material.getMaterial(str[0]));
+				item.getItemMeta().setCustomModelData(Integer.parseInt(str[1]));
 			}
 		}catch(NbtApiException e) {
 			e.printStackTrace();
