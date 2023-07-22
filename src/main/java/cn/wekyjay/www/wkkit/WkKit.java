@@ -224,6 +224,11 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
     /*插件关闭标识*/
     @Override
     public void onDisable() {
+        // 关闭数据库
+        if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
+            Druid.shutdown(); // 回收连接池
+            WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("MYSQL_SHUTDOWN"));
+        }
         try {
             // 保存日志
             KitCache.getCache().saveCache();

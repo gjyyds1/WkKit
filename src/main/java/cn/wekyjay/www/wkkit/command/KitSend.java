@@ -114,9 +114,9 @@ public  class KitSend {
 				if(!target.equalsIgnoreCase("@All") && !target.equalsIgnoreCase("@Online") && !target.equalsIgnoreCase("@Me")) {
 					String pname = target;
 					for(OfflinePlayer offlineplayer : Bukkit.getOfflinePlayers()) {
-						if(offlineplayer.getName().equals(pname)) {
+						if(offlineplayer.getName()!= null && offlineplayer instanceof OfflinePlayer && offlineplayer.getName().equals(pname)) {
 							// 回调事件
-							if(PlayersReceiveKitEvent.callEvent(offlineplayer.getPlayer(), Kit.getKit(kitname), offlineplayer.getName(),ReceiveType.SEND).isCancelled()) return;
+							if(PlayersReceiveKitEvent.callEvent(offlineplayer.getPlayer(), pname ,Kit.getKit(kitname),ReceiveType.SEND).isCancelled()) return;
 							if(WkKit.getPlayerData().contain_Mail(pname,kitname)) {
 								int num = WkKit.getPlayerData().getMailKitNum(pname, kitname);
 								WkKit.getPlayerData().setMailNum(pname, kitname, num + finalKitnum);

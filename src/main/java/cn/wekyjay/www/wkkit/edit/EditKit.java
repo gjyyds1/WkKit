@@ -213,7 +213,7 @@ public class EditKit implements Listener {
 	}
 	
 	/**
-	 * 单个礼包管理页面
+	 * 单个礼包编辑页面
 	 * @param kitname
 	 * @return
 	 */
@@ -348,7 +348,7 @@ public class EditKit implements Listener {
 		      } 
 		      // 如果是返回按钮
 		      if(e.getRawSlot() == 1) {
-		    	  e.getWhoClicked().openInventory(kitGroupInvs[0]);
+		    	  e.getWhoClicked().openInventory(new EditKit().getInventory());
 		    	  return;
 		      }
 		      // 如果是按钮

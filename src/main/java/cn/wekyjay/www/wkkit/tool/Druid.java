@@ -1,6 +1,7 @@
 package cn.wekyjay.www.wkkit.tool;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidPooledConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,12 +24,15 @@ public class Druid {
         druidDataSource.setMaxActive(20);
         druidDataSource.setInitialSize(10);
         druidDataSource.setMaxWait(5000);
+        druidDataSource.setTestWhileIdle(true);
 
     }
     //获取连接
     public static Connection getConnection() throws SQLException {
         try {
-            return druidDataSource.getConnection();
+            DruidPooledConnection dds = druidDataSource.getConnection();
+            return dds;
+
         } catch (SQLException e) {
             //如果连接出现异常，则抛出一个运行时异常
             throw new RuntimeException("连接池出现异常.");

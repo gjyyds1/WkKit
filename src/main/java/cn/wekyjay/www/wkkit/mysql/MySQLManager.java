@@ -70,6 +70,8 @@ public class MySQLManager {
 			WkKit.getWkKit().getLogger().severe(LangConfigLoader.getString("MYSQL_CONECTFAILED"));
 			WkKit.getWkKit().getConfig().set("MySQL.Enable",false);
 			WkKit.getWkKit().saveConfig();
+		}finally {
+			close(null,null,connection);
 		}
 	}
 	/**

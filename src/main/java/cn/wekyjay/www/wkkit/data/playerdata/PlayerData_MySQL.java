@@ -76,7 +76,7 @@ public class PlayerData_MySQL implements PlayerData{
 	@Override
 	public Boolean contain_Kit(String playername, String kitname) {
 		List<String> list = WkKit.getPlayerData().getKits(playername);
-		if(list.contains(kitname)) {return true;}
+		if(list != null && list.contains(kitname)) {return true;}
 		return false;
 	}
 

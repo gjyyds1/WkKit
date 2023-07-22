@@ -6,6 +6,7 @@ import cn.wekyjay.www.wkkit.api.ReceiveType;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.hook.MythicMobsHooker;
 import cn.wekyjay.www.wkkit.hook.VaultHooker;
+import cn.wekyjay.www.wkkit.tool.MessageManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -24,17 +25,18 @@ public class KitGetter{
 	 * 领取礼包
 	 */
 	public void getKit(Kit kit,Player p, String menuname) {
+		// 回调事件
+		PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.GET);
+		if (menuname != null) event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.MENU);
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())return;
+		// 条件检查
 		if(kit.isNoRefreshFirst()) {if(!this.runNoRefreshFirst(kit, p)) {return;}}
 		if(kit.getPermission() != null) {if(!this.runPermission(kit, p)) {return;}}
 		if(kit.getItemStacks() != null) {if(!this.runItem(kit, p)) {return;}}
 		if(kit.getTimes() != null) {if(!this.runTimes(kit, p)) {return;}}
 		if(kit.getVault() != null) {if(!this.runVault(kit,p)){return;}}
 		// 以下代码可以安全执行
-		// 回调事件
-		PlayersReceiveKitEvent event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.GET);
-		if (menuname != null) event = new PlayersReceiveKitEvent(p, kit, menuname, ReceiveType.MENU);
-	    Bukkit.getPluginManager().callEvent(event);
-	    if (event.isCancelled())return;
 		if(kit.getCommands() != null) {this.runCommands(kit, p);}
 		if(kit.getMythicMobs() != null) {this.runMythicMobs(kit,p);}
 		this.getSuccess(kit, p);
@@ -183,6 +185,7 @@ public class KitGetter{
 		// 计算领取状态（DoCron存在时）
 		if(kit.getDocron() != null) {
 			WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
+			MessageManager.infoDeBug("当前状态：" + WkKit.getPlayerData().getKitData(p.getName(),kitname));
 		}
 		// 计算领取次数（times大于0时计算）
 		if(times > 0)WkKit.getPlayerData().setKitTime(p.getName(), kitname, times - 1);

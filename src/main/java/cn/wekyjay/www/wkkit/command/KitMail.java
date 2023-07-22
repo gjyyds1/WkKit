@@ -96,11 +96,10 @@ public class KitMail{
 			for(int i1 = 1; i1 <= guinum; i1++) {
 				Inventory inv;
 				if(guinum == 1) {//如果只有一页就不加页数
-					
-					inv = Bukkit.createInventory(new MailHolder(), 6*9, guiname); 
+					inv = Bukkit.createInventory(new MailHolder(i1), 6*9, guiname);
 				}else {
 					String pagetitle = WKTool.replacePlaceholder("page", i1+"", LangConfigLoader.getString("GUI_PAGETITLE"));
-					inv = Bukkit.createInventory(new MailHolder(), 6*9, guiname + " - " + pagetitle); 
+					inv = Bukkit.createInventory(new MailHolder(i1), 6*9, guiname + " - " + pagetitle);
 				}
 
 				

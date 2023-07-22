@@ -4,7 +4,6 @@ import cn.wekyjay.www.wkkit.command.*;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.edit.EditGUI;
-import cn.wekyjay.www.wkkit.edit.EditPlayer;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGetter;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
@@ -183,6 +182,12 @@ public class KitCommand implements CommandExecutor{
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("NO_KIT",ChatColor.RED) + " - " + kitname);
 				return true;
 			}
+			if (WkKit.getPlayerData().contain_Kit(sender.getName(),kitname)
+					&& WkKit.getPlayerData().getKitData(sender.getName(),kitname) != null
+					&& WkKit.getPlayerData().getKitData(sender.getName(),kitname).equals("false")) {
+				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_CANTGET",ChatColor.RED));
+				return true;
+			}
 			new KitGetter().getKit(kit,(Player)sender,null);
 			return true;
 		}
@@ -196,10 +201,10 @@ public class KitCommand implements CommandExecutor{
 			}
 			return true;
 		}
-		/* 测试代码 */
-		if(args.length >= 1 && args[0].equalsIgnoreCase("head") && sender.isOp()) {
-			EditPlayer.selectPlayerGUI((Player)sender);
-		}
+//		/* 测试代码 */
+//		if(args.length >= 1 && args[0].equalsIgnoreCase("head") && sender.isOp()) {
+//			EditPlayer.selectPlayerGUI((Player)sender);
+//		}
 		
 		/*到底了*/
 		return true;

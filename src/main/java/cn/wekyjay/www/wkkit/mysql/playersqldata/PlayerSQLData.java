@@ -21,7 +21,7 @@ public class PlayerSQLData {
 		} catch (SQLException e) {
 			MessageManager.info("§c玩家数据表创建失败");
 			e.printStackTrace();
-		}		finally {
+		}finally {
 			MySQLManager.close(null,ps,connection);
 		}
 	}
