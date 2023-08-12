@@ -216,7 +216,6 @@ public class PlayerSQLData {
 			ps.setString(2, kitname);
 			rs = ps.executeQuery();
 			while (rs.next()) if(rs.getString("id") != null) id = rs.getInt("id");
-			System.out.println("id = " + id); //DeBug
 
 
 			String s2 = "SELECT * FROM `player` WHERE `id` = ? for update"; // 锁定行

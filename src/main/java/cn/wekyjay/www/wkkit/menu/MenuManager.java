@@ -58,7 +58,7 @@ public class MenuManager {
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".id") && MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".id") != null) {id = MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".id");}
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".name") && MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".name") != null) {name = MenuConfigLoader.getString(menuname + ".Slots." + slotname + ".name");}
 				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".lore") && MenuConfigLoader.getStringList(menuname + ".Slots." + slotname + ".lore") != null) {lore = MenuConfigLoader.getStringList(menuname + ".Slots." + slotname + ".lore");}
-				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".custommodeldata") && MenuConfigLoader.getInt(menuname + ".Slots." + slotname + ".lore") != 0) {customModelData = MenuConfigLoader.getInt(menuname + ".Slots." + slotname + ".custommodeldata");}
+				if(MenuConfigLoader.contains(menuname + ".Slots." + slotname + ".custommodeldata") && MenuConfigLoader.getInt(menuname + ".Slots." + slotname + ".custommodeldata") != 0) {customModelData = MenuConfigLoader.getInt(menuname + ".Slots." + slotname + ".custommodeldata");}
 				if(id != null && name != null) {
 					// 如果是空气就另外操作
 					if(id.equalsIgnoreCase("AIR") || id.equalsIgnoreCase("NONE")) {

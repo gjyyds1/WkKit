@@ -63,7 +63,6 @@ public class KitMail{
 				/**
 				 * 20230630 修复邮箱超过数量不追加BUG
 				 */
-
 				int count = kitNum / maxsize;
 				is.setAmount(maxsize);
 
@@ -103,24 +102,28 @@ public class KitMail{
 				}
 
 				
-				//添加物品：功能区
+				//添加物品：菜单栏
 				ItemStack item_mn;
 				if(wk.getConfig().getString("GUI.MenuMaterial").equalsIgnoreCase("Default")){
 					item_mn = GlassPane.DEFAULT.getItemStack();
 				}else {
 					item_mn = new ItemStack(Material.getMaterial(wk.getConfig().getString("GUI.MenuMaterial")));
 				}
+
 				ItemMeta im = item_mn.getItemMeta();
+				if (wk.getConfig().contains("GUI.Menu-CustomModelId")) im.setCustomModelData(wk.getConfig().getInt("GUI.Menu-CustomModelId"));
 				im.setDisplayName(LangConfigLoader.getString("DO_NOT_TOUCH"));
 				item_mn.setItemMeta(im);
 				//添加功能性物品：上一页
 				ItemStack item_pre = new ItemStack(Material.getMaterial(wk.getConfig().getString("GUI.TurnPageMaterial")));
 				ItemMeta ip = item_pre.getItemMeta();
+				if (wk.getConfig().contains("GUI.TurnPrePage-CustomModelId")) ip.setCustomModelData(wk.getConfig().getInt("GUI.TurnPrePage-CustomModelId"));
 				ip.setDisplayName(LangConfigLoader.getString("PREVIOUS_PAGE"));
 				item_pre.setItemMeta(ip);
 				//添加功能性物品：下一页
 				ItemStack item_next = new ItemStack(Material.getMaterial(wk.getConfig().getString("GUI.TurnPageMaterial")));
 				ItemMeta in = item_next.getItemMeta();
+				if (wk.getConfig().contains("GUI.TurnNextPage-CustomModelId")) in.setCustomModelData(wk.getConfig().getInt("GUI.TurnNextPage-CustomModelId"));
 				in.setDisplayName(LangConfigLoader.getString("NEXT_PAGE"));
 				item_next.setItemMeta(in);
 				
@@ -141,6 +144,7 @@ public class KitMail{
 					}
 
 					ItemMeta img = item_next.getItemMeta();
+					if (wk.getConfig().contains("GUI.GetAll-CustomModelId")) img.setCustomModelData(wk.getConfig().getInt("GUI.GetAll-CustomModelId"));
 					img.setDisplayName(LangConfigLoader.getString("KITMAIL_GETALL"));
 					item_getall.setItemMeta(img);
 					inv.setItem(52, item_getall);

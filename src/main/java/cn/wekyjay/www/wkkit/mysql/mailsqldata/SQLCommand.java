@@ -8,8 +8,7 @@ enum SQLCommand {
 					"`player` VARCHAR(50) NOT NULL," +
 					"`kitname` VARCHAR(50) NOT NULL," +
 					"`num` SMALLINT UNSIGNED NOT NULL," +
-					"PRIMARY KEY (`id`)," +
-					"UNIQUE KEY (`player`, `kitname`)"+
+					"PRIMARY KEY (`id`)" +
 					") DEFAULT CHARSET=utf8 "
 	),
 

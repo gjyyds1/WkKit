@@ -1,6 +1,7 @@
 package cn.wekyjay.www.wkkit.mysql.cdksqldata;
 
 import cn.wekyjay.www.wkkit.mysql.MySQLManager;
+import cn.wekyjay.www.wkkit.tool.MessageManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ public class CdkSQLData {
 			ps = connection.prepareStatement(cmd);
 			MySQLManager.get().doCommand(ps);
 		} catch (SQLException e) {
-			System.out.println("§cCDK数据表创建失败");
+			MessageManager.info("§cCDK数据表创建失败");
 			e.printStackTrace();
 		}finally {
 			MySQLManager.close(null,ps,connection);

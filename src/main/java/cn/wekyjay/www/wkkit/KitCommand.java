@@ -4,11 +4,13 @@ import cn.wekyjay.www.wkkit.command.*;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.edit.EditGUI;
+import cn.wekyjay.www.wkkit.edit.EditKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGetter;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.menu.MenuOpenner;
 import cn.wekyjay.www.wkkit.tool.KitCache;
+import cn.wekyjay.www.wkkit.tool.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -164,6 +166,14 @@ public class KitCommand implements CommandExecutor{
 		/** 礼包编辑 **/
 		if(args[0].equalsIgnoreCase("edit") && sender.isOp()) {
 			Player p = (Player)sender;
+			if(args.length > 1){
+				if(Kit.getKitNames().contains(args[1])){
+					p.openInventory(new EditKit().editKit(args[1]));
+				}else{
+					MessageManager.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_DELETE_NONEXIST",ChatColor.YELLOW),p);
+				}
+				return true;
+			}
 			p.openInventory(EditGUI.getEditGUI().getEditInv());
 			return true;
 		}

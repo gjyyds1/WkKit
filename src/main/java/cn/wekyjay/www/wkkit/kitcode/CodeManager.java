@@ -1,12 +1,12 @@
 package cn.wekyjay.www.wkkit.kitcode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.tool.WKTool;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class CodeManager {
 	private final static String Base32Alphabet = "ABCDEFGHIJKMNPQRSTUVWXYZ23456789";
@@ -41,9 +41,6 @@ public class CodeManager {
 	/**
 	 * 生成兑换码
 	 * 这里每一次生成兑换码的最大数量为int的最大值即2147483647
-	 * @param time
-	 * @param id
-	 * @param count
 	 * @return
 	 */
 	public static List<String> create(byte groupid,int codecount,int codelength,String password) {

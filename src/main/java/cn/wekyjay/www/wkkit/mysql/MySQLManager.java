@@ -58,9 +58,9 @@ public class MySQLManager {
 	 */
 	private void connectMySQL(){
 		try {
-//			connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + databaseName, userName, userPassword);
-			Druid druid = new Druid("jdbc:mysql://" + ip + ":" + port + "/" + databaseName + "?serverTimezone=UTC",userName,userPassword);
-			connection = Druid.getConnection();
+			String init = databaseName.contains("?")?"&serverTimezone=UTC":"?serverTimezone=UTC";
+			Druid druid = new Druid("jdbc:mysql://" + ip + ":" + port + "/" + databaseName + init,userName,userPassword);
+			connection = druid.getConnection();
 			WkKit.getWkKit().getLogger().info(LangConfigLoader.getString("MYSQL_CONNECT_SUCCESS"));
 		}catch(SQLTimeoutException e1) {
 			WkKit.getWkKit().getLogger().severe(LangConfigLoader.getString("MYSQL_CONECTTIMEOUT"));

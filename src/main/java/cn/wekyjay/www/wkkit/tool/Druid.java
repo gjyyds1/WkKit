@@ -31,6 +31,7 @@ public class Druid {
     public static Connection getConnection() throws SQLException {
         try {
             DruidPooledConnection dds = druidDataSource.getConnection();
+            MessageManager.infoDeBug("当前连接池：" + dds.toString());
             return dds;
 
         } catch (SQLException e) {

@@ -1,19 +1,19 @@
 package cn.wekyjay.www.wkkit.command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TabCompleter implements TabExecutor{
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if(!sender.isOp()) {
-			return Arrays.asList("mail","open","cdk");
+			return Arrays.asList("mail","open","cdk","info","get");
 		}
 		List<String> list = Arrays.asList("create","cdk","delete","send","savecache","get","kits","give","info","open","mail","group","edit","transfer","reload");
 		List<String> savelist = new ArrayList<String>();
@@ -36,6 +36,7 @@ public class TabCompleter implements TabExecutor{
 		if(firstcmd.equalsIgnoreCase("delete")) return TabDelete.returnList(args, args.length, sender);
 		if(firstcmd.equalsIgnoreCase("send")) return TabSend.returnList(args, args.length, sender);
 		if(firstcmd.equalsIgnoreCase("give")) return TabGive.returnList(args, args.length, sender);
+		if(firstcmd.equalsIgnoreCase("edit")) return TabEdit.returnList(args, args.length, sender);
 		if(firstcmd.equalsIgnoreCase("info")) return TabInfo.returnList(args, args.length, sender);
 		if(firstcmd.equalsIgnoreCase("group")) return TabGroup.returnList(args, args.length, sender);
 		if(firstcmd.equalsIgnoreCase("transfer")) return TabTransfer.returnList(args, args.length, sender);

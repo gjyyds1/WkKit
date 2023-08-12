@@ -1,15 +1,14 @@
 package cn.wekyjay.www.wkkit.tool;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.kit.Kit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 /**
  * 用于操作配置内的日期
  * @author Administrator
@@ -59,7 +58,6 @@ public class CountDelayTime {
 		long ln = Calendar.getInstance().getTimeInMillis();//获取玩家当前时间毫秒数
 		
 		if((ln - lc) >= (delay * 1000)) {
-			System.out.println((ln - lc));
 			cala = Calendar.getInstance();
 			return true;
 		}else {

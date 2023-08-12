@@ -69,7 +69,7 @@ public class KitMailListener implements Listener {
             }
             List<String> set = WkKit.getPlayerData().getMailKits(name);
             // 如果大于一页则需要手动领取
-            if (e.getInventory().firstEmpty() == -1){
+            if (e.getInventory().firstEmpty() == -1 && e.getRawSlot() < 45 && e.getRawSlot() > 8 ){
                 p.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_FAILED", ChatColor.YELLOW));
                 return;
             }

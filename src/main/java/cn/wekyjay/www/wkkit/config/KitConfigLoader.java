@@ -1,23 +1,18 @@
 package cn.wekyjay.www.wkkit.config;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGroupManager;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class KitConfigLoader{
 	private List<File> fileList = new ArrayList<>();
@@ -40,7 +35,6 @@ public class KitConfigLoader{
 	
 	/**
 	 * 加载文件夹中的配置文件
-	 * @param file
 	 */
 	public void loadConfig() {
 		String path = WkKit.getWkKit().getDataFolder().getAbsolutePath() + File.separator + "Kits";
@@ -109,7 +103,7 @@ public class KitConfigLoader{
 	}
 	/**
 	 * 路径返回对象
-	 * @param filename
+	 * @param path
 	 * @return
 	 */
 	public  FileConfiguration getConfigWithPath(String path) {
