@@ -328,7 +328,13 @@ public class Kit {
 			}else if(icon.contains("[CUSTOMDATA]")){
 				String[] str = icon.substring(12).split(":");
 				item = new ItemStack(Material.getMaterial(str[0]));
-				item.getItemMeta().setCustomModelData(Integer.parseInt(str[1]));
+				/**
+				 * @20230819 修复CUSTOMDATA图标失效问题
+				 */
+				ItemMeta im = item.getItemMeta();
+				im.setCustomModelData(Integer.parseInt(str[1]));
+				item.setItemMeta(im);
+
 			}
 		}catch(NbtApiException e) {
 			e.printStackTrace();

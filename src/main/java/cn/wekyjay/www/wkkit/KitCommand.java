@@ -35,7 +35,8 @@ public class KitCommand implements CommandExecutor{
 				sender.sendMessage("§a━━━━━━━━━━━━ WkKit Command ━━━━━━━━━━━━");
 				sender.sendMessage(LangConfigLoader.getString("Commands.PS"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.help"));
-				sender.sendMessage(LangConfigLoader.getString("Commands.admin"));
+				sender.sendMessage(LangConfigLoader.getString("Commands.edit"));
+				sender.sendMessage(LangConfigLoader.getString("Commands.edit_kitname"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.savecache"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.create"));
 				sender.sendMessage(LangConfigLoader.getString("Commands.delete"));
