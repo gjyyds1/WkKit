@@ -52,7 +52,7 @@ public class KitGetter{
 			String[] splitstr = str.split(":");
 			String command = null;
 			if(splitstr.length > 1) {//判断是否有指定的指令发送方式
-				command = WKTool.replacePlaceholder("player", p.getName(), splitstr[1]);
+				command = WKTool.replacePlaceholder("player", p.getName(), str.substring(splitstr[0].length() + 1));
 			}else {
 				command = WKTool.replacePlaceholder("player", p.getName(), splitstr[0]);
 			}

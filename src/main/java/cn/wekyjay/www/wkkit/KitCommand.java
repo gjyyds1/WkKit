@@ -186,7 +186,7 @@ public class KitCommand implements CommandExecutor{
 		}
 
 		/* 玩家领取指令 */
-		if(args.length >= 2 && args[0].equalsIgnoreCase("get") && sender instanceof Player && sender.hasPermission("wkkit.open")) {
+		if(wk.getConfig().getBoolean("Setting.UseCommandGet") && args.length >= 2 && args[0].equalsIgnoreCase("get") && sender instanceof Player && sender.hasPermission("wkkit.get")) {
 			String kitname = args[1];
 			Kit kit = Kit.getKit(kitname);
 			if (kit == null){

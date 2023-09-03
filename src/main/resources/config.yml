@@ -1,4 +1,6 @@
 Setting:
+   # 是否开启模拟菜单的Get指令使用
+   UseCommandGet: true
    # 是否开启礼包上线提示领取
    OnlineReminder: true
    CheckUpdate: true

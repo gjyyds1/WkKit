@@ -64,7 +64,7 @@ public class LangConfigLoader {
 			return color + getString("Prefix") + " " + ChatColor.translateAlternateColorCodes('&',langConfig.getString(path));
 			
 		}
-		return null;
+		return ChatColor.GRAY + getString("Prefix");
 	}
 	public static List<String> getStringList(String path) {
 		return langConfig.getStringList(path);

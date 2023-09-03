@@ -36,6 +36,11 @@ public class DropKitListener implements Listener{
 				if(e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
 					PlayerInventory pinv = e.getPlayer().getInventory();
 					Kit kit = Kit.getKit(kitname);
+					// 判断礼包是否为null
+					if (kit == null){
+						e.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_CANTGET", ChatColor.RED));
+						return;
+					}
 					// 判断是否有权限
 					if(kit.getPermission() != null && !e.getPlayer().hasPermission(kit.getPermission())) {
 						e.getPlayer().sendMessage(LangConfigLoader.getStringWithPrefix("NO_PERMISSION", ChatColor.RED));
@@ -59,14 +64,14 @@ public class DropKitListener implements Listener{
 						int itemnum;
 						if(WKTool.getVersion() >= 9) {
 							ItemStack mainItem = e.getPlayer().getInventory().getItemInMainHand();
-							if(mainItem != null && WKTool.getItemNBT(mainItem).hasKey("wkkit")) {
+							if(mainItem.getItemMeta() != null && WKTool.getItemNBT(mainItem).hasKey("wkkit")) {
 								itemnum = mainItem.getAmount();//获取主手物品数量
 								e.getPlayer().getInventory().getItemInMainHand().setAmount(itemnum - 1);//主手物品数量-1
 							}
 						}else {
 							ItemStack mainItem = e.getPlayer().getInventory().getItemInHand();
 							itemnum = mainItem.getAmount();//获取主手物品数量
-							if(mainItem != null && WKTool.getItemNBT(mainItem).hasKey("wkkit")) {
+							if(mainItem.getItemMeta() != null && WKTool.getItemNBT(mainItem).hasKey("wkkit")) {
 								e.getPlayer().getInventory().getItemInHand().setAmount(itemnum - 1);//主手物品数量-1
 								if(itemnum - 1 == 0) {
 									e.getPlayer().getInventory().remove(e.getPlayer().getInventory().getItemInHand());
