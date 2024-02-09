@@ -5,8 +5,6 @@ api-version: 1.13
 author: WekyJay
 description: A minecraft plugin by WekyJay.
 website: https://forum.wekyjay.cn/
-depend:
-   - NBTAPI
 softdepend: 
    - PlaceholderAPI
    - Vault

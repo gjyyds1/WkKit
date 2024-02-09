@@ -7,7 +7,7 @@ import cn.wekyjay.www.wkkit.invholder.MenuHolder;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CronManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
-import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

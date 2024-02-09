@@ -61,7 +61,7 @@ Menu3:
    Size: 6
    Slots:
       Default: 
-         id: 'GRASS'
+         id: 'SLIME_BALL'
          name: 'Spilt Line'
          lore: ''
          slot: 0-8,45-53

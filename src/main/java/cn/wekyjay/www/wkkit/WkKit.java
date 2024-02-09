@@ -151,22 +151,17 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
         Bukkit.getPluginManager().registerEvents(new EditKit(),this);
 
         //插件检测
-        if (Bukkit.getPluginManager().getPlugin("NBTAPI") != null) {
-           MessageManager.sendMessageWithPrefix("");
-            MessageManager.sendMessageWithPrefix(" __ __ __   ___   ___   ___   ___   ________  _________  ");
-            MessageManager.sendMessageWithPrefix("/_//_//_/\\ /___/\\/__/\\ /___/\\/__/\\ /_______/\\/________/\\ ");
-            MessageManager.sendMessageWithPrefix("\\:\\\\:\\\\:\\ \\\\::.\\ \\\\ \\ \\\\::.\\ \\\\ \\ \\\\__.::._\\/\\__.::.__\\/ ");
-            MessageManager.sendMessageWithPrefix(" \\:\\\\:\\\\:\\ \\\\:: \\/_) \\ \\\\:: \\/_) \\ \\  \\::\\ \\    \\::\\ \\   ");
-            MessageManager.sendMessageWithPrefix("  \\:\\\\:\\\\:\\ \\\\:. __  ( ( \\:. __  ( (  _\\::\\ \\__  \\::\\ \\  ");
-            MessageManager.sendMessageWithPrefix("   \\:\\\\:\\\\:\\ \\\\: \\ )  \\ \\ \\: \\ )  \\ \\/__\\::\\__/\\  \\::\\ \\ ");
-            MessageManager.sendMessageWithPrefix("    \\_______\\/ \\__\\/\\__\\/  \\__\\/\\__\\/\\________\\/   \\__\\/ ");
-            MessageManager.sendMessageWithPrefix("");
-            MessageManager.sendMessageWithPrefix("Version: "+ getDescription().getVersion() + " | Author: WekyJay | QQ Group: 945144520");
-            MessageManager.sendMessageWithPrefix("§a特别鸣谢：§eBiulay Gentry §7(排名不分先后)");
-        } else {
-            getLogger().warning(LangConfigLoader.getString("PLUGIN_NONBTAPI"));
-            Bukkit.getPluginManager().disablePlugin(this);
-        }
+        MessageManager.sendMessageWithPrefix("");
+        MessageManager.sendMessageWithPrefix(" __ __ __   ___   ___   ___   ___   ________  _________  ");
+        MessageManager.sendMessageWithPrefix("/_//_//_/\\ /___/\\/__/\\ /___/\\/__/\\ /_______/\\/________/\\ ");
+        MessageManager.sendMessageWithPrefix("\\:\\\\:\\\\:\\ \\\\::.\\ \\\\ \\ \\\\::.\\ \\\\ \\ \\\\__.::._\\/\\__.::.__\\/ ");
+        MessageManager.sendMessageWithPrefix(" \\:\\\\:\\\\:\\ \\\\:: \\/_) \\ \\\\:: \\/_) \\ \\  \\::\\ \\    \\::\\ \\   ");
+        MessageManager.sendMessageWithPrefix("  \\:\\\\:\\\\:\\ \\\\:. __  ( ( \\:. __  ( (  _\\::\\ \\__  \\::\\ \\  ");
+        MessageManager.sendMessageWithPrefix("   \\:\\\\:\\\\:\\ \\\\: \\ )  \\ \\ \\: \\ )  \\ \\/__\\::\\__/\\  \\::\\ \\ ");
+        MessageManager.sendMessageWithPrefix("    \\_______\\/ \\__\\/\\__\\/  \\__\\/\\__\\/\\________\\/   \\__\\/ ");
+        MessageManager.sendMessageWithPrefix("");
+        MessageManager.sendMessageWithPrefix("Version: "+ getDescription().getVersion() + " | Author: WekyJay | QQ Group: 945144520");
+        MessageManager.sendMessageWithPrefix("§a特别鸣谢：§eBiulay Gentry §7(排名不分先后)");
 
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PapiHooker(this).register();

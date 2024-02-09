@@ -1,12 +1,11 @@
 package cn.wekyjay.www.wkkit.tool.items;
 
+import cn.wekyjay.www.wkkit.tool.WKTool;
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTContainer;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import cn.wekyjay.www.wkkit.tool.WKTool;
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTItem;
 
 public enum PlayerHead {
 	DEFAULT(),

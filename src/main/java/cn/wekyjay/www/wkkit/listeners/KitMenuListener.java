@@ -1,11 +1,12 @@
 package cn.wekyjay.www.wkkit.listeners;
 
-import static org.bukkit.event.inventory.InventoryAction.NOTHING;
-import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.command.KitInfo;
+import cn.wekyjay.www.wkkit.invholder.MenuHolder;
+import cn.wekyjay.www.wkkit.kit.Kit;
+import cn.wekyjay.www.wkkit.kit.KitGetter;
+import cn.wekyjay.www.wkkit.menu.MenuOpenner;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,13 +14,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.command.KitInfo;
-import cn.wekyjay.www.wkkit.invholder.MenuHolder;
-import cn.wekyjay.www.wkkit.kit.Kit;
-import cn.wekyjay.www.wkkit.kit.KitGetter;
-import cn.wekyjay.www.wkkit.menu.MenuOpenner;
-import de.tr7zw.nbtapi.NBTItem;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.bukkit.event.inventory.InventoryAction.NOTHING;
+import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
 
 
 public class KitMenuListener implements Listener{
