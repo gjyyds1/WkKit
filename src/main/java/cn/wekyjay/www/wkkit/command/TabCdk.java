@@ -1,10 +1,10 @@
 package cn.wekyjay.www.wkkit.command;
 
+import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.bukkit.command.CommandSender;
 
 public enum TabCdk {
 	 	FIRST(Arrays.asList("cdk"),0,null,new int[]{1}),

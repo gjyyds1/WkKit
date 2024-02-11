@@ -1,12 +1,11 @@
 package cn.wekyjay.www.wkkit.command;
 
+import cn.wekyjay.www.wkkit.kit.Kit;
+import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.bukkit.command.CommandSender;
-
-import cn.wekyjay.www.wkkit.kit.Kit;
 
 public enum TabDelete {
 	

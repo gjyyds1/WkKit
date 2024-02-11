@@ -1,10 +1,10 @@
 package cn.wekyjay.www.wkkit.command;
 
+import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.bukkit.command.CommandSender;
 
 public enum TabTransfer {
 	

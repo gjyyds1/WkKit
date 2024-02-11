@@ -2,147 +2,119 @@ package cn.wekyjay.www.wkkit.tool;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import com.alibaba.druid.support.json.JSONParser;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 public class ChackPluginVersion implements Listener,Runnable{
 	WkKit wk = WkKit.getWkKit();
 	File file = null;
 	YamlConfiguration yaml = null;
 
-	public ChackPluginVersion(){
-		InputStream is = null;
-		FileOutputStream fos = null;
+	private Map<String, Object> resourceInfo = null;
 
+
+
+	/**
+	 * Modify of 1.2.5
+	 * 1.2.5之后修改为Spigot Resource API
+	 */
+	public ChackPluginVersion(){
+		resourceInfo = getResourceInfo("versions/latest");
+	}
+
+
+	public static Map<String,Object> getResourceInfo(String path){
+		HttpURLConnection con = null;
+		BufferedReader buffer = null;
+		InputStream inputStream = null;
+
+
+		//得到连接对象
 		try {
-			URL url = new URL("https://forum.wekyjay.cn/version/wkkit.yml");
-			file = File.createTempFile("tmp", null);
-			URLConnection urlConn = null;
-			urlConn = url.openConnection();
-			is = urlConn.getInputStream();
-			fos = new FileOutputStream(file);
-			byte[] buffer = new byte[4096];
-			int length;
-			while ((length = is.read(buffer)) > 0) {
-				fos.write(buffer, 0, length);
+			URL url = new URL("https://api.spiget.org/v2/resources/98415/" + path);
+			con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			//设置连接超时时间s
+			con.setConnectTimeout(15000);
+			//设置读取超时时间
+			con.setReadTimeout(15000);
+			//添加请求头
+			con.setRequestProperty("Connection","keep-alive");
+			//获取服务器返回的输入流
+			inputStream = con.getInputStream();
+
+			//得到响应码
+			int responseCode = con.getResponseCode();
+			// 如果响应码成功了则存储响应数据
+			if (responseCode == HttpURLConnection.HTTP_OK){
+				//读取输入流s
+				buffer = new BufferedReader(new InputStreamReader(inputStream));
+				StringBuilder respose = new StringBuilder();
+				String line;
+				while((line = buffer.readLine())!=null){
+					respose.append(line);
+				}
+				return new JSONParser(respose.toString()).parseMap();
 			}
 
-			yaml = YamlConfiguration.loadConfiguration(file);
 
 		} catch (IOException e) {
 			MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_FAILED"));
-			return;
-		} finally {
-			if (is != null) {
+			return null;
+		}finally {
+			if (inputStream != null){
 				try {
-					is.close();
-				} catch (IOException e) {
-				}
+					inputStream.close();
+				} catch (IOException ignored) {}
 			}
-			if (fos != null) {
+			if (buffer != null){
 				try {
-					fos.close();
-				} catch (IOException e) {
-				}
+					buffer.close();
+				} catch (IOException ignored) {}
 			}
 		}
+		MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_FAILED"));
+		return null;
+	}
 
-	}
-	public String getLatestVersion() {
-		return yaml.getString("Versions.Latest_Version");
-	}
 	@Override
 	public void run() {
         MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_IN"));
-		String lver = getLatestVersion();
-        if(lver == null) {return;}
-        if(compareVersionOrder(lver,wk.getDescription().getVersion()) > 0) { //判断版本是否落后
-			// 判断操作语言
-			Locale locale = Locale.getDefault();
-			if(locale.toString().equals(new Locale("zh","CN").toString())) {
-				MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + yaml.getString("URL.DOWNLOAD_URL_CHINA"));
-			}else{
-				MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + yaml.getString("URL.DOWNLOAD_URL"));
-			}
+        if(resourceInfo == null) {return;}
+		String lver = resourceInfo.get("name").toString();
+        if(!wk.getDescription().getVersion().equals(lver)) { //判断版本是否与最新版本不同
+			// 提示下载链接
+			MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + "https://www.spigotmc.org/resources/%E2%9C%A8wkkit%E2%9C%A8-will-be-your-forever-gift-plugin-1-7-10-support-1-20-4%E2%9C%85.98415/");
 			// 提示最新版本
         	MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LATESTVERSION") + lver + " "
-					+ LangConfigLoader.getString("PLUGIN_CHACKUPDATE_CURRENTVERSION") + wk.getDescription().getVersion()  + " "
-					+ LangConfigLoader.getString("PLUGIN_CHACKUPDATE_BETAVERSION") + yaml.getString("Versions.Beta_Version")
+					+ LangConfigLoader.getString("PLUGIN_CHACKUPDATE_CURRENTVERSION") + wk.getDescription().getVersion()
 			);
-
-			// 提示落后版本
-			int d_value = getVersionOrder(lver) - getVersionOrder(wk.getDescription().getVersion());
-			MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_BACKWARD").replaceAll("[{]num[}]",d_value+""));
         }else {
         	MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_ED"));
         }
 	}
 
-	/**
-	 * 获取指定版本的版本Order，如果没有找到则为null;
-	 * @param version
-	 * @return
-	 */
-	public Integer getVersionOrder(String version){
-		List<String> list = yaml.getStringList("Versions.Order");
-		String result = null;
-		for (String order : list) {
-			String order_version = order.split(":")[0];
-			String order_order = order.split(":")[1];
-			if (version.equals(order_version) && order_order != null) {
-				result = order_order;
-			}
-		}
-		return Integer.parseInt(result);
-	}
-
-	/**
-	 * 比较两个版本的大小：<br/>
-	 * 如果v1大于v2，返回1。<br/>
-	 * 如果v1等于v2，返回0。<br/>
-	 * 如果v1小于v2，返回-1。
-	 * @param v1
-	 * @param v2
-	 * @return
-	 */
-	public int compareVersionOrder(String v1,String v2){
-		int int_v1 = getVersionOrder(v1),int_v2 = getVersionOrder(v2);
-		if (int_v1 > int_v2) return 1;
-		else if (int_v1 < int_v2) return -1;
-		else return 0;
-	}
 
 	@EventHandler
 	public void onOpLogin(PlayerJoinEvent e) {
 		if(wk.getConfig().getBoolean("Setting.CheckUpdate")) {
-			String lver = getLatestVersion();
+			String lver = resourceInfo.get("name").toString();
 			if(e.getPlayer().isOp()) {
 		        if(lver == null) {return;}
-				if(compareVersionOrder(lver,wk.getDescription().getVersion()) > 0) { //判断版本是否落后
-					// 判断操作语言
-					if(Locale.getDefault().toString().equals(new Locale("zh","CN").toString())) {
-						e.getPlayer().sendMessage(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + yaml.getString("URL.DOWNLOAD_URL_CHINA"));
+				if(!wk.getDescription().getVersion().equals(lver)) { //判断版本是否与最新版本不同
+					// 提示下载链接
+					e.getPlayer().sendMessage(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + "https://www.spigotmc.org/resources/%E2%9C%A8wkkit%E2%9C%A8-will-be-your-forever-gift-plugin-1-7-10-support-1-20-4%E2%9C%85.98415/");
 
-					}else{
-						e.getPlayer().sendMessage(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + yaml.getString("URL.DOWNLOAD_URL"));
-					}
 					// 提示最新版本
 					e.getPlayer().sendMessage(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LATESTVERSION") + lver + " " + LangConfigLoader.getString("PLUGIN_CHACKUPDATE_CURRENTVERSION") + wk.getDescription().getVersion());
-
-					// 提示落后版本
-					int d_value = getVersionOrder(lver) - getVersionOrder(wk.getDescription().getVersion());
-					e.getPlayer().sendMessage(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_BACKWARD").replaceAll("[{]num[}]",d_value+""));
 				}
 			}
 		}

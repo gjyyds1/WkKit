@@ -1,13 +1,12 @@
 package cn.wekyjay.www.wkkit.listeners;
 
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 
 /**
  * 礼包邮箱登录提醒领取

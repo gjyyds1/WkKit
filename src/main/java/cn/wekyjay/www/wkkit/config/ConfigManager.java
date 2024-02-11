@@ -1,20 +1,14 @@
 package cn.wekyjay.www.wkkit.config;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.scheduler.BukkitTask;
-
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_MySQL;
 import cn.wekyjay.www.wkkit.kit.KitGroupManager;
 import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.mysql.MySQLManager;
-import cn.wekyjay.www.wkkit.tool.KitRefresh;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ConfigManager {
 	private static KitConfigLoader kitconfig = null;
@@ -70,10 +64,6 @@ public class ConfigManager {
     	WkKit.getWkKit().saveConfig();
     	kitconfig = new KitConfigLoader(); // 重置配置
     	getKitconfig().loadConfig(); // 加载配置
-		// 关闭所有自刷新线程
-    	KitRefresh.cancelTask();
-		// 程序开启线程
-		KitRefresh.enableRefresh();
 	}
 
 }

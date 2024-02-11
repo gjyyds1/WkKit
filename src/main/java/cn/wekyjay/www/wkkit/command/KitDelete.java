@@ -1,15 +1,14 @@
 package cn.wekyjay.www.wkkit.command;
 
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.ConfigManager;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.kit.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.ConfigManager;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.kit.Kit;
 
 public class KitDelete {
 	public void onCommand(CommandSender sender, Command command, String label, String[] args) {

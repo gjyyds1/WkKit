@@ -54,7 +54,7 @@ DropKit:
       - '{id:"minecraft:iron_shovel",Count:1b,Damage:0s}'
 DelayKit:
   Name: '§e冷却礼包'
-  Permission: 'wkkit.DailyKit'
+  Permission: 'wkkit.DelayKit'
   Icon: 'BOOK'
   Delay: 60
   Lore:

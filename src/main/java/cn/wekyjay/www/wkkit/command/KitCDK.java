@@ -1,5 +1,14 @@
 package cn.wekyjay.www.wkkit.command;
 
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.kit.Kit;
+import cn.wekyjay.www.wkkit.kitcode.CodeManager;
+import cn.wekyjay.www.wkkit.tool.WKTool;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,18 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.kit.Kit;
-import cn.wekyjay.www.wkkit.kitcode.CodeManager;
-import cn.wekyjay.www.wkkit.tool.WKTool;
-import org.bukkit.inventory.EquipmentSlot;
 
 public class KitCDK {
 	public void onCommand(CommandSender sender, String[] args) {

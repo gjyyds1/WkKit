@@ -3,7 +3,6 @@ package cn.wekyjay.www.wkkit.api;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

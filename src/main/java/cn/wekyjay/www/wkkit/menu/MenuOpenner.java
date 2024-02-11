@@ -1,17 +1,21 @@
 package cn.wekyjay.www.wkkit.menu;
 
 import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import cn.wekyjay.www.wkkit.config.MenuConfigLoader;
+import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_MySQL;
 import cn.wekyjay.www.wkkit.invholder.MenuHolder;
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.tool.CronManager;
+import cn.wekyjay.www.wkkit.tool.MessageManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -20,12 +24,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Stream;
 
 
 public class MenuOpenner {
 	public void openMenu(String menuname,Player p) {
+		// 判断是否存在权限
 		if(!(MenuManager.getPermission(menuname) == null) && !p.hasPermission(MenuManager.getPermission(menuname))) {// 缺少权限
 			p.sendMessage(LangConfigLoader.getStringWithPrefix("MENU_NEED_PERMISSION", ChatColor.RED )+ " - "  + MenuManager.getPermission(menuname));
 			return;
@@ -39,6 +45,33 @@ public class MenuOpenner {
 		}
 		inv.setContents(MenuManager.getMenu(menuname).getStorageContents());
 		List<String> kitlist = MenuManager.getSlotOfKit(menuname);
+
+		// 遍历礼包是否能打开
+		kitlist.forEach(kitName->{
+			Kit kit = Kit.getKit(kitName);
+			if(kit != null && kit.getDocron() != null) {
+				Calendar cnow = Calendar.getInstance();//玩家当前时间
+				// 判断是否执行
+				if (cnow.getTimeInMillis() >= kit.getNextRC().getTimeInMillis()) {
+					OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
+					// 判断是否为首次不刷新礼包
+					if (kit.isNoRefreshFirst()) kit.setNoRefreshFirst(false);
+					// 有礼包数据的就刷新领取状态
+					if (WkKit.getPlayerData().contain_Kit(playername, kitName)) {
+						// 异步中同步回调
+						Bukkit.getScheduler().callSyncMethod(WkKit.getWkKit(), () -> {
+							PlayersKitRefreshEvent.callEvent(p, kit); // 回调
+							return true;
+						});
+						if (WkKit.getPlayerData() instanceof PlayerData_MySQL) { // 判断是否是数据库模式，如果是则使用锁模式。
+							((PlayerData_MySQL) WkKit.getPlayerData()).setKitDataOfLock(playername, kitName, "true");
+						} else WkKit.getPlayerData().setKitData(playername, kitName, "true");
+						MessageManager.infoDeBug("已刷新礼包：" + kitName);
+						kit.restNextRC();
+					}
+				}
+			}
+		});
 		
 		// 展开类型菜单
 		if(MenuConfigLoader.contains(menuname + ".Spread") && MenuConfigLoader.getBoolean(menuname + ".Spread") && kitlist.size() == 1) {

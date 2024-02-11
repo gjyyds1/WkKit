@@ -1,8 +1,10 @@
 package cn.wekyjay.www.wkkit;
 
+import cn.wekyjay.www.wkkit.api.PlayersKitRefreshEvent;
 import cn.wekyjay.www.wkkit.command.*;
 import cn.wekyjay.www.wkkit.config.ConfigManager;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.data.playerdata.PlayerData_MySQL;
 import cn.wekyjay.www.wkkit.edit.EditGUI;
 import cn.wekyjay.www.wkkit.edit.EditKit;
 import cn.wekyjay.www.wkkit.kit.Kit;
@@ -11,13 +13,16 @@ import cn.wekyjay.www.wkkit.menu.MenuManager;
 import cn.wekyjay.www.wkkit.menu.MenuOpenner;
 import cn.wekyjay.www.wkkit.tool.KitCache;
 import cn.wekyjay.www.wkkit.tool.MessageManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -185,17 +190,49 @@ public class KitCommand implements CommandExecutor{
 			return true;
 		}
 
-		/* 玩家领取指令 */
+		/* 玩家模拟菜单领取指令 */
 		if(wk.getConfig().getBoolean("Setting.UseCommandGet") && args.length >= 2 && args[0].equalsIgnoreCase("get") && sender instanceof Player && sender.hasPermission("wkkit.get")) {
-			String kitname = args[1];
-			Kit kit = Kit.getKit(kitname);
+			String kitName = args[1];
+			Player p = (Player)sender;
+			String playerName = p.getName();
+			Kit kit = Kit.getKit(kitName);
+
 			if (kit == null){
-				sender.sendMessage(LangConfigLoader.getStringWithPrefix("NO_KIT",ChatColor.RED) + " - " + kitname);
+				sender.sendMessage(LangConfigLoader.getStringWithPrefix("NO_KIT",ChatColor.RED) + " - " + kitName);
 				return true;
 			}
-			if (WkKit.getPlayerData().contain_Kit(sender.getName(),kitname)
-					&& WkKit.getPlayerData().getKitData(sender.getName(),kitname) != null
-					&& WkKit.getPlayerData().getKitData(sender.getName(),kitname).equals("false")) {
+
+			// 检测礼包刷新
+			if(kit != null && kit.getDocron() != null) {
+				Calendar cnow = Calendar.getInstance();//玩家当前时间
+				// 判断是否执行
+				if (cnow.getTimeInMillis() >= kit.getNextRC().getTimeInMillis()) {
+					OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
+					// 判断是否为首次不刷新礼包
+					if (kit.isNoRefreshFirst()) kit.setNoRefreshFirst(false);
+					// 有礼包数据的就刷新领取状态
+					if (WkKit.getPlayerData().contain_Kit(playerName, kitName)) {
+						// 异步中同步回调
+						Bukkit.getScheduler().callSyncMethod(WkKit.getWkKit(), () -> {
+							PlayersKitRefreshEvent.callEvent(p, kit); // 回调
+							return true;
+						});
+						if (WkKit.getPlayerData() instanceof PlayerData_MySQL) { // 判断是否是数据库模式，如果是则使用锁模式。
+							((PlayerData_MySQL) WkKit.getPlayerData()).setKitDataOfLock(playerName, kitName, "true");
+						} else WkKit.getPlayerData().setKitData(playerName, kitName, "true");
+						MessageManager.infoDeBug("已刷新礼包：" + kitName);
+						kit.restNextRC();
+					}
+				}else {
+					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_CANTGET",ChatColor.RED));
+					return true;
+				}
+			}
+
+			// 查询玩家是否能够领取
+			if (WkKit.getPlayerData().contain_Kit(sender.getName(),kitName)
+					&& WkKit.getPlayerData().getKitData(sender.getName(),kitName) != null
+					&& WkKit.getPlayerData().getKitData(sender.getName(),kitName).equals("false")) {
 				sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_CANTGET",ChatColor.RED));
 				return true;
 			}

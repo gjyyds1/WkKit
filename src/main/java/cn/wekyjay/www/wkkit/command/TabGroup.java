@@ -1,14 +1,13 @@
 package cn.wekyjay.www.wkkit.command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-
 import cn.wekyjay.www.wkkit.kit.Kit;
 import cn.wekyjay.www.wkkit.kit.KitGroupManager;
 import cn.wekyjay.www.wkkit.tool.WKTool;
+import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public enum TabGroup {
 	

@@ -1,8 +1,9 @@
 package cn.wekyjay.www.wkkit.edit;
 
-import static org.bukkit.event.inventory.InventoryAction.NOTHING;
-import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
-
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.tool.items.Barrier;
+import cn.wekyjay.www.wkkit.tool.items.GlassPane;
+import cn.wekyjay.www.wkkit.tool.items.PlayerHead;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,10 +12,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.tool.items.Barrier;
-import cn.wekyjay.www.wkkit.tool.items.GlassPane;
-import cn.wekyjay.www.wkkit.tool.items.PlayerHead;
+import static org.bukkit.event.inventory.InventoryAction.NOTHING;
+import static org.bukkit.event.inventory.InventoryAction.UNKNOWN;
 
 public class EditGUI implements Listener{
 	private String titile;

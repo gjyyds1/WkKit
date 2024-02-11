@@ -1,15 +1,14 @@
 package cn.wekyjay.www.wkkit.command;
 
-import java.util.Iterator;
-import java.util.Set;
-
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import java.util.Iterator;
+import java.util.Set;
 
 public class KitTransfer {
 	public void onCommand(CommandSender sender, Command command, String label, String[] args) {

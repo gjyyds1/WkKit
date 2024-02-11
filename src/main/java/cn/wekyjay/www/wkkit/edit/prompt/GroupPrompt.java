@@ -1,14 +1,9 @@
 package cn.wekyjay.www.wkkit.edit.prompt;
 
-import org.bukkit.Bukkit;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.ValidatingPrompt;
-import org.bukkit.entity.Player;
-
 import cn.wekyjay.www.wkkit.WkKit;
+import org.bukkit.Bukkit;
+import org.bukkit.conversations.*;
+import org.bukkit.entity.Player;
 
 public class GroupPrompt{
 	

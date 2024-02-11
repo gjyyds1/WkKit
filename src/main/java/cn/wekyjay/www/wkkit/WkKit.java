@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class WkKit extends JavaPlugin implements PluginMessageListener {
 
@@ -186,20 +187,16 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
         }
 
         // 启动数据库
-        if(WkKit.wkkit.getConfig().getString("MySQL.Enable").equalsIgnoreCase("true")) {
+        if(Objects.requireNonNull(WkKit.wkkit.getConfig().getString("MySQL.Enable")).equalsIgnoreCase("true")) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     MySQLManager.get().enableMySQL();
-                    // 启动自动刷新礼包检测
-                    KitRefresh.enableRefresh();
                     MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
                     MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
                 }
             }.runTaskAsynchronously(this);
         }else {
-            // 启动自动刷新礼包检测
-            KitRefresh.enableRefresh();
             MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("KIT_NUM") + Kit.getKits().size());
             MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("MENU_NUM") + MenuManager.getInvs().size());
         }
@@ -247,7 +244,7 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
     public void enableAntiShutDown() {
         if(antiShutDownTask != null) antiShutDownTask.cancel();
         if(this.getConfig().getInt("Default.AntiShutDown") == 0) return;
-        long ticks = 20 * this.getConfig().getInt("Default.AntiShutDown") * 60;
+        long ticks = 20L * this.getConfig().getInt("Default.AntiShutDown") * 60;
         // 放入线程
         antiShutDownTask = new BukkitRunnable() {
             @Override

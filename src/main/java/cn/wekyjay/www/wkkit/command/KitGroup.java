@@ -1,9 +1,10 @@
 package cn.wekyjay.www.wkkit.command;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.wekyjay.www.wkkit.WkKit;
+import cn.wekyjay.www.wkkit.config.ConfigManager;
+import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.kit.Kit;
+import cn.wekyjay.www.wkkit.kit.KitGroupManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -11,11 +12,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import cn.wekyjay.www.wkkit.WkKit;
-import cn.wekyjay.www.wkkit.config.ConfigManager;
-import cn.wekyjay.www.wkkit.config.LangConfigLoader;
-import cn.wekyjay.www.wkkit.kit.Kit;
-import cn.wekyjay.www.wkkit.kit.KitGroupManager;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KitGroup {
 	public void onCommand(CommandSender sender, Command command, String label, String[] args) {
