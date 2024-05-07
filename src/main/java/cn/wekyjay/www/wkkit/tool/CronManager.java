@@ -35,8 +35,7 @@ public class CronManager {
 		//获取下次执行的时间
 		Optional<ZonedDateTime> nextExecution = executionTime.nextExecution(now);
 		//转成Date类
-		Date date = Date.from(nextExecution.get().toInstant());
-		return date;
+        return Date.from(nextExecution.get().toInstant());
 	}
 	
 	/**
@@ -66,8 +65,7 @@ public class CronManager {
 	
 	/**
 	 * 获取距离下次领取的时间描述
-	 * @param time
-	 * @param cron
+	 * @param cron cron表达式
 	 * @return
 	 */
 	public static String getDescribeToNext(String cron) {
@@ -83,11 +81,11 @@ public class CronManager {
 		//获得可以领取礼包的时间差
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(newcalc.get(Calendar.YEAR) - 1970);
-		list.add((newcalc.get(Calendar.MONTH)) - 0);
+		list.add((newcalc.get(Calendar.MONTH)));
 		list.add(newcalc.get(Calendar.DATE) - 1);
 		list.add(newcalc.get(Calendar.HOUR_OF_DAY) - 8);
-		list.add(newcalc.get(Calendar.MINUTE) - 0);
-		list.add(newcalc.get(Calendar.SECOND) - 0);
+		list.add(newcalc.get(Calendar.MINUTE));
+		list.add(newcalc.get(Calendar.SECOND));
 		
 		//为时间差加上单位
 		String lang = WkKit.getWkKit().getConfig().getString("Setting.Language");
@@ -123,15 +121,15 @@ public class CronManager {
 	
 	/**
 	 * 判断是否超过了刷新时间
-	 * @param shuttime
-	 * @param cron
+	 * @param shutTime 上次关闭的时间
+	 * @param cron cron表达式
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Boolean isExecuted(String shuttime,String cron) {
+	public static Boolean isExecuted(String shutTime,String cron) {
 		Calendar cnow = Calendar.getInstance();
 		Calendar cnext = Calendar.getInstance();
-		cnext.setTime(getNextExecution(shuttime, cron));
+		cnext.setTime(getNextExecution(shutTime, cron));
 		if(cnow.getTimeInMillis() >= cnext.getTimeInMillis()) {
 			return true;
 		}

@@ -15,20 +15,20 @@ import java.util.*;
 public class MenuConfigLoader{
 	public static List<File> filelist = new ArrayList<>();
 	public static Map<String, FileConfiguration> map = new HashMap<>();
-	
+
 	/**
 	 * 加载文件夹中的配置文件
-	 * @param file
+	 * @param
 	 */
 	public static void loadConfig() {
 		String path = WkKit.getWkKit().getDataFolder().getAbsolutePath() + File.separator + "Menus";
 		File[] ff = new File(path).listFiles();
-		 for(File fs : ff) {
-			 if(fs.isFile() && fs.getName().endsWith(".yml")) {
-				 filelist.add(fs);
-				 map.put(fs.getName(),YamlConfiguration.loadConfiguration(fs));
-			 }
-		 }
+		for(File fs : ff) {
+			if(fs.isFile() && fs.getName().endsWith(".yml")) {
+				filelist.add(fs);
+				map.put(fs.getName(),YamlConfiguration.loadConfiguration(fs));
+			}
+		}
 		MenuConfigLoader.readMenuConfig();//读取配置中的菜单
 	}
 	/**
@@ -44,8 +44,8 @@ public class MenuConfigLoader{
 		}
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * 判断是否存在该路径
 	 * @param path
@@ -59,8 +59,8 @@ public class MenuConfigLoader{
 		}
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * 文件名返回对象
 	 * @param filename
@@ -71,14 +71,14 @@ public class MenuConfigLoader{
 	}
 	/**
 	 * 路径返回对象
-	 * @param filename
+	 * @param
 	 * @return
 	 */
 	public static FileConfiguration getConfigWithPath(String path) {
 		String filename = getContainsFilename(path);
 		return map.get(filename);
 	}
-	
+
 	/**
 	 * 获得文件中的存在的礼包名
 	 * @return List<String>
@@ -95,7 +95,7 @@ public class MenuConfigLoader{
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 判断是否存在重复的菜单，并且返回值。
 	 * @return 数字类型
@@ -116,8 +116,8 @@ public class MenuConfigLoader{
 		}
 		return num;
 	}
-	
-	
+
+
 	// 读取配置中的菜单对象
 	public static void readMenuConfig() {
 		List<String> menulist = MenuConfigLoader.getMenus();
@@ -149,22 +149,22 @@ public class MenuConfigLoader{
 	}
 	public static List<String> getStringList(String path) {
 		return getConfigWithPath(path).getStringList(path);
-		
+
 	}
 	public static Integer getInt(String path) {
 		if(getConfigWithPath(path).contains(path)) {
 			return getConfigWithPath(path).getInt(path);
 		}
 		return null;
-		
+
 	}
 	public static long getLong(String path) {
 		return getConfigWithPath(path).getLong(path);
-		
+
 	}
 	public static Boolean getBoolean(String path) {
 		return getConfigWithPath(path).getBoolean(path);
-		
+
 	}
 	public static void set(String path,Object value) {
 		getConfigWithPath(path).set(path, value);

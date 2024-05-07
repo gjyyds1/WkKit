@@ -14,6 +14,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 /**
  * 用于领取礼包后保存玩家领取数据(目前只有菜单使用)
@@ -184,7 +186,9 @@ public class KitGetter{
 		}
 		// 计算领取状态（DoCron存在时）
 		if(kit.getDocron() != null) {
-			WkKit.getPlayerData().setKitData(p.getName(), kitname, "false");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+			// 标注
+			WkKit.getPlayerData().setKitData(p.getName(), kitname, sdf.format(kit.getNextRC().getTime()));
 			MessageManager.infoDeBug("当前状态：" + WkKit.getPlayerData().getKitData(p.getName(),kitname));
 		}
 		// 计算领取次数（times大于0时计算）

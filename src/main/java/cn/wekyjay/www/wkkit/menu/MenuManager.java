@@ -113,12 +113,10 @@ public class MenuManager {
 				
 			}
 		}
-		
-		
-		
-		
+
 		invs.put(menuname, inv);
-		if(!KitMenuListener.menutitles.contains(menutitle)) {KitMenuListener.menutitles.add(menutitle);}
+		if(!KitMenuListener.menutitles.contains(menutitle)) {KitMenuListener.menutitles.add(menutitle);
+		}
 	}
 	/**
 	 * 返回Menu中属于礼包的Slot列表
@@ -133,7 +131,6 @@ public class MenuManager {
 			}
 		}
 		return kitlist;
-		
 	}
 	
 	public static Inventory getMenu(String menuname) {
