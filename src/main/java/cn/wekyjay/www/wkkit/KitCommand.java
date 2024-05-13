@@ -22,6 +22,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -205,8 +207,18 @@ public class KitCommand implements CommandExecutor{
 			// 检测礼包刷新
 			if(kit != null && kit.getDocron() != null) {
 				Calendar cnow = Calendar.getInstance();//玩家当前时间
+				Calendar c_player = Calendar.getInstance();//玩家当前时间
 				// 判断是否执行
-				if (cnow.getTimeInMillis() >= kit.getNextRC().getTimeInMillis()) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				try {
+					if(WkKit.getPlayerData().contain_Kit(playerName, kitName)){
+						c_player.setTime(sdf.parse(WkKit.getPlayerData().getKitData(playerName,kitName)));
+					}
+				} catch (ParseException ignored) {}
+
+				// 判断是否执行
+				if (cnow.getTimeInMillis() >= c_player.getTimeInMillis()) {
 					OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
 					// 判断是否为首次不刷新礼包
 					if (kit.isNoRefreshFirst()) kit.setNoRefreshFirst(false);
@@ -221,8 +233,8 @@ public class KitCommand implements CommandExecutor{
 							((PlayerData_MySQL) WkKit.getPlayerData()).setKitDataOfLock(playerName, kitName, "true");
 						} else WkKit.getPlayerData().setKitData(playerName, kitName, "true");
 						MessageManager.infoDeBug("已刷新礼包：" + kitName);
-						kit.restNextRC();
 					}
+					kit.restNextRC();
 				}else {
 					sender.sendMessage(LangConfigLoader.getStringWithPrefix("KIT_GET_CANTGET",ChatColor.RED));
 					return true;

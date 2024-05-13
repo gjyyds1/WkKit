@@ -22,6 +22,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,9 +52,17 @@ public class MenuOpenner {
 			Kit kit = Kit.getKit(kitName);
 			if(kit != null && kit.getDocron() != null) {
 				Calendar cnow = Calendar.getInstance();//玩家当前时间
+				Calendar c_player = Calendar.getInstance();//玩家当前时间
 				// 判断是否执行
-				if (cnow.getTimeInMillis() >= kit.getNextRC().getTimeInMillis()) {
-					OfflinePlayer[] playerlist = Bukkit.getOfflinePlayers();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				try {
+					if(WkKit.getPlayerData().contain_Kit(playername, kitName)){
+						c_player.setTime(sdf.parse(WkKit.getPlayerData().getKitData(playername,kitName)));
+					}
+				} catch (ParseException ignored) {}
+
+				if (cnow.getTimeInMillis() >= c_player.getTimeInMillis()) {
 					// 判断是否为首次不刷新礼包
 					if (kit.isNoRefreshFirst()) kit.setNoRefreshFirst(false);
 					// 有礼包数据的就刷新领取状态
@@ -67,8 +76,9 @@ public class MenuOpenner {
 							((PlayerData_MySQL) WkKit.getPlayerData()).setKitDataOfLock(playername, kitName, "true");
 						} else WkKit.getPlayerData().setKitData(playername, kitName, "true");
 						MessageManager.infoDeBug("已刷新礼包：" + kitName);
-						kit.restNextRC();
 					}
+					// 重新计算礼包的下次刷新时间
+					kit.restNextRC();
 				}
 			}
 		});
@@ -81,11 +91,13 @@ public class MenuOpenner {
 
 				String kitname = kitlist.get(0);
 				Kit kit = Kit.getKit(kitname);
-				// 判断是否领过
+				// 判断是否领过礼包，如果领过就重新判断权限
 				if(Kit.getKit(kitname).isNoRefreshFirst()
 						|| WkKit.getPlayerData().contain_Kit(playername, kitname)) {
-					// 判断是否可以领取
-					if(Kit.getKit(kitname).isNoRefreshFirst() || WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false")
+					// [判断是否可以领取]
+					// 不能领取的条件
+					if(Kit.getKit(kitname).isNoRefreshFirst()
+							|| !WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("true")
 							|| WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
 						for(int num : WKTool.getSlotNum(menuname + ".Slots.Get.slot")) {
 							ItemStack item = new ItemStack(Material.BARRIER);
@@ -196,7 +208,7 @@ public class MenuOpenner {
 			if(Kit.getKit(kitname).isNoRefreshFirst() ||WkKit.getPlayerData().contain_Kit(playername, kitname)) {
 				// 如果不能领取
 				if(Kit.getKit(kitname).isNoRefreshFirst()
-						||WkKit.getPlayerData().getKitData(playername, kitname) != null && WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("false")
+						||WkKit.getPlayerData().getKitData(playername, kitname) != null && !WkKit.getPlayerData().getKitData(playername, kitname).equalsIgnoreCase("true")
 						|| WkKit.getPlayerData().getKitTime(playername, kitname) != null && WkKit.getPlayerData().getKitTime(playername, kitname) == 0) {
 						for(int num : WKTool.getSlotNum(menuname + ".Slots." + kitname + ".slot")) {
 							ItemStack item = new ItemStack(Material.BARRIER);

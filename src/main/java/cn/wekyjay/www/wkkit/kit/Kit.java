@@ -15,6 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Kit {
@@ -88,10 +90,7 @@ public class Kit {
 			if(ConfigManager.getKitconfig().contains(kitname + ".Permission")) permission =  ConfigManager.getKitconfig().getString(kitname + ".Permission");
 			if(ConfigManager.getKitconfig().contains(kitname + ".Delay")) delay =  ConfigManager.getKitconfig().getInt(kitname + ".Delay");
 			if(ConfigManager.getKitconfig().contains(kitname + ".Times")) times = ConfigManager.getKitconfig().getInt(kitname + ".Times");
-			if(ConfigManager.getKitconfig().contains(kitname + ".DoCron")) {
-				docron = ConfigManager.getKitconfig().getString(kitname + ".DoCron");
-				restNextRC();
-			}
+			if(ConfigManager.getKitconfig().contains(kitname + ".DoCron")) docron = ConfigManager.getKitconfig().getString(kitname + ".DoCron");
 			if(ConfigManager.getKitconfig().contains(kitname + ".NoRefreshFirst")) noRefreshFirst = ConfigManager.getKitconfig().getBoolean(kitname + ".NoRefreshFirst");
 			if(ConfigManager.getKitconfig().contains(kitname + ".Vault")) vault = ConfigManager.getKitconfig().getInt(kitname + ".Vault");
 			if(ConfigManager.getKitconfig().contains(kitname + ".MythicMobs")) mythicMobs = ConfigManager.getKitconfig().getStringList(kitname + ".MythicMobs");
@@ -290,7 +289,7 @@ public class Kit {
 		// 判断逻辑
 		if(docron != null) {
 			Calendar cnext = Calendar.getInstance();//初始化时间
-			cnext.setTime(CronManager.getNextExecution(this.docron)); // 获取下次执行的时间
+			cnext.setTime(CronManager.getNextExecution(this.docron)); // 初始化下次执行的时间
 			this.nextRC = cnext;
 		}
 	}
@@ -332,7 +331,7 @@ public class Kit {
 				 * @20230819 修复CUSTOMDATA图标失效问题
 				 */
 				ItemMeta im = item.getItemMeta();
-				im.setCustomModelData(Integer.parseInt(str[1]));
+                im.setCustomModelData(Integer.parseInt(str[1]));
 				item.setItemMeta(im);
 
 			}

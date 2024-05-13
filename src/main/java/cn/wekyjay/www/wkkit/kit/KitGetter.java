@@ -186,7 +186,7 @@ public class KitGetter{
 		}
 		// 计算领取状态（DoCron存在时）
 		if(kit.getDocron() != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			// 标注
 			WkKit.getPlayerData().setKitData(p.getName(), kitname, sdf.format(kit.getNextRC().getTime()));
 			MessageManager.infoDeBug("当前状态：" + WkKit.getPlayerData().getKitData(p.getName(),kitname));
