@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Stream;
 
 
@@ -44,7 +45,19 @@ public class MenuOpenner {
 		}else {
 			inv = Bukkit.createInventory(new MenuHolder(menuname), MenuManager.getType(menuname), MenuManager.getTitle(menuname));
 		}
-		inv.setContents(MenuManager.getMenu(menuname).getStorageContents());
+
+
+
+		/*
+		 适配1.8版本的付服务器
+		 2024/6/29
+		 */
+		ListIterator<ItemStack> iterator = MenuManager.getMenu(menuname).iterator();
+		List<ItemStack> temp = new ArrayList<>();
+		iterator.forEachRemaining(temp::add);
+
+		inv.setContents(temp.toArray(new ItemStack[0]));
+
 		List<String> kitlist = MenuManager.getSlotOfKit(menuname);
 
 		// 遍历礼包是否能打开
