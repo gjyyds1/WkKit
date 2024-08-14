@@ -12,9 +12,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -95,10 +99,10 @@ public class WKTool{
 			else if (itemStack.getType().toString().contains("BOOTS") && player.getEquipment().getBoots() == null){
 				player.getEquipment().setBoots(itemStack);
 			}else{
-				player.getInventory().addItem(itemStack);//添加物品至背包
+				player.getInventory().setItem(player.getInventory().firstEmpty(),itemStack);//添加物品至背包
 			}
 		}else{//自动穿戴关闭,不自动穿戴.
-			player.getInventory().addItem(itemStack);
+			player.getInventory().setItem(player.getInventory().firstEmpty(),itemStack);
 		}
 	}
 	public static void addItem(Player player,ItemStack...itemStack){
@@ -274,6 +278,40 @@ public class WKTool{
 		return is;
 	}
 
+	/**
+	 * 问题修复：Found class org.bukkit.inventory.InventoryView, but interface was expected
+	 * 由于在1.20.6之后InventoryView变为一个接口，在这之前它是一个类。
+	 * 所以现在需要使用反射的方式来兼容。
+	 * @param event inv容器
+	 * @return 和传入事件相关的inv容器标题
+	 */
+	public static String getEventInvTitle(InventoryEvent event) {
+		try {
+			Object view = event.getView();
+			Method getTitle = view.getClass().getMethod("getTitle");
+			getTitle.setAccessible(true);
+			return (String) getTitle.invoke(view);
+		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
+	/**
+	 * 问题修复：Found class org.bukkit.inventory.InventoryView, but interface was expected
+	 * 由于在1.20.6之后InventoryView变为一个接口，在这之前它是一个类。
+	 * 所以现在需要使用反射的方式来兼容。
+	 * @param event inv容器
+	 * @return 正在查看和改事件相关容器的玩家
+	 */
+	public static Player getEventInvPlayer(InventoryEvent event) {
+		try {
+			Object view = event.getView();
+			Method getPlayer = view.getClass().getMethod("getPlayer");
+			getPlayer.setAccessible(true);
+			return (Player) getPlayer.invoke(view);
+		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 }

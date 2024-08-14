@@ -2,7 +2,9 @@ package cn.wekyjay.www.wkkit.tool;
 
 import cn.wekyjay.www.wkkit.WkKit;
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.listeners.ChackPluginListener;
 import com.alibaba.druid.support.json.JSONParser;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,25 +15,35 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-public class ChackPluginVersion implements Listener,Runnable{
-	WkKit wk = WkKit.getWkKit();
-	File file = null;
-	YamlConfiguration yaml = null;
+import static cn.wekyjay.www.wkkit.WkKit.wkkit;
 
-	private Map<String, Object> resourceInfo = null;
+public class ChackPluginVersion{
 
 
+	private static Map<String, Object> resourceInfo = null;
+
+
+	public static Map<String, Object> getResourceInfo() {
+		return resourceInfo;
+	}
 
 	/**
 	 * Modify of 1.2.5
 	 * 1.2.5之后修改为Spigot Resource API
 	 */
 	public ChackPluginVersion(){
-		resourceInfo = getResourceInfo("versions/latest");
+		MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_IN"));
+
+		ChackPluginVersion.resourceInfo = this.getResourceInfo("versions/latest");
+
+		if (ChackPluginVersion.resourceInfo != null) {
+			runCheck();
+		}
+
 	}
 
 
-	public static Map<String,Object> getResourceInfo(String path){
+	public Map<String,Object> getResourceInfo(String path){
 		HttpURLConnection con = null;
 		BufferedReader buffer = null;
 		InputStream inputStream = null;
@@ -42,10 +54,10 @@ public class ChackPluginVersion implements Listener,Runnable{
 			URL url = new URL("https://api.spiget.org/v2/resources/98415/" + path);
 			con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
-			//设置连接超时时间s
-			con.setConnectTimeout(15000);
+			//设置连接超时时间
+			con.setConnectTimeout(10000);
 			//设置读取超时时间
-			con.setReadTimeout(15000);
+			con.setReadTimeout(10000);
 			//添加请求头
 			con.setRequestProperty("Connection","keep-alive");
 			//获取服务器返回的输入流
@@ -62,6 +74,8 @@ public class ChackPluginVersion implements Listener,Runnable{
 				while((line = buffer.readLine())!=null){
 					respose.append(line);
 				}
+				// 响应成功则注册玩家登陆检查更新事件
+				Bukkit.getPluginManager().registerEvents(new ChackPluginListener(),wkkit);
 				return new JSONParser(respose.toString()).parseMap();
 			}
 
@@ -85,17 +99,15 @@ public class ChackPluginVersion implements Listener,Runnable{
 		return null;
 	}
 
-	@Override
-	public void run() {
-        MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_IN"));
+	public void runCheck() {
         if(resourceInfo == null) {return;}
 		String lver = resourceInfo.get("name").toString();
-        if(!wk.getDescription().getVersion().equals(lver)) { //判断版本是否与最新版本不同
+        if(!WkKit.getWkKit().getDescription().getVersion().equals(lver)) { //判断版本是否与最新版本不同
 			// 提示下载链接
 			MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + "https://www.spigotmc.org/resources/%E2%9C%A8wkkit%E2%9C%A8-will-be-your-forever-gift-plugin-1-7-10-support-1-20-4%E2%9C%85.98415/");
 			// 提示最新版本
         	MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LATESTVERSION") + lver + " "
-					+ LangConfigLoader.getString("PLUGIN_CHACKUPDATE_CURRENTVERSION") + wk.getDescription().getVersion()
+					+ LangConfigLoader.getString("PLUGIN_CHACKUPDATE_CURRENTVERSION") + WkKit.getWkKit().getDescription().getVersion()
 			);
         }else {
         	MessageManager.sendMessageWithPrefix(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_ED"));
@@ -103,21 +115,5 @@ public class ChackPluginVersion implements Listener,Runnable{
 	}
 
 
-	@EventHandler
-	public void onOpLogin(PlayerJoinEvent e) {
-		if(wk.getConfig().getBoolean("Setting.CheckUpdate")) {
-			String lver = resourceInfo.get("name").toString();
-			if(e.getPlayer().isOp()) {
-		        if(lver == null) {return;}
-				if(!wk.getDescription().getVersion().equals(lver)) { //判断版本是否与最新版本不同
-					// 提示下载链接
-					e.getPlayer().sendMessage(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LINK") + "https://www.spigotmc.org/resources/%E2%9C%A8wkkit%E2%9C%A8-will-be-your-forever-gift-plugin-1-7-10-support-1-20-4%E2%9C%85.98415/");
 
-					// 提示最新版本
-					e.getPlayer().sendMessage(LangConfigLoader.getString("PLUGIN_CHACKUPDATE_LATESTVERSION") + lver + " " + LangConfigLoader.getString("PLUGIN_CHACKUPDATE_CURRENTVERSION") + wk.getDescription().getVersion());
-				}
-			}
-		}
-
-	}
 }

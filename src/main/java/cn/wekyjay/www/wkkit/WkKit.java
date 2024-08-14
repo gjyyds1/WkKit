@@ -30,6 +30,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
@@ -147,7 +148,6 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
         Bukkit.getPluginManager().registerEvents(new KitReminderListener(),this);
         Bukkit.getPluginManager().registerEvents(new KitInfo(),this);
         Bukkit.getPluginManager().registerEvents(new KitMenuListener(),this);
-        Bukkit.getPluginManager().registerEvents(new  ChackPluginVersion(),this);
         Bukkit.getPluginManager().registerEvents(EditGUI.getEditGUI(),this);
         Bukkit.getPluginManager().registerEvents(new EditKit(),this);
 
@@ -182,8 +182,12 @@ public class WkKit extends JavaPlugin implements PluginMessageListener {
 
         //Check Version
         if(getConfig().contains("Setting.CheckUpdate") && getConfig().getBoolean("Setting.CheckUpdate")) {
-            Thread t = new Thread(new ChackPluginVersion());
-            t.start();
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    new ChackPluginVersion();
+                }
+            }.runTaskAsynchronously(this);
         }
 
         // 启动数据库

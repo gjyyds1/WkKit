@@ -39,7 +39,7 @@ public class KitMailListener implements Listener {
     @EventHandler
     public void onInventory(InventoryOpenEvent e) {
         String pagetitle = WKTool.replacePlaceholder("page", 1 + "", LangConfigLoader.getString("GUI_PAGETITLE"));
-        if (e.getView().getTitle().equals(LangConfigLoader.getString("KITMAIL_TITLE")) || e.getView().getTitle().equals(LangConfigLoader.getString("KITMAIL_TITLE") + " - " + pagetitle)) {
+        if (WKTool.getEventInvTitle(e).equals(LangConfigLoader.getString("KITMAIL_TITLE")) || WKTool.getEventInvTitle(e).equals(LangConfigLoader.getString("KITMAIL_TITLE") + " - " + pagetitle)) {
             guiName = LangConfigLoader.getString("KITMAIL_TITLE");
             m.put(e.getPlayer().getName(), 1);
         }
@@ -48,7 +48,7 @@ public class KitMailListener implements Listener {
     /*玩家礼包邮箱领取礼包事件*/
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInventory(InventoryClickEvent e) {
-        if (e.getInventory().getHolder() != null && e.getInventory().getHolder() instanceof MailHolder && e.getWhoClicked() == e.getView().getPlayer()) {
+        if (e.getInventory().getHolder() != null && e.getInventory().getHolder() instanceof MailHolder && e.getWhoClicked() == WKTool.getEventInvPlayer(e)) {
             e.setCancelled(true);
             if (e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) {
                 return;

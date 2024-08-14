@@ -49,7 +49,7 @@ public class KitInfo implements Listener{
 		
 		Inventory inv = Bukkit.createInventory(new KitPreviewHolder(), guisize, kit.getDisplayName());
 		for(int i = 0;i < kitnum; i++) {
-			inv.addItem(itemlist[i]);
+			inv.setItem(inv.firstEmpty(),itemlist[i]);
 		}
 		p.openInventory(inv);
 

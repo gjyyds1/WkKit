@@ -15,6 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.Arrays;
+
 public class KitGive {
 	static WkKit wk = WkKit.getWkKit();// 调用主类实例		
 
@@ -49,10 +51,7 @@ public class KitGive {
 					return;
 				}
 				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// 回调事件
-				for(ItemStack item : getItemList) {
-					ItemStack i = item;//通过NBT创建一个Item
-					pinv.addItem(i);//添加物品至背包
-				}
+				WKTool.addItem(player,getItemList);
 				// 执行指令
 				if(kit.getCommands() != null) new KitGetter().runCommands(kit, player);
 				break;
@@ -70,10 +69,7 @@ public class KitGive {
 					return;
 				}
 				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// 回调事件
-				for(ItemStack item : getItemList) {
-					ItemStack i = item;//通过NBT创建一个Item
-					pinv.addItem(i);//添加物品至背包
-				}
+				WKTool.addItem(player,getItemList);
 				// 执行指令
 				if(kit.getMythicMobs() != null) new KitGetter().runMythicMobs(kit,player);
 				break;
@@ -83,10 +79,9 @@ public class KitGive {
 					return;
 				}
 				if(PlayersReceiveKitEvent.callEvent(player, kit, ReceiveType.GIVE).isCancelled()) return;// 回调事件
-				for(ItemStack item : getItemList) {
-					ItemStack i = item;
-					pinv.addItem(i);//添加物品至背包
-				}
+
+				// 1.3.0 取消物品堆叠 解决堆叠过多产生bug
+				WKTool.addItem(player,getItemList);
 				// 添加模式4
 		}
 	    // 发送消息提示

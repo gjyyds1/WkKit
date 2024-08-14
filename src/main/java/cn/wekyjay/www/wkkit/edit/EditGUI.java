@@ -1,6 +1,7 @@
 package cn.wekyjay.www.wkkit.edit;
 
 import cn.wekyjay.www.wkkit.config.LangConfigLoader;
+import cn.wekyjay.www.wkkit.tool.WKTool;
 import cn.wekyjay.www.wkkit.tool.items.Barrier;
 import cn.wekyjay.www.wkkit.tool.items.GlassPane;
 import cn.wekyjay.www.wkkit.tool.items.PlayerHead;
@@ -73,7 +74,7 @@ public class EditGUI implements Listener{
 
 	@EventHandler
 	public void editEvent(InventoryClickEvent e) {
-		if(e.getView().getTitle().equals(getTitile())) {
+		if(WKTool.getEventInvTitle(e).equals(getTitile())) {
 			e.setCancelled(true);
 			if(e.getAction().equals(NOTHING) || e.getAction().equals(UNKNOWN)) {
 		        return;
