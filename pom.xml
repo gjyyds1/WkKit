@@ -97,6 +97,13 @@
 			<artifactId>item-nbt-api</artifactId>
 			<version>2.13.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.lumine.xikage/MythicMobs -->
+		<dependency>
+			<groupId>io.lumine.xikage</groupId>
+			<artifactId>MythicMobs</artifactId>
+			<version>4.11.2</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 	         <groupId>me.clip</groupId>
 	          <artifactId>placeholderapi</artifactId>
